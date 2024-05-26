@@ -12,24 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsApp">
         <activity
-            android:name=".MainActivity2"
+            android:name=".activity.MainActivity2"
             android:exported="true"
             android:label="@string/title_activity_main"
+
             android:theme="@style/Theme.NewsApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.SEARCH" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.MainActivity"
-            android:exported="true">
 
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

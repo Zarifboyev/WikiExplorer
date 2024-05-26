@@ -1,0 +1,14 @@
+<!-- res/menu/menu_main.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_search"
+        android:title="Search"
+        android:icon="@android:drawable/ic_btn_speak_now"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_voice_search"
+        android:title="Voice Search"
+        android:icon="@android:drawable/ic_btn_speak_now"
+        app:showAsAction="ifRoom" />
+</menu>

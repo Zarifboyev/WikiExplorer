@@ -6,13 +6,12 @@
     <string name="date">Date:</string>
     <string name="news_date">2020–02–06T16:10:21Z</string>
     <string name="news_section">World News</string>
-    <string name="no_news">No news found</string>
+    <string name="no_news">No wikiNews found</string>
     <string name="no_internet_connection">No internet connection\nPlease check your internet connection and try again</string>
     <string name="search_title">Search</string>
     <string name="author">Helen Sullivan</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">NewsApp</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
