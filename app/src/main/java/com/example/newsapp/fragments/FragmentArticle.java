@@ -11,8 +11,11 @@ import android.webkit.WebViewClient;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.newsapp.model.WikiNews;
 import com.example.newsapp.utils.FetchWikiArticleTask;
 import com.example.newsapp.R;
+
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 
@@ -32,7 +35,8 @@ public class FragmentArticle extends Fragment implements FetchWikiArticleTask.Fe
         webSettings.setJavaScriptEnabled(true);
 
         // Load Wikipedia article content
-        new FetchWikiArticleTask((FetchWikiArticleTask.FetchWikiArticleListener) this).execute("Android_(operating_system)");
+
+       // new FetchWikiArticleTask((FetchWikiArticleTask.FetchWikiArticleListener) this).execute("Android_(operating_system)");
 
         return view;
     }
@@ -62,4 +66,8 @@ public class FragmentArticle extends Fragment implements FetchWikiArticleTask.Fe
         webView = null;
     }
 
+    @Override
+    public void onWikiArticlesFetched(List<WikiNews> wikiNewsList) {
+        //TODO: Implement features when articles are fetched
+    }
 }

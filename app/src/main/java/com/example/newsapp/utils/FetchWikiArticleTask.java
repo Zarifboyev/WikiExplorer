@@ -2,18 +2,21 @@ package com.example.newsapp.utils;
 
 import android.os.AsyncTask;
 
-import java.io.IOException;
+import io.github.fastily.jwiki.core.NS;
+import io.github.fastily.jwiki.core.Wiki;
+import com.example.newsapp.model.WikiNews;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import java.util.ArrayList;
+import java.util.List;
 
-public  class FetchWikiArticleTask extends AsyncTask<String, Void, String> {
+public class FetchWikiArticleTask extends AsyncTask<Void, Void, List<WikiNews>> {
 
     private FetchWikiArticleListener listener;
 
     public interface FetchWikiArticleListener {
         void onWikiArticleFetched(String htmlContent);
+
+        void onWikiArticlesFetched(List<WikiNews> wikiNewsList);
     }
 
     public FetchWikiArticleTask(FetchWikiArticleListener listener) {
@@ -21,31 +24,31 @@ public  class FetchWikiArticleTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected String doInBackground(String... params) {
-        String title = params[0];
-        String url = "https://en.wikipedia.org/api/rest_v1/page/html/" + title;
-
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(url).build();
-
-        try {
-            Response response = client.newCall(request).execute();
-            if (response.isSuccessful() && response.body() != null) {
-                return response.body().string();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    protected List<WikiNews> doInBackground(Void... voids) {
+        return fetchWikiArticles();
     }
 
     @Override
-    protected void onPostExecute(String htmlContent) {
-        super.onPostExecute(htmlContent);
+    protected void onPostExecute(List<WikiNews> wikiNewsList) {
+        super.onPostExecute(wikiNewsList);
         if (listener != null) {
-            listener.onWikiArticleFetched(htmlContent);
+            listener.onWikiArticlesFetched(wikiNewsList);
         }
     }
 
-}
+    public static List<WikiNews> fetchWikiArticles() {
+        List<WikiNews> wikiNewsList = new ArrayList<>();
+        Wiki wiki = new Wiki.Builder().build();
 
+        List<String> randomPages = wiki.getRandomPages(10, NS.MAIN); // Fetch 10 random pages
+        for (String title : randomPages) {
+            String pageText = wiki.getPageText(title);
+            if (pageText != null) {
+                String url = "https://en.wikipedia.org/wiki/" + title;
+                wikiNewsList.add(new WikiNews(title, pageText, url));
+            }
+        }
+
+        return wikiNewsList;
+    }
+}
