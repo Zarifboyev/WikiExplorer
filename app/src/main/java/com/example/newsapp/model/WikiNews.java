@@ -5,22 +5,28 @@ public class WikiNews {
     private String article_text;
     private String link_article;
 
-    private int mImageResourceId;
+    private String imageUrl; // New field for image URL
 
 
-    public WikiNews(String title, String article_text, String link_article) {
+
+    public WikiNews(String title, String article_text, String link_article, String imageUrl) {
         this.title = title;
         this.article_text = article_text;
         this.link_article = link_article;
-        this.mImageResourceId = mImageResourceId;
+        this.imageUrl = imageUrl;
     }
 
-    public int getImageResourceId() {
-        return mImageResourceId;
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public void setImageResourceId(int mImageResourceId) {
-        this.mImageResourceId = mImageResourceId;
+
+
+    public void setImageResourceId(String mImageUrl) {
+        this.imageUrl = mImageUrl;
     }
 
     public String getTitle() {

@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.newsapp.R;
 import com.example.newsapp.model.WikiNews;
 import com.example.newsapp.utils.NewsDiffCallback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         WikiNews wikiNews = mWikiNewsList.get(position);
         holder.mTitle.setText(wikiNews.getTitle());
         holder.mArticleText.setText(wikiNews.getArticle_text());
+        Log.d("Image URL", wikiNews.getImageUrl());
+
+        // Load image using Picasso
+        Picasso.get()
+                .load(wikiNews.getImageUrl())
+                .placeholder(R.drawable.ic_launcher_foreground) // Optional placeholder
+                .error(R.drawable.ic_launcher_background) // Optional error image
+                .into(holder.mArticleImage);
+
         holder.bind(wikiNews, mListener);
     }
 
@@ -66,11 +77,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         TextView mTitle;
         TextView mArticleText;
 
+        ImageView mArticleImage;
+
         public NewsViewHolder(View itemView) {
             super(itemView);
             mTitle = itemView.findViewById(R.id.itemTitle);
             mArticleText = itemView.findViewById(R.id.itemSubtitle);
-
+            mArticleImage = itemView.findViewById(R.id.itemImage);
 
         }
 

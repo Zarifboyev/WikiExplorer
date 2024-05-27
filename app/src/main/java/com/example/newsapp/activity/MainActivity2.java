@@ -16,6 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.newsapp.R;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity2 extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
@@ -24,7 +25,8 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // Make sure you set your activity layout
-
+        Picasso.get().setIndicatorsEnabled(true);
+        Picasso.get().setLoggingEnabled(true);
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

@@ -14,7 +14,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.newsapp.model.WikiNews;
 import com.example.newsapp.utils.FetchWikiArticleTask;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WikiNewsViewModel extends AndroidViewModel {
@@ -32,9 +31,9 @@ public class WikiNewsViewModel extends AndroidViewModel {
 
     public void loadData() {
         if (isInternetAvailable()) {
-            new FetchDataTask().execute("Android_(operating_system)");
+            new FetchDataTask().execute();
         } else {
-            wikiNewsLiveData.setValue(new ArrayList<>());
+            wikiNewsLiveData.setValue(null);
         }
     }
 
@@ -51,20 +50,17 @@ public class WikiNewsViewModel extends AndroidViewModel {
         return dataLoaded;
     }
 
-    private class FetchDataTask extends AsyncTask<String, Void, String> {
+    private class FetchDataTask extends AsyncTask<Void, Void, List<WikiNews>> {
         @Override
-        protected String doInBackground(String... params) {
+        protected List<WikiNews> doInBackground(Void... voids) {
             // Perform the network operation in the background
-            return FetchWikiArticleTask.fetchWikiArticles().toString();
+            return FetchWikiArticleTask.fetchWikiArticles();
         }
 
         @Override
-        protected void onPostExecute(String htmlContent) {
+        protected void onPostExecute(List<WikiNews> wikiNewsList) {
             // Update the LiveData on the main thread
-            ArrayList<WikiNews> wikiNewsList = new ArrayList<>();
-            if (htmlContent != null) {
-                WikiNews wikiNews = new WikiNews("Android OS", htmlContent, "https://en.wikipedia.org/wiki/Android_(operating_system)");
-                wikiNewsList.add(wikiNews);
+            if (wikiNewsList != null && !wikiNewsList.isEmpty()) {
                 dataLoaded = true;
             }
             wikiNewsLiveData.setValue(wikiNewsList);
