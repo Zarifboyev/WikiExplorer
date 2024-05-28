@@ -1,48 +1,44 @@
-package com.example.newsapp.utils;
-import android.util.Log;
+package com.example.newsapp.utils
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import android.util.Log
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
-public class WikimediaCommonsURLGenerator {
+object WikimediaCommonsURLGenerator {
+    private const val TAG = "WikimediaCommonsURL"
 
-    private static final String TAG = "WikimediaCommonsURL";
-
-    public static String generateFileURL(String fileName, int thumbnailWidth) {
+    fun generateFileURL(fileName: String, thumbnailWidth: Int): String {
         // Base URL
-        String baseUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb";
+        val baseUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb"
 
         // Compute MD5 hash of the file name
-        String md5Hash = md5Hash(fileName);
+        val md5Hash = md5Hash(fileName)
 
         // Get parts of the hash for URL
-        String hashFirstChar = md5Hash.substring(0, 1);
-        String hashFirstTwoChars = md5Hash.substring(0, 2);
+        val hashFirstTwoChars = md5Hash?.substring(0, 2) ?: "00"
 
-        // Construct the URL
-        String fileUrl = baseUrl + "/" + hashFirstChar + "/" + hashFirstTwoChars + "/" +
-                fileName + "/" + thumbnailWidth + "px-" + fileName;
-
-        return fileUrl;
+        // Construct the URL using string templates
+        return "$baseUrl/$hashFirstTwoChars/$fileName/$thumbnailWidth" +
+                "px-$fileName"
     }
 
-    private static String md5Hash(String input) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] messageDigest = md.digest(input.getBytes());
+    private fun md5Hash(input: String): String? {
+        return try {
+            val md = MessageDigest.getInstance("MD5")
+            val messageDigest = md.digest(input.toByteArray())
 
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : messageDigest) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) {
-                    hexString.append('0');
+            val hexString = StringBuilder()
+            for (b in messageDigest) {
+                val hex = Integer.toHexString(0xff and b.toInt())
+                if (hex.length == 1) {
+                    hexString.append('0')
                 }
-                hexString.append(hex);
+                hexString.append(hex)
             }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            Log.e(TAG, "MD5 algorithm not found", e);
-            return null;
+            hexString.toString()
+        } catch (e: NoSuchAlgorithmException) {
+            Log.e(TAG, "MD5 algorithm not found", e)
+            null
         }
     }
 }

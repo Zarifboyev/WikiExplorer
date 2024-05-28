@@ -1,69 +1,53 @@
-package com.example.newsapp.viewModel;
+package com.example.newsapp.viewModel
 
-import android.app.Application;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
+import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
+import android.os.AsyncTask
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.example.newsapp.model.WikiNews
+import com.example.newsapp.utils.FetchWikiArticleTask
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+class WikiNewsViewModel(private val application: Application) : ViewModel() {
+    var isDataLoaded: Boolean = false;
+    val wikiNewsLiveData = MutableLiveData<List<WikiNews?>?>()
 
-import com.example.newsapp.model.WikiNews;
-import com.example.newsapp.utils.FetchWikiArticleTask;
-
-import java.util.List;
-
-public class WikiNewsViewModel extends AndroidViewModel {
-
-    private boolean dataLoaded = false;
-    private MutableLiveData<List<WikiNews>> wikiNewsLiveData = new MutableLiveData<>();
-
-    public WikiNewsViewModel(@NonNull Application application) {
-        super(application);
+    fun getWikiNewsLiveData(): LiveData<List<WikiNews?>?> {
+        return wikiNewsLiveData
     }
 
-    public LiveData<List<WikiNews>> getWikiNewsLiveData() {
-        return wikiNewsLiveData;
-    }
+    fun loadData() {
+        val isInternetAvailable = isInternetAvailable()
 
-    public void loadData() {
-        if (isInternetAvailable()) {
-            new FetchDataTask().execute();
+        if (isInternetAvailable) {
+            FetchDataTask().execute()
         } else {
-            wikiNewsLiveData.setValue(null);
+            wikiNewsLiveData.value = null
         }
     }
 
-    public boolean isInternetAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getApplication().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager != null) {
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            return networkInfo != null && networkInfo.isConnected();
-        }
-        return false;
+    fun isInternetAvailable(): Boolean {
+        val connectivityManager =
+            application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
     }
 
-    public boolean isDataLoaded() {
-        return dataLoaded;
-    }
+    private inner class FetchDataTask : AsyncTask<Void?, Void?, List<WikiNews?>?>() {
 
-    private class FetchDataTask extends AsyncTask<Void, Void, List<WikiNews>> {
-        @Override
-        protected List<WikiNews> doInBackground(Void... voids) {
-            // Perform the network operation in the background
-            return FetchWikiArticleTask.fetchWikiArticles();
-        }
 
-        @Override
-        protected void onPostExecute(List<WikiNews> wikiNewsList) {
+        override fun onPostExecute(wikiNewsList: List<WikiNews?>?) {
             // Update the LiveData on the main thread
-            if (wikiNewsList != null && !wikiNewsList.isEmpty()) {
-                dataLoaded = true;
-            }
-            wikiNewsLiveData.setValue(wikiNewsList);
+            wikiNewsLiveData.value = wikiNewsList
+            isDataLoaded = true
+        }
+
+        override fun doInBackground(vararg params: Void?): List<WikiNews?>? {
+            TODO("Not yet implemented")
+            return FetchWikiArticleTask.Companion.fetchWikiArticles()
+
         }
     }
 }

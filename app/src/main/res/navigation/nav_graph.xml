@@ -8,12 +8,14 @@
     <fragment
         android:id="@+id/FragmentMainPage"
         android:name="com.example.newsapp.fragments.FragmentMainPage"
+        android:label="Main Page"
         tools:layout="@layout/fragment_main_page">
 
         <action
             android:id="@+id/action_FragmentMainPage_to_FragmentArticle"
-            app:destination="@id/FragmentMainPage" />
+            app:destination="@id/FragmentArticle" />
     </fragment>
+
     <fragment
         android:id="@+id/FragmentArticle"
         android:name="com.example.newsapp.fragments.FragmentArticle"
@@ -24,4 +26,5 @@
             android:id="@+id/action_FragmentArticle_to_FragmentMainPage"
             app:destination="@id/FragmentMainPage" />
     </fragment>
+
 </navigation>

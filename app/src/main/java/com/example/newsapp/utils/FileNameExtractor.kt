@@ -1,20 +1,19 @@
-package com.example.newsapp.utils;
+package com.example.newsapp.utils
 
-public class FileNameExtractor {
-
-    public static String extractFileName(String input) {
+object FileNameExtractor {
+    fun extractFileName(input: String): String {
         // Check if the input starts with "{File:" and ends with "}"
         if (input.startsWith("{File:") && input.endsWith("}")) {
             // Find the index of ':' and '}'
-            int colonIndex = input.indexOf(':');
-            int braceIndex = input.indexOf('}');
+            val colonIndex = input.indexOf(':')
+            val braceIndex = input.indexOf('}')
             if (colonIndex != -1 && braceIndex != -1 && colonIndex < braceIndex) {
                 // Extract the substring between ":" and "}"
-                String fileNameWithExtension = input.substring(colonIndex + 1, braceIndex);
-                return fileNameWithExtension.trim(); // Remove leading and trailing spaces
+                val fileNameWithExtension = input.substring(colonIndex + 1, braceIndex)
+                return fileNameWithExtension.trim { it <= ' ' } // Remove leading and trailing spaces
             }
         }
         // Return an empty string or handle the case as needed if the format is incorrect
-        return "";
+        return ""
     }
 }

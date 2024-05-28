@@ -1,73 +1,70 @@
-package com.example.newsapp.fragments;
+package com.example.newsapp.fragments
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.annotation.SuppressLint
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.fragment.app.Fragment
+import com.example.newsapp.databinding.FragmentArticleBinding
+import com.example.newsapp.model.WikiNews
+import com.example.newsapp.utils.FetchWikiArticleTask.FetchWikiArticleListener
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+public class FragmentArticle : Fragment(), FetchWikiArticleListener {
 
-import com.example.newsapp.model.WikiNews;
-import com.example.newsapp.utils.FetchWikiArticleTask;
-import com.example.newsapp.R;
+    private lateinit var _binding: FragmentArticleBinding;
+    private val binding get() = _binding
+    private var webView: WebView? = null
 
-import java.util.List;
+    @SuppressLint("SetJavaScriptEnabled")
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentArticleBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-import okhttp3.OkHttpClient;
-
-
-public class FragmentArticle extends Fragment implements FetchWikiArticleTask.FetchWikiArticleListener {
-
-    private  WebView webView;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_article, container, false);
-
-        webView = view.findViewById(R.id.txtDescription);
+        webView = binding.txtDescription
 
         // Enable JavaScript in WebView
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+        val webSettings = webView!!.settings
+        webSettings.javaScriptEnabled = true
 
         // Load Wikipedia article content
+        // FetchWikiArticleTask(this).execute("Android_(operating_system)")
 
-       // new FetchWikiArticleTask((FetchWikiArticleTask.FetchWikiArticleListener) this).execute("Android_(operating_system)");
-
-        return view;
+        return view
     }
 
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    @SuppressLint("SetJavaScriptEnabled")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        webView.setWebViewClient(new WebViewClient()); // Ensure links are opened within the WebView
-        webView.getSettings().setJavaScriptEnabled(true); // Enable JavaScript if needed
+        webView?.apply {
+            webViewClient = WebViewClient() // Ensure links are opened within the WebView
+            settings.javaScriptEnabled = true // Enable JavaScript if needed
+        }
 
         // Initialize OkHttpClient
-        OkHttpClient client = new OkHttpClient();
     }
 
-    @Override
-    public void onWikiArticleFetched(String htmlContent) {
+    override fun onWikiArticleFetched(htmlContent: String?) {
         if (htmlContent != null) {
             // Load HTML content into WebView
-            webView.loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null);
+            webView?.loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null)
         }
     }
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        webView = null;
+    override fun onWikiArticlesFetched(wikiNewsList: List<WikiNews>?) {
+        TODO("Not yet implemented")
     }
 
-    @Override
-    public void onWikiArticlesFetched(List<WikiNews> wikiNewsList) {
-        //TODO: Implement features when articles are fetched
+    override fun onDestroyView() {
+        super.onDestroyView()
+        //TODO: Destroy the binding here
+        webView = null
     }
+
+
 }
