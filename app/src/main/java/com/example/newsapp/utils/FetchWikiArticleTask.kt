@@ -3,9 +3,9 @@ package com.example.newsapp.utils
 import android.os.AsyncTask
 import android.util.Log
 import com.example.newsapp.model.WikiNews
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.digest.DigestUtils
 import io.github.fastily.jwiki.core.NS
 import io.github.fastily.jwiki.core.Wiki
-import org.apache.commons.codec.digest.DigestUtils
 
 class FetchWikiArticleTask(private val listener: FetchWikiArticleListener?) :
     AsyncTask<Void, Void, List<WikiNews>>() {

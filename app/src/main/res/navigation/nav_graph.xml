@@ -9,7 +9,7 @@
         android:id="@+id/FragmentMainPage"
         android:name="com.example.newsapp.fragments.FragmentMainPage"
         android:label="Main Page"
-        tools:layout="@layout/fragment_main_page">
+        tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/action_FragmentMainPage_to_FragmentArticle"

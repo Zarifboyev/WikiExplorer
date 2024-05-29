@@ -3,15 +3,13 @@ package com.example.newsapp.utils
 import android.app.Activity
 import android.content.Intent
 import android.speech.RecognizerIntent
+import android.widget.SearchView
 import android.widget.Toast
-import com.google.android.material.search.SearchBar
-import com.google.android.material.search.SearchView
 import java.util.Locale
 
 
 class VoiceInputHandler(
     private val activity: Activity,
-    private val searchBar: SearchBar,
     private val searchView: SearchView
 ) {
     fun startVoiceInput() {
@@ -38,8 +36,8 @@ class VoiceInputHandler(
             val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             if (result != null && !result.isEmpty()) {
                 val voiceInput = result[0]
-                searchBar.setText(voiceInput)
-                searchView.setText(voiceInput)
+                //searchBar.setText(voiceInput)
+                //searchView.setText(voiceInput)
             }
         }
     }

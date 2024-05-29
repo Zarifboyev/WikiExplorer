@@ -1,4 +1,4 @@
-package com.example.newsapp.viewModel
+package com.example.newsapp.presentation.viewModels
 
 import android.app.Application
 import android.content.Context

@@ -9,15 +9,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.R
-import com.example.newsapp.adapter.NewsAdapter
-import com.example.newsapp.databinding.FragmentMainPageBinding
+import com.example.newsapp.databinding.FragmentHomeBinding
 import com.example.newsapp.model.WikiNews
+import com.example.newsapp.presentation.adapters.NewsAdapter
 import com.example.newsapp.utils.FetchWikiArticleTask
-import com.example.newsapp.viewModel.WikiNewsViewModel
+import com.example.newsapp.presentation.viewModels.WikiNewsViewModel
 
-public class FragmentMainPage : Fragment(), FetchWikiArticleTask.FetchWikiArticleListener {
+class FragmentMainPage : Fragment(), FetchWikiArticleTask.FetchWikiArticleListener {
 
-    private var _binding: FragmentMainPageBinding? = null
+    private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     private  val mAdapter: NewsAdapter by lazy { NewsAdapter() }
@@ -27,7 +27,7 @@ public class FragmentMainPage : Fragment(), FetchWikiArticleTask.FetchWikiArticl
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMainPageBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 

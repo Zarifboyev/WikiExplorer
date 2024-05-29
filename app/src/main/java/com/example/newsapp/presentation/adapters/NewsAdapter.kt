@@ -1,4 +1,4 @@
-package com.example.newsapp.adapter
+package com.example.newsapp.presentation.adapters
 import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
