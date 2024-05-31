@@ -4,9 +4,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
-@Entity(tableName = "categoriesTable")
-data class CategoryEntity(
+@Entity(tableName = "wiki_entities")
+data class WikiEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val category_name: String,
+    val title: String,
+    val description: String,
+    val image: String
 ):Serializable

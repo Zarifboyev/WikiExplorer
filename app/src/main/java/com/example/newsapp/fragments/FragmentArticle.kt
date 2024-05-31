@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
+import com.example.newsapp.data.entity.WikiEntity
 import com.example.newsapp.databinding.FragmentArticleBinding
-import com.example.newsapp.model.WikiNews
 import com.example.newsapp.utils.FetchWikiArticleTask.FetchWikiArticleListener
 
 public class FragmentArticle : Fragment(), FetchWikiArticleListener {
@@ -56,7 +56,7 @@ public class FragmentArticle : Fragment(), FetchWikiArticleListener {
         }
     }
 
-    override fun onWikiArticlesFetched(wikiNewsList: List<WikiNews>?) {
+    override fun onWikiArticlesFetched(wikiNewsList: List<WikiEntity>?) {
         TODO("Not yet implemented")
     }
 

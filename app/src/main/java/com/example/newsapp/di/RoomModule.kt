@@ -2,9 +2,9 @@ package com.example.newsapp.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.newsapp.data.dao.CategoryDao
-import com.example.newsapp.data.dao.NoteDao
-import com.example.newsapp.data.database.NotesDatabase
+import com.example.newsapp.data.dao.WikiDao
+import com.example.newsapp.data.dao.ArticleDao
+import com.example.newsapp.data.database.WikiDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,15 +18,15 @@ import javax.inject.Singleton
 class RoomModule {
 
     @[Provides Singleton]
-    fun provideDatabase(@ApplicationContext context: Context): NotesDatabase {
-        return Room.databaseBuilder(context, NotesDatabase::class.java, "note.db")
+    fun provideDatabase(@ApplicationContext context: Context): WikiDatabase {
+        return Room.databaseBuilder(context, WikiDatabase::class.java, "wiki.db")
             .allowMainThreadQueries().build()
     }
 
 
     @[Singleton Provides]
-    fun getCategoriesDao(database: NotesDatabase): CategoryDao = database.getCategoryDao()
+    fun getWikiDao(database: WikiDatabase): WikiDao = database.getWikiDao()
 
     @[Singleton Provides]
-    fun getNoteDao(database: NotesDatabase): NoteDao = database.getNotesDao()
+    fun getArticleDao(database: WikiDatabase): ArticleDao = database.getArticleDao()
 }

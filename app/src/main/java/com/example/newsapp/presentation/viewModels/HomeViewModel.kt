@@ -1,22 +1,14 @@
 package uz.mlsoft.noteappnative.presentaion.viewModels
 
 import androidx.lifecycle.LiveData
-import com.example.newsapp.data.entity.CategoryEntity
+import androidx.lifecycle.MutableLiveData
+import com.example.newsapp.data.entity.WikiEntity
 
 interface HomeViewModel {
-    val moveToUpdateScreen: LiveData<CategoryEntity>
-    val moveToAllNotesScreen: LiveData<Unit>
-    val moveToNoteScreen: LiveData<CategoryEntity>
-    val categoriesListLiveaData: LiveData<List<CategoryEntity>>
-    val moveToAddScreenLiveData: LiveData<Unit>
-    val showPlaceHolder: LiveData<Boolean>
+    val moveToInfoScreen: MutableLiveData<WikiEntity>
+    val fetchWikiNewsData: MutableLiveData<List<WikiEntity>>
 
-    fun deleteCategory(categoryId: Int)
     fun loadData()
-    fun clickEdit(entity: CategoryEntity)
-    fun clickAllNotesButton()
-    fun clickNote(entity: CategoryEntity)
-    fun clickAdd()
 
 
 }

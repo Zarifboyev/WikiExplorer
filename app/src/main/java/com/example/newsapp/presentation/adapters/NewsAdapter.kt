@@ -1,60 +1,58 @@
 package com.example.newsapp.presentation.adapters
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.newsapp.R
-import com.example.newsapp.model.WikiNews
-import com.squareup.picasso.Picasso
+import com.example.newsapp.data.entity.WikiEntity
+import com.example.newsapp.databinding.NewsListItemBinding
+import com.example.newsapp.presentation.adapters.NewsAdapter.NewsViewHolder
+import timber.log.Timber
 import kotlin.collections.ArrayList
 
-class NewsAdapter : RecyclerView.Adapter<NewsAdapter.Holder>() {
+class NewsAdapter : RecyclerView.Adapter<NewsViewHolder>() {
     private var isSortedAscending = true
-    var data= ArrayList<WikiNews>()
-    private var onClickListener:((WikiNews)->Unit)?=null
-    fun onClickItem(block:(WikiNews)->Unit){
+
+    private val data = ArrayList<WikiEntity?>()
+
+    private var onClickListener:((WikiEntity)->Unit)?=null
+
+    fun onClickItem(block:(WikiEntity)->Unit){
         onClickListener=block
     }
 
+
     @SuppressLint("NotifyDataSetChanged")
-    fun submitItems(newsItems: ArrayList<WikiNews?>){
+    fun submitItems(newsItems: ArrayList<WikiEntity?>) {
         data.clear()
-       // data.addAll()
-        Log.d("WikiNewsViewModel",data.toString())
-        this.notifyDataSetChanged()
-
+        data.addAll(newsItems)
+        Timber.tag("WikiNewsViewModel").d(data.toString())
+        notifyDataSetChanged()
     }
-    inner class Holder(view: View): RecyclerView.ViewHolder(view){
+    inner class NewsViewHolder(view: NewsListItemBinding): RecyclerView.ViewHolder(view.root){
 
 
 
-        private val image: ImageView =view.findViewById(R.id.itemImage)
-        private val textTitle: TextView = view.findViewById(R.id.itemTitle)
-        private val textSubtitle: TextView = view.findViewById(R.id.itemSubtitle)
+        private val image: ImageView =view.itemImage
+        private val textTitle: TextView = view.itemTitle
+        private val textSubtitle: TextView = view.itemSubtitle
 
 
 
 
-        @SuppressLint("SetTextI18n")
-        fun bind(){
-            val item=data[adapterPosition]
-
-            textTitle.text=item.title
-            textSubtitle.text = item.articleText
-            Picasso.get().load(item.imageUrl).into(image)
+        fun bind(item: WikiEntity?) {
+            // Set other views from the WikiEntity properties as needed
         }
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return  Holder(LayoutInflater.from(parent.context).inflate(R.layout.activity_main,parent,false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
+        val binding = NewsListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return NewsViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: Holder, position: Int) =holder.bind()
+    override fun onBindViewHolder(holder: NewsViewHolder, position: Int) = holder.bind(data[position])
 
     override fun getItemCount()=data.size
 

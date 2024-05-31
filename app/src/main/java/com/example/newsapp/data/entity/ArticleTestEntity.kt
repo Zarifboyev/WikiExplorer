@@ -6,19 +6,18 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity(
-    tableName = "notesTable",
+    tableName = "articlesTable",
     foreignKeys = [ForeignKey(
-        entity = CategoryEntity::class,
-        childColumns = ["category_id"],
+        entity = WikiEntity::class,
+        childColumns = ["article_id"],
         parentColumns = ["id"],
         onDelete = ForeignKey.CASCADE,
     )]
 )
 
-data class NoteEntity(
+data class ArticleTestEntity(
     @PrimaryKey(autoGenerate = true)
-    val note_id: Int,
-    val category_id: Int,
+    val article_id: Int,
+    val article_wiki_text: String,
     val title: String,
-    val note: String,
 ) : Serializable

@@ -2,8 +2,8 @@ package uz.mlsoft.noteappnative.presentaion.viewModels.impl
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.newsapp.data.entity.NoteEntity
-import com.example.newsapp.domain.NoteRepository
+import com.example.newsapp.data.entity.ArticleTestEntity
+import com.example.newsapp.domain.WikiRepository
 import com.example.newsapp.utils.myTimber
 import dagger.hilt.android.lifecycle.HiltViewModel
 import uz.mlsoft.noteappnative.presentaion.viewModels.NotesViewModel
@@ -12,10 +12,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotesViewModelImpl @Inject constructor(
-    private val repository: NoteRepository
+    private val repository: WikiRepository
 ) : NotesViewModel, ViewModel() {
 
-    override val notesListLivedata = MutableLiveData<List<NoteEntity>>()
+    override val notesListLivedata = MutableLiveData<List<ArticleTestEntity>>()
 
     override val showPlaceHolderLiveData = MutableLiveData<Boolean>()
 
@@ -26,12 +26,12 @@ class NotesViewModelImpl @Inject constructor(
         moveToAddFragmentLiveData.value = categoryId
     }
 
-    override fun deleteNotes(notesEntity: NoteEntity) {
-        repository.deleteNotes(notesEntity)
+    override fun deleteNotes(notesEntity: ArticleTestEntity) {
+        repository.deleteWikis(notesEntity)
     }
 
-    override fun editNotes(notesEntity: NoteEntity) {
-        repository.updateNotes(notesEntity)
+    override fun editNotes(notesEntity: ArticleTestEntity) {
+        repository.updateWikis(notesEntity)
     }
 
     override fun setTime(time: Long) {
@@ -39,7 +39,7 @@ class NotesViewModelImpl @Inject constructor(
     }
 
     override fun updateList(categoryId: Int) {
-        val notesList = repository.getAllNotesById(categoryId)
+        val notesList = repository.getAllWikiById(categoryId)
         notesListLivedata.value = notesList
         myTimber("viewModel size${notesList.size}")
         showPlaceHolderLiveData.value = notesList.isEmpty()

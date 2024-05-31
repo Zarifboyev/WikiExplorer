@@ -2,25 +2,26 @@ package com.example.newsapp.utils
 
 import android.os.AsyncTask
 import android.util.Log
-import com.example.newsapp.model.WikiNews
+import com.example.newsapp.data.entity.WikiEntity
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.digest.DigestUtils
 import io.github.fastily.jwiki.core.NS
 import io.github.fastily.jwiki.core.Wiki
+import kotlin.random.Random
 
 class FetchWikiArticleTask(private val listener: FetchWikiArticleListener?) :
-    AsyncTask<Void, Void, List<WikiNews>>() {
+    AsyncTask<Void, Void, List<WikiEntity>>() {
 
     interface FetchWikiArticleListener {
         fun onWikiArticleFetched(htmlContent: String?)
 
-        fun onWikiArticlesFetched(wikiNewsList: List<WikiNews>?)
+        fun onWikiArticlesFetched(wikiNewsList: List<WikiEntity>?)
     }
 
-    override fun doInBackground(vararg voids: Void?): List<WikiNews> {
+    override fun doInBackground(vararg voids: Void?): List<WikiEntity> {
         return fetchWikiArticles()
     }
 
-    override fun onPostExecute(wikiNewsList: List<WikiNews>) {
+    override fun onPostExecute(wikiNewsList: List<WikiEntity>) {
         super.onPostExecute(wikiNewsList)
         listener?.onWikiArticlesFetched(wikiNewsList)
     }
@@ -39,8 +40,8 @@ class FetchWikiArticleTask(private val listener: FetchWikiArticleListener?) :
             return baseUrl + urlPath
         }
 
-        fun fetchWikiArticles(): List<WikiNews> {
-            val wikiNewsList = mutableListOf<WikiNews>()
+        fun fetchWikiArticles(): List<WikiEntity> {
+            val wikiNewsList = mutableListOf<WikiEntity>()
             val wiki = Wiki.Builder().build()
 
             val randomPages: List<String> = wiki.getRandomPages(10, NS.MAIN) // Fetch 10 random pages
@@ -61,7 +62,7 @@ class FetchWikiArticleTask(private val listener: FetchWikiArticleListener?) :
                     val url = "https://en.wikipedia.org/wiki/$title"
 
                     // Add the news to the list
-                    wikiNewsList.add(WikiNews(title, pageText, url, imageUrl))
+                    wikiNewsList.add(WikiEntity(Random.nextInt(100000), title=title, description = pageText, image = imageUrl.toString()))
                 }
             }
 

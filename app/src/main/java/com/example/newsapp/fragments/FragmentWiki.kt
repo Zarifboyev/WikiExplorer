@@ -9,13 +9,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.R
+import com.example.newsapp.data.entity.WikiEntity
 import com.example.newsapp.databinding.FragmentHomeBinding
-import com.example.newsapp.model.WikiNews
 import com.example.newsapp.presentation.adapters.NewsAdapter
-import com.example.newsapp.utils.FetchWikiArticleTask
 import com.example.newsapp.presentation.viewModels.WikiNewsViewModel
+import com.example.newsapp.utils.FetchWikiArticleTask
+import dagger.hilt.android.AndroidEntryPoint
 
-class FragmentMainPage : Fragment(), FetchWikiArticleTask.FetchWikiArticleListener {
+
+@AndroidEntryPoint
+
+class FragmentWiki : Fragment(), FetchWikiArticleTask.FetchWikiArticleListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -78,9 +82,9 @@ class FragmentMainPage : Fragment(), FetchWikiArticleTask.FetchWikiArticleListen
         _binding = null
     }
 
-    private fun openNewsArticle(news: WikiNews) {
-        val url: String = news.linkArticle
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    private fun openNewsArticle(news: WikiEntity) {
+        //val url: String = news.linkArticle
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://en.wikipedia.org/wiki/"))
         if (intent.resolveActivity(requireActivity().packageManager) != null) {
             startActivity(intent)
         }
@@ -94,7 +98,7 @@ class FragmentMainPage : Fragment(), FetchWikiArticleTask.FetchWikiArticleListen
 
 
 
-    override fun onWikiArticlesFetched(wikiNewsList: List<WikiNews>?) {
+    override fun onWikiArticlesFetched(wikiNewsList: List<WikiEntity>?) {
         // Handle the fetched wiki articles here
         if (wikiNewsList != null) {
             // Update UI or perform any necessary operations with the fetched data

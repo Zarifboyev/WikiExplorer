@@ -1,11 +1,11 @@
 package com.example.newsapp.utils
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.newsapp.model.WikiNews
+import com.example.newsapp.data.entity.WikiEntity
 
 class NewsDiffCallback(
-    private val oldList: List<WikiNews>,
-    private val newList: List<WikiNews>
+    private val oldList: List<WikiEntity>,
+    private val newList: List<WikiEntity>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {
@@ -18,7 +18,7 @@ class NewsDiffCallback(
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         // Compare unique identifiers
-        return oldList[oldItemPosition].linkArticle == newList[newItemPosition].linkArticle
+        return oldList[oldItemPosition].title == newList[newItemPosition].title
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

@@ -1,9 +1,9 @@
 package com.example.newsapp.data.di
 
-import com.example.newsapp.domain.CategoryRepository
-import com.example.newsapp.domain.NoteRepository
-import com.example.newsapp.domain.impl.CategoryRepositoryImpl
-import com.example.newsapp.domain.impl.NoteRepositoryImpl
+import com.example.newsapp.domain.ArticleRepository
+import com.example.newsapp.domain.WikiRepository
+import com.example.newsapp.domain.impl.ArticleRepositoryImpl
+import com.example.newsapp.domain.impl.WikiRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,11 +15,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 interface RepositoryModule {
     @[Binds Singleton]
-    fun provideCategoryRepository(impl: CategoryRepositoryImpl): CategoryRepository
+    fun provideArticleRepository(impl: ArticleRepositoryImpl): ArticleRepository
 
 
     @[Binds Singleton]
-    fun provideGroupRepository(impl: NoteRepositoryImpl): NoteRepository
+    fun provideGroupRepository(impl: WikiRepositoryImpl): WikiRepository
 
 
 }
