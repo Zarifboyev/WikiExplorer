@@ -24,7 +24,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsViewHolder>() {
 
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitItems(newsItems: ArrayList<WikiEntity?>) {
+    fun submitItems(newsItems: List<WikiEntity?>) {
         data.clear()
         data.addAll(newsItems)
         Timber.tag("WikiNewsViewModel").d(data.toString())

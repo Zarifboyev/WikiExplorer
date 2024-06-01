@@ -4,5 +4,5 @@ import com.example.newsapp.data.entity.WikiEntity
 
 interface WikiRepository {
     fun getAllWiki(): List<WikiEntity>
-    fun saveWiki(wikiEntity: WikiEntity)
+//    fun saveWiki(wikiEntity: WikiEntity)
 }

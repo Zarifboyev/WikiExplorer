@@ -14,11 +14,15 @@ class HomeViewModelImpl @Inject constructor(
 ) : HomeViewModel, ViewModel() {
 
 
-    override val moveToInfoScreen = MutableLiveData<WikiEntity>()
+    override val moveToInfoScreen = MutableLiveData<Boolean>()
     override val fetchWikiNewsData = MutableLiveData<List<WikiEntity>>()
 
     override fun loadData() {
         fetchWikiNewsData.value = repository.getAllWiki()
+    }
+
+    override fun moveToInfoScreen() {
+        moveToInfoScreen.value = true;
     }
 
 }

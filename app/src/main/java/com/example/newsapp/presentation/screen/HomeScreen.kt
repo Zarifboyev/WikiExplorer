@@ -1,8 +1,6 @@
 package com.example.newsapp.presentation.screen
 
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -13,6 +11,8 @@ import com.example.newsapp.R
 import com.example.newsapp.data.entity.WikiEntity
 import com.example.newsapp.databinding.FragmentHomeBinding
 import com.example.newsapp.presentation.adapters.NewsAdapter
+import com.example.newsapp.utils.createFragment
+import com.example.newsapp.utils.startFragment
 import dagger.hilt.android.AndroidEntryPoint
 import uz.mlsoft.noteappnative.presentaion.viewModels.HomeViewModel
 import uz.mlsoft.noteappnative.presentaion.viewModels.impl.HomeViewModelImpl
@@ -34,7 +34,6 @@ class HomeScreen : Fragment(R.layout.fragment_home) {
         viewModel.loadData()
         viewModel.fetchWikiNewsData.observe(viewLifecycleOwner, fetchWikiNewsDataObserver)
         viewModel.moveToInfoScreen.observe(viewLifecycleOwner, moveToInfoScreenObserver)
-
     }
 
     private fun initAdapter() {
@@ -42,19 +41,22 @@ class HomeScreen : Fragment(R.layout.fragment_home) {
         binding.recyclerView.adapter = adapter
 
     }
+
     private val fetchWikiNewsDataObserver = Observer<List<WikiEntity>> { articles ->
         adapter.submitItems(articles)
     }
 
-    private val moveToInfoScreenObserver = Observer<WikiEntity> { wikiEntity ->
+    private val moveToInfoScreenObserver = Observer<Boolean> { wikiEntity ->
         val bundle = Bundle().apply {
             putSerializable("data", wikiEntity)
         }
         // Assuming you have an InfoScreenActivity to navigate to
-        val intent = Intent(requireContext(), InfoScreenActivity::class.java).apply {
-            putExtras(bundle)
-        }
-        startActivity(intent)
+//        val intent = Intent(requireContext(), InfoScreen::class.java).apply {
+//            putExtras(bundle)
+//        }
+//        startActivity(intent)
+
+        startFragment(InfoScreen());
     }
 
 }

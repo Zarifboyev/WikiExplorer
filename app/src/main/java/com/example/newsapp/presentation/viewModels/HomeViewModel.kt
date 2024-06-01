@@ -5,10 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import com.example.newsapp.data.entity.WikiEntity
 
 interface HomeViewModel {
-    val moveToInfoScreen: MutableLiveData<WikiEntity>
-    val fetchWikiNewsData: MutableLiveData<List<WikiEntity>>
+    val moveToInfoScreen: LiveData<Boolean>//state
+    val fetchWikiNewsData: LiveData<List<WikiEntity>>
 
-    fun loadData()
-
-
+    fun loadData()//event
+    fun moveToInfoScreen()
 }
