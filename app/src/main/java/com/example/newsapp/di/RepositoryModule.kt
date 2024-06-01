@@ -1,7 +1,7 @@
 package com.example.newsapp.data.di
 
-import com.example.newsapp.domain.ArticleRepository
-import com.example.newsapp.domain.WikiRepository
+import com.example.newsapp.domain.repository.ArticleRepository
+import com.example.newsapp.domain.repository.WikiRepository
 import com.example.newsapp.domain.impl.ArticleRepositoryImpl
 import com.example.newsapp.domain.impl.WikiRepositoryImpl
 import dagger.Binds
@@ -19,7 +19,7 @@ interface RepositoryModule {
 
 
     @[Binds Singleton]
-    fun provideGroupRepository(impl: WikiRepositoryImpl): WikiRepository
+    fun provideWikiRepository(impl: WikiRepositoryImpl): WikiRepository
 
 
 }

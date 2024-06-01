@@ -3,28 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FragmentMainPage">
+    app:startDestination="@id/HomeScreen">
 
     <fragment
-        android:id="@+id/FragmentMainPage"
-        android:name="com.example.newsapp.fragments.FragmentWiki"
-        android:label="Main Page"
+        android:id="@+id/HomeScreen"
+        android:name="com.example.newsapp.presentation.screen.HomeScreen"
+        android:label="Home Page"
         tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/action_FragmentMainPage_to_FragmentArticle"
-            app:destination="@id/FragmentArticle" />
+            app:destination="@id/InfoScreen" />
     </fragment>
 
     <fragment
-        android:id="@+id/FragmentArticle"
-        android:name="com.example.newsapp.fragments.FragmentArticle"
+        android:id="@+id/InfoScreen"
+        android:name="com.example.newsapp.presentation.screen.InfoScreen"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_article">
 
         <action
             android:id="@+id/action_FragmentArticle_to_FragmentMainPage"
-            app:destination="@id/FragmentMainPage" />
+            app:destination="@id/HomeScreen" />
     </fragment>
 
 </navigation>

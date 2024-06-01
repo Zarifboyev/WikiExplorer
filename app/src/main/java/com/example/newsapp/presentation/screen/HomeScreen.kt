@@ -1,6 +1,5 @@
 package com.example.newsapp.presentation.screen
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -8,10 +7,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.newsapp.R
-import com.example.newsapp.data.entity.WikiEntity
+import com.example.newsapp.data.model.WikiModel
 import com.example.newsapp.databinding.FragmentHomeBinding
 import com.example.newsapp.presentation.adapters.NewsAdapter
-import com.example.newsapp.utils.createFragment
 import com.example.newsapp.utils.startFragment
 import dagger.hilt.android.AndroidEntryPoint
 import uz.mlsoft.noteappnative.presentaion.viewModels.HomeViewModel
@@ -31,32 +29,35 @@ class HomeScreen : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
+        observeViewModel()
         viewModel.loadData()
+    }
+
+    private fun initAdapter() {
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.visibility = View.VISIBLE // Ensure RecyclerView is visible
+    }
+
+    private fun observeViewModel() {
         viewModel.fetchWikiNewsData.observe(viewLifecycleOwner, fetchWikiNewsDataObserver)
         viewModel.moveToInfoScreen.observe(viewLifecycleOwner, moveToInfoScreenObserver)
     }
 
-    private fun initAdapter() {
-
-        binding.recyclerView.adapter = adapter
-
-    }
-
-    private val fetchWikiNewsDataObserver = Observer<List<WikiEntity>> { articles ->
-        adapter.submitItems(articles)
-    }
-
-    private val moveToInfoScreenObserver = Observer<Boolean> { wikiEntity ->
-        val bundle = Bundle().apply {
-            putSerializable("data", wikiEntity)
+    private val fetchWikiNewsDataObserver = Observer<List<WikiModel>> { articles ->
+        if (articles.isNotEmpty()) {
+            adapter.submitItems(articles)
+            binding.recyclerView.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.GONE
+        } else {
+            binding.recyclerView.visibility = View.GONE
+            binding.progressBar.visibility = View.VISIBLE
         }
-        // Assuming you have an InfoScreenActivity to navigate to
-//        val intent = Intent(requireContext(), InfoScreen::class.java).apply {
-//            putExtras(bundle)
-//        }
-//        startActivity(intent)
-
-        startFragment(InfoScreen());
     }
 
+    private val moveToInfoScreenObserver = Observer<Boolean> { moveToInfo ->
+        if (moveToInfo) {
+            // Navigate to InfoScreen, adjust according to your navigation setup
+            startFragment(InfoScreen())
+        }
+    }
 }

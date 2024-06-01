@@ -1,50 +1,46 @@
 package com.example.newsapp.presentation.adapters
+
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.newsapp.data.entity.WikiEntity
+import com.bumptech.glide.Glide
+import com.example.newsapp.data.model.WikiModel
 import com.example.newsapp.databinding.NewsListItemBinding
-import com.example.newsapp.presentation.adapters.NewsAdapter.NewsViewHolder
 import timber.log.Timber
-import kotlin.collections.ArrayList
 
-class NewsAdapter : RecyclerView.Adapter<NewsViewHolder>() {
+class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     private var isSortedAscending = true
+    private val data = ArrayList<WikiModel>()
+    private var onClickListener: ((WikiModel) -> Unit)? = null
 
-    private val data = ArrayList<WikiEntity?>()
-
-    private var onClickListener:((WikiEntity)->Unit)?=null
-
-    fun onClickItem(block:(WikiEntity)->Unit){
-        onClickListener=block
+    fun onClickItem(block: (WikiModel) -> Unit) {
+        onClickListener = block
     }
-
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitItems(newsItems: List<WikiEntity?>) {
+    fun submitItems(newsItems: List<WikiModel>) {
         data.clear()
         data.addAll(newsItems)
-        Timber.tag("WikiNewsViewModel").d(data.toString())
         notifyDataSetChanged()
+        Timber.tag("NewsAdapter").d(data.toString())
     }
-    inner class NewsViewHolder(view: NewsListItemBinding): RecyclerView.ViewHolder(view.root){
 
+    inner class NewsViewHolder(private val binding: NewsListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        private val image: ImageView = binding.itemImage
+        private val textTitle: TextView = binding.itemTitle
+        private val textSubtitle: TextView = binding.itemSubtitle
 
-
-        private val image: ImageView =view.itemImage
-        private val textTitle: TextView = view.itemTitle
-        private val textSubtitle: TextView = view.itemSubtitle
-
-
-
-
-        fun bind(item: WikiEntity?) {
-            // Set other views from the WikiEntity properties as needed
+        fun bind(item: WikiModel) {
+            textTitle.text = item.title
+            textSubtitle.text = item.description
+            Glide.with(image.context).load(item.image).into(image) // Load the image using Glide
+            itemView.setOnClickListener {
+                onClickListener?.invoke(item)
+            }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -52,11 +48,31 @@ class NewsAdapter : RecyclerView.Adapter<NewsViewHolder>() {
         return NewsViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: NewsViewHolder, position: Int) = holder.bind(data[position])
+    override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
+        holder.bind(data[position])
+    }
 
-    override fun getItemCount()=data.size
+    override fun getItemCount() = data.size
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun sortItemsAscending() {
+        data.sortBy { it.title }
+        isSortedAscending = true
+        notifyDataSetChanged()
+    }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun sortItemsDescending() {
+        data.sortByDescending { it.title }
+        isSortedAscending = false
+        notifyDataSetChanged()
+    }
 
-
+    fun toggleSortOrder() {
+        if (isSortedAscending) {
+            sortItemsDescending()
+        } else {
+            sortItemsAscending()
+        }
+    }
 }

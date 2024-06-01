@@ -89,9 +89,8 @@ dependencies {
     // circle image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-    // Picasso
-    implementation 'com.squareup.picasso:picasso:2.8'
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
 
     // Jwiki
-    implementation 'io.github.fastily:jwiki:1.11.0'
 }

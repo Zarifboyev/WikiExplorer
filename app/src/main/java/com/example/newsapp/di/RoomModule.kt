@@ -5,6 +5,8 @@ import androidx.room.Room
 import com.example.newsapp.data.dao.WikiDao
 import com.example.newsapp.data.dao.ArticleDao
 import com.example.newsapp.data.database.WikiDatabase
+import com.example.newsapp.data.model.WikiModel
+import com.example.newsapp.domain.impl.WikiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,10 +25,21 @@ class RoomModule {
             .allowMainThreadQueries().build()
     }
 
+    @[Singleton Provides]
+    fun provideWikiDao(database: WikiDatabase): WikiDao {
+        return database.getWikiDao()
+    }
 
     @[Singleton Provides]
-    fun getWikiDao(database: WikiDatabase): WikiDao = database.getWikiDao()
-
+    fun provideWikiService(): WikiService {
+        return WikiService()
+    }
+    @Provides
+    @Singleton
+    fun provideWikiModels(): List<WikiModel> {
+        // Return an empty list or some default data
+        return emptyList()
+    }
     @[Singleton Provides]
     fun getArticleDao(database: WikiDatabase): ArticleDao = database.getArticleDao()
 }

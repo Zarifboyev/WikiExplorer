@@ -1,10 +1,8 @@
 package com.example.newsapp.domain.impl
 
 import com.example.newsapp.data.dao.ArticleDao
-import com.example.newsapp.data.dao.WikiDao
 import com.example.newsapp.data.entity.ArticleTestEntity
-import com.example.newsapp.data.entity.WikiEntity
-import com.example.newsapp.domain.ArticleRepository
+import com.example.newsapp.domain.repository.ArticleRepository
 import javax.inject.Inject
 
 class ArticleRepositoryImpl @Inject constructor(val articlesDao: ArticleDao) :

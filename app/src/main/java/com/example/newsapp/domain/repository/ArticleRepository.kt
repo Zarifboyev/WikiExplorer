@@ -1,4 +1,4 @@
-package com.example.newsapp.domain
+package com.example.newsapp.domain.repository
 
 import com.example.newsapp.data.entity.ArticleTestEntity
 
