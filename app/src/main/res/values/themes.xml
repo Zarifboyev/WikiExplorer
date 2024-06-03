@@ -28,4 +28,9 @@
         <item name="android:colorBackground">@color/white</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="ThemeOverlay.Material3.Toolbar.Primary" parent="ThemeOverlay.Material3.Toolbar.Surface">
+        <item name="colorSurface">@color/colorPrimary</item>
+        <item name="colorOnSurface">@color/onPrimaryColor</item>
+    </style>
 </resources>

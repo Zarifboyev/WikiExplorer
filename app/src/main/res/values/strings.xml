@@ -52,5 +52,18 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
+
+
+    <string name="article_image_desc">Image related to the article</string>
+    <string name="article_title_desc">Title of the article</string>
+    <string name="article_content_desc">Web content of the article</string>
+    <string name="save_button_desc">Save this article</string>
+    <string name="share_button_desc">Share this article</string>
+    <string name="switch_label">Switch Label Test\n\n</string>
+    <string name="action">Action Read\n</string>
+    <string name="supporting_text">Supporting Text\n</string>
+    <string name="title">User contents8</string>
 </resources>

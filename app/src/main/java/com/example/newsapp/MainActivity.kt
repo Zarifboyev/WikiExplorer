@@ -2,18 +2,30 @@ package com.example.newsapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.newsapp.databinding.ActivityMainBinding
+import com.example.newsapp.presentation.screen.ContainerMain
 import com.example.newsapp.presentation.screen.HomeScreen
+import com.example.newsapp.presentation.screen.InfoScreen
+import com.example.newsapp.presentation.screen.ProfileScreen
 import com.example.newsapp.utils.createFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private val binding by viewBinding(ActivityMainBinding::bind)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        createFragment(R.id.fragmentContainerView, HomeScreen())
-//        Picasso.get().apply {
+        ActivityMainBinding.inflate(layoutInflater)
+        createFragment(R.id.fragment_container_view, ContainerMain())
+
+
+        }
+
+
+    //        Picasso.get().apply {
 //            setIndicatorsEnabled(true)
 //            isLoggingEnabled = true
 //        }
@@ -54,4 +66,3 @@ class MainActivity : AppCompatActivity() {
 //        return true
 //    }
     }
-}

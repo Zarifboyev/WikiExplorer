@@ -5,10 +5,11 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.newsapp.R
 import com.example.newsapp.data.model.WikiModel
-import com.example.newsapp.databinding.FragmentHomeBinding
+import com.example.newsapp.databinding.FragmentExploreBinding
 import com.example.newsapp.presentation.adapters.NewsAdapter
 import com.example.newsapp.utils.startFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,8 +17,8 @@ import uz.mlsoft.noteappnative.presentaion.viewModels.HomeViewModel
 import uz.mlsoft.noteappnative.presentaion.viewModels.impl.HomeViewModelImpl
 
 @AndroidEntryPoint
-class HomeScreen : Fragment(R.layout.fragment_home) {
-    private val binding by viewBinding(FragmentHomeBinding::bind)
+class HomeScreen : Fragment(R.layout.fragment_explore) {
+    private val binding by viewBinding(FragmentExploreBinding::bind)
     private lateinit var viewModel: HomeViewModel
     private val adapter by lazy { NewsAdapter() }
 
@@ -34,7 +35,9 @@ class HomeScreen : Fragment(R.layout.fragment_home) {
     }
 
     private fun initAdapter() {
+
         binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.visibility = View.VISIBLE // Ensure RecyclerView is visible
     }
 

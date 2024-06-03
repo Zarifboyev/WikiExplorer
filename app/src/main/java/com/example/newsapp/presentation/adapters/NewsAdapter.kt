@@ -1,6 +1,7 @@
 package com.example.newsapp.presentation.adapters
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -16,9 +17,6 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     private val data = ArrayList<WikiModel>()
     private var onClickListener: ((WikiModel) -> Unit)? = null
 
-    fun onClickItem(block: (WikiModel) -> Unit) {
-        onClickListener = block
-    }
 
     @SuppressLint("NotifyDataSetChanged")
     fun submitItems(newsItems: List<WikiModel>) {
@@ -28,7 +26,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
         Timber.tag("NewsAdapter").d(data.toString())
     }
 
-    inner class NewsViewHolder(private val binding: NewsListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class NewsViewHolder(private var binding: NewsListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         private val image: ImageView = binding.itemImage
         private val textTitle: TextView = binding.itemTitle
         private val textSubtitle: TextView = binding.itemSubtitle
@@ -49,30 +47,16 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
+        val item = data[position]
+
+        Log.d("NewsAdapter", "Binding item at position $position: $item")
+
         holder.bind(data[position])
     }
 
     override fun getItemCount() = data.size
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun sortItemsAscending() {
-        data.sortBy { it.title }
-        isSortedAscending = true
-        notifyDataSetChanged()
-    }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun sortItemsDescending() {
-        data.sortByDescending { it.title }
-        isSortedAscending = false
-        notifyDataSetChanged()
-    }
 
-    fun toggleSortOrder() {
-        if (isSortedAscending) {
-            sortItemsDescending()
-        } else {
-            sortItemsAscending()
-        }
-    }
+
 }

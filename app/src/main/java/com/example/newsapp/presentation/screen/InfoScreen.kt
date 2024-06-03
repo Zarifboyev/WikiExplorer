@@ -1,20 +1,17 @@
 package com.example.newsapp.presentation.screen
 
-import android.os.Build
 import android.os.Bundle
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.newsapp.R
-import com.example.newsapp.databinding.FragmentArticleBinding
-import com.example.newsapp.utils.finish
+import com.example.newsapp.databinding.FragmentEditBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class InfoScreen : Fragment(R.layout.fragment_article) {
-    private lateinit var binding: FragmentArticleBinding
+class InfoScreen : Fragment(R.layout.fragment_edit) {
+    private lateinit var binding: FragmentEditBinding
     var content = "<div>\n" +
             "        <h1>\n" +
             "            Note app\n" +
@@ -83,12 +80,11 @@ class InfoScreen : Fragment(R.layout.fragment_article) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentArticleBinding.inflate(layoutInflater)
+        binding = FragmentEditBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val text = binding.txtDescription
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 //            text.text = Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY)

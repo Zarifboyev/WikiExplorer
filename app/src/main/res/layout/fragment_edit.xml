@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.screen.HomeScreen">
+
+    <!-- Main content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Article Image -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/articleImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialAlertDialog.Material3"
+                android:src="@drawable/ic_launcher_background"
+                android:contentDescription="@string/article_image_desc" />
+
+            <!-- Article Title -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/articleTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Article Title"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:contentDescription="@string/article_title_desc" />
+
+            <!-- Article WebView -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                app:strokeColor="@color/design_default_color_primary"
+                app:strokeWidth="1dp">
+
+                <WebView
+                    android:id="@+id/articleWebView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:contentDescription="@string/article_content_desc" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/saveButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save"
+                    app:icon="@drawable/ic_menu"
+                    app:iconGravity="textStart"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:contentDescription="@string/save_button_desc" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/shareButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Share"
+                    app:icon="@drawable/ic_edit"
+                    app:iconGravity="textStart"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:contentDescription="@string/share_button_desc" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

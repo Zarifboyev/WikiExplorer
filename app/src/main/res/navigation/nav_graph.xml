@@ -3,16 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/HomeScreen">
+    app:startDestination="@id/containerMain">
 
     <fragment
         android:id="@+id/HomeScreen"
         android:name="com.example.newsapp.presentation.screen.HomeScreen"
         android:label="Home Page"
-        tools:layout="@layout/fragment_home">
-
+        tools:layout="@layout/fragment_explore">
         <action
-            android:id="@+id/action_FragmentMainPage_to_FragmentArticle"
+            android:id="@+id/action_HomeScreen_to_InfoScreen"
             app:destination="@id/InfoScreen" />
     </fragment>
 
@@ -20,11 +19,30 @@
         android:id="@+id/InfoScreen"
         android:name="com.example.newsapp.presentation.screen.InfoScreen"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_article">
-
+        tools:layout="@layout/fragment_edit">
         <action
-            android:id="@+id/action_FragmentArticle_to_FragmentMainPage"
+            android:id="@+id/action_InfoScreen_to_profileScreen"
+            app:destination="@id/profileScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileScreen"
+        android:name="com.example.newsapp.presentation.screen.ProfileScreen"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/containerMain"
+        android:name="com.example.newsapp.presentation.screen.ContainerMain"
+        android:label="container_main"
+        tools:layout="@layout/container_main" >
+        <action
+            android:id="@+id/action_containerMain_to_HomeScreen"
             app:destination="@id/HomeScreen" />
+        <action
+            android:id="@+id/action_containerMain_to_InfoScreen"
+            app:destination="@id/InfoScreen" />
+        <action
+            android:id="@+id/action_containerMain_to_profileScreen"
+            app:destination="@id/profileScreen" />
     </fragment>
 
 </navigation>
