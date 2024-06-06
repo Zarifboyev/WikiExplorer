@@ -1,5 +1,7 @@
 package uz.mlsoft.noteappnative.presentaion.viewModels.impl
 
+import android.app.Application
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.newsapp.data.model.WikiModel
 import com.example.newsapp.domain.repository.WikiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.fastily.jwiki.core.Wiki
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import uz.mlsoft.noteappnative.presentaion.viewModels.HomeViewModel
@@ -14,7 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModelImpl @Inject constructor(
-    private val repository: WikiRepository
+    private val appContext: Context,
+    private val repository: WikiRepository,
+    override val wikiBuilder: Wiki.Builder
 ) : ViewModel(), HomeViewModel {
 
     private val _moveToInfoScreen = MutableLiveData<Boolean>()
@@ -26,15 +31,8 @@ class HomeViewModelImpl @Inject constructor(
     override fun loadData() {
         viewModelScope.launch(Dispatchers.IO) {
             // Simulate data fetching with sample values
-            val sampleData = listOf(
-                WikiModel(id = 1, title = "Sample Title 1", description = "Sample Description 1", image = "https://example.com/image1.jpg"),
-                WikiModel(id = 2, title = "Sample Title 2", description = "Sample Description 2", image = "https://example.com/image2.jpg"),
-                WikiModel(id = 3, title = "Sample Title 3", description = "Sample Description 3", image = "https://example.com/image3.jpg"),
-                WikiModel(id = 4, title = "Sample Title 4", description = "Sample Description 4", image = "https://example.com/image4.jpg"),
-                WikiModel(id = 5, title = "Sample Title 5", description = "Sample Description 5", image = "https://example.com/image5.jpg")
-            )
-
-            _fetchWikiNewsData.postValue(sampleData)
+            val articles = repository.fetchArticles(appContext, wikiBuilder)
+            _fetchWikiNewsData.postValue(articles)
         }
     }
 

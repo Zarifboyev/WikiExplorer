@@ -1,16 +1,21 @@
 package com.example.newsapp.domain.impl
 
-import com.example.newsapp.data.dao.WikiDao
+import android.content.Context
 import com.example.newsapp.data.entity.WikiEntity
 import com.example.newsapp.data.model.WikiModel
 import com.example.newsapp.domain.repository.WikiRepository
+import io.github.fastily.jwiki.core.Wiki
 import javax.inject.Inject
 
 class WikiRepositoryImpl @Inject constructor(private val wikiModel: List<WikiModel>,
                                              private val wikiService: WikiService
 ) : WikiRepository {
+
+
     override fun getAllWiki(): List<WikiModel> {
         // Fetch data from Room DB
+
+
         return wikiModel
     }
 
@@ -22,7 +27,16 @@ class WikiRepositoryImpl @Inject constructor(private val wikiModel: List<WikiMod
         }
     }
 
+    override suspend fun fetchArticles(context: Context, builder: Wiki.Builder): List<WikiModel> {
+        val wiki = wikiService.fetchArticles(context, builder)
+        return wiki
+    }
 
 
+
+    override suspend fun getWikiBuilder(): Wiki.Builder {
+
+        return Wiki.Builder()
+    }
 
 }

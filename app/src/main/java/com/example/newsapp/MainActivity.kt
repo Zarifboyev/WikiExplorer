@@ -10,6 +10,7 @@ import com.example.newsapp.presentation.screen.InfoScreen
 import com.example.newsapp.presentation.screen.ProfileScreen
 import com.example.newsapp.utils.createFragment
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.fastily.jwiki.core.Wiki
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         createFragment(R.id.fragment_container_view, ContainerMain())
 
 
-        }
+    }
 
 
     //        Picasso.get().apply {

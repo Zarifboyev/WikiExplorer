@@ -7,22 +7,27 @@ import com.example.newsapp.data.dao.WikiDao
 import com.example.newsapp.data.dao.ArticleDao
 import com.example.newsapp.data.database.WikiDatabase
 import com.example.newsapp.data.model.WikiModel
+import com.example.newsapp.domain.impl.WikiRepositoryImpl
 import com.example.newsapp.domain.impl.WikiService
 import com.example.newsapp.domain.repository.WikiRepository
 import com.example.newsapp.presentation.viewModels.impl.ProfileViewModelImpl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
+import io.github.fastily.jwiki.core.Wiki
 import javax.inject.Singleton
 
 
 @Module
 @InstallIn(SingletonComponent::class)
 class RoomModule {
-
+    @Provides
+    @Singleton
+    fun provideContext(@ApplicationContext context: Context): Context = context
     @[Provides Singleton]
     fun provideDatabase(@ApplicationContext context: Context): WikiDatabase {
         return Room.databaseBuilder(context, WikiDatabase::class.java, "wiki.db")
@@ -47,6 +52,23 @@ class RoomModule {
     @[Singleton Provides]
     fun getArticleDao(database: WikiDatabase): ArticleDao = database.getArticleDao()
 
+
+    @Singleton
+    @Provides
+    fun provideWikiBuilder(): Wiki.Builder {
+        return Wiki.Builder()
+    }
+
+    @Module
+    @InstallIn(SingletonComponent::class)
+    abstract class RepositoryModule {
+
+        @Binds
+        @Singleton
+        abstract fun bindWikiRepository(
+            wikiRepositoryImpl: WikiRepositoryImpl
+        ): WikiRepository
+    }
 
 
 

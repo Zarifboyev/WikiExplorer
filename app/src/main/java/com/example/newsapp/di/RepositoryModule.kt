@@ -17,9 +17,15 @@ interface RepositoryModule {
     @[Binds Singleton]
     fun provideArticleRepository(impl: ArticleRepositoryImpl): ArticleRepository
 
+    @Module
+    @InstallIn(SingletonComponent::class)
+    abstract class RepositoryModule {
 
-    @[Binds Singleton]
-    fun provideWikiRepository(impl: WikiRepositoryImpl): WikiRepository
-
+        @Binds
+        @Singleton
+        abstract fun bindWikiRepository(
+            wikiRepositoryImpl: WikiRepositoryImpl
+        ): WikiRepository
+    }
 
 }

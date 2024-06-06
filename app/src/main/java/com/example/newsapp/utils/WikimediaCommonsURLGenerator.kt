@@ -1,25 +1,26 @@
-package com.example.newsapp.utils
-
 import android.util.Log
+import com.example.newsapp.presentation.ui.sheets.ModalBottomSheet.Companion.TAG
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 object WikimediaCommonsURLGenerator {
-    private const val TAG = "WikimediaCommonsURL"
 
-    fun generateFileURL(fileName: String, thumbnailWidth: Int): String {
-        // Base URL
-        val baseUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb"
+    private const val BASE_URL = "https://upload.wikimedia.org/wikipedia/commons"
 
-        // Compute MD5 hash of the file name
-        val md5Hash = md5Hash(fileName)
+    fun generateFileURL(fileName: String): String {
+        val withoutPrefix = removeFilePrefix(fileName)
+        val md5Hash = md5Hash(fileName) ?: return "" // Return empty string if MD5 hash is null
+        val hashFirstChar = md5Hash.substring(0, 1)
+        val hashFirstTwoChars = md5Hash.substring(0, 2)
+        return "$BASE_URL/$hashFirstChar/$hashFirstTwoChars/$withoutPrefix"
+    }
 
-        // Get parts of the hash for URL
-        val hashFirstTwoChars = md5Hash?.substring(0, 2) ?: "00"
-
-        // Construct the URL using string templates
-        return "$baseUrl/$hashFirstTwoChars/$fileName/$thumbnailWidth" +
-                "px-$fileName"
+    private fun removeFilePrefix(fileName: String): String {
+        return if (fileName.startsWith("File:")) {
+            fileName.substring("File:".length)
+        } else {
+            fileName
+        }
     }
 
     private fun md5Hash(input: String): String? {
