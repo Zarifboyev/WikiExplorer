@@ -66,4 +66,14 @@
     <string name="action">Action Read\n</string>
     <string name="supporting_text">Supporting Text\n</string>
     <string name="title">User contents8</string>
+
+    <string name="action_recycler_view">RecyclerView</string>
+
+
+    <string name="video_thumbnail">Video Thumbnail</string>
+    <string name="thumbs_up">Thumbs Up</string>
+    <string name="thumbs_down">Thumbs Down</string>
+    <string name="share">Share</string>
+    <string name="loading_playlists">Loading Playlists...\n</string>
+
 </resources>

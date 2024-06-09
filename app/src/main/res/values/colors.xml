@@ -23,6 +23,7 @@
     <color name="onSurfaceColor">#000000</color>
     <color name="onErrorColor">#FFFFFF</color>
 
+    <color name="semi_transparent_black">#90000000</color>
 
 </resources>
 

@@ -35,7 +35,7 @@ class ContainerMain : Fragment(R.layout.container_main) {
 
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.standardBottomSheet)
 
-// Apply behavior attributes programmatically
+    // Apply behavior attributes programmatically
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         bottomSheetBehavior.saveFlags = BottomSheetBehavior.SAVE_ALL
 
@@ -49,10 +49,10 @@ class ContainerMain : Fragment(R.layout.container_main) {
             }
         }
 
-// To add the callback:
+        // To add the callback:
         bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback)
 
-// To remove the callback:
+        // To remove the callback:
         bottomSheetBehavior.removeBottomSheetCallback(bottomSheetCallback)
 
         // Load the default fragment
@@ -79,7 +79,7 @@ class ContainerMain : Fragment(R.layout.container_main) {
                 }
 
                 R.id.bottom_nav_item_edit -> {
-                    loadFragment(InfoScreen())
+                    loadFragment(YouTubeFragment())
                     true
                 }
 

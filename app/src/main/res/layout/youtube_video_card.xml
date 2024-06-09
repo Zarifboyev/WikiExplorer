@@ -1,0 +1,127 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:layout_margin="8dp"
+    android:background="@drawable/rounded_card_background">
+
+    <!-- Thumbnail Image -->
+    <ImageView
+        android:id="@+id/video_thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+
+        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/semi_transparent_box_with_border" />
+
+
+    <!-- Video Duration -->
+    <TextView
+        android:id="@+id/video_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/rounded_duration_background"
+        android:fontFamily="@font/nunito"
+        android:text="--:--"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/video_thumbnail"
+        app:layout_constraintEnd_toEndOf="@id/video_thumbnail" />
+
+    <!-- Video Title -->
+    <TextView
+        android:id="@+id/video_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="Sample Video Title"
+        android:fontFamily="@font/nunito_bold"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/video_thumbnail" />
+
+    <!-- Channel Photo -->
+    <ImageView
+        android:id="@+id/channel_photo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
+        android:src="@drawable/wikipedia_logo_v2_uz"
+
+        app:layout_constraintStart_toStartOf="@id/video_title"
+        app:layout_constraintTop_toBottomOf="@id/video_title" />
+
+    <!-- Channel Name -->
+    <TextView
+        android:id="@+id/channel_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/nunito_bolditalic"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:text="O'zbekcha Vikipediya"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/channel_photo"
+        app:layout_constraintTop_toTopOf="@id/channel_photo" />
+
+    <!-- Video Info (Views Count and Date) -->
+    <LinearLayout
+        android:id="@+id/video_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/channel_name">
+
+        <!-- Video Date -->
+        <TextView
+            android:id="@+id/video_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_calendar"
+            android:drawablePadding="4dp"
+            android:fontFamily="@font/nunito"
+            android:text="2 weeks ago"
+            android:textColor="@android:color/black"
+            android:textSize="12sp" />
+
+        <!-- Views Count -->
+        <TextView
+            android:id="@+id/video_view_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_views"
+            android:drawablePadding="4dp"
+            android:gravity="start"
+            android:fontFamily="@font/nunito"
+            android:text="1.2M views"
+            android:textColor="@android:color/black"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
