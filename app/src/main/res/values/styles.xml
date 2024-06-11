@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-
-
     <style name="AppTheme" parent="Theme.Material3.Light">
         <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
     </style>
@@ -15,7 +12,7 @@
 
     <!-- Style for the bottom sheet dialog -->
     <style name="ModalBottomSheetDialog" parent="Widget.Material3.BottomSheet.Modal">
-        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="backgroundTint">@color/md_theme_onPrimary</item>
         <item name="shapeAppearance">@style/ShapeAppearance.App.LargeComponent</item>
     </style>
 

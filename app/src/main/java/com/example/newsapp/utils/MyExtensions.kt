@@ -34,14 +34,14 @@ fun AppCompatActivity.createFragment(id: Int, fragment: Fragment) {
 
 fun Fragment.createFragment(fragment: Fragment) {
     parentFragmentManager.beginTransaction()
-        .replace(R.id.fragment_main_container1, fragment)
+        .replace(R.id.container, fragment)
         .commit()
 }
 
 fun Fragment.startFragment(fragment: Fragment) {
     parentFragmentManager.beginTransaction()
         .addToBackStack(fragment::class.java.name)
-        .replace(R.id.fragment_main_container1, fragment)
+        .replace(R.id.container, fragment)
         .commit()
 }
 

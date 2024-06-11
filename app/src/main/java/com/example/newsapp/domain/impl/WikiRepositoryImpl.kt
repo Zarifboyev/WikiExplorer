@@ -1,42 +1,43 @@
 package com.example.newsapp.domain.impl
 
-import android.content.Context
-import com.example.newsapp.data.entity.WikiEntity
-import com.example.newsapp.data.model.WikiModel
+import com.example.newsapp.data.dao.WikiDao
+import com.example.newsapp.data.entity.WikiModel
 import com.example.newsapp.domain.repository.WikiRepository
+import com.example.newsapp.domain.service.WikiService
 import io.github.fastily.jwiki.core.Wiki
 import javax.inject.Inject
 
-class WikiRepositoryImpl @Inject constructor(private val wikiModel: List<WikiModel>,
-                                             private val wikiService: WikiService
+class WikiRepositoryImpl @Inject constructor(private val wikiService: WikiService,
+                                             private val wikiDao: WikiDao,
 ) : WikiRepository {
 
 
-    override fun getAllWiki(): List<WikiModel> {
-        // Fetch data from Room DB
+    override suspend fun getAllWiki(): List<WikiModel> {
+            // Check cache
+            val cachedData = wikiDao.getAllArticles()
+            if (cachedData.isNotEmpty()) {
+                return cachedData
+            }
 
+            // Fetch from network
 
-        return wikiModel
+            val newData = wikiService.fetchArticles(getWikiBuilder())
+
+            // Cache data
+            wikiDao.insertWikiData(newData)
+
+            return newData
     }
 
-    override fun saveWiki(wikiEntity: WikiEntity) {
-        val size:Int = wikiModel.size
-        for(i in 0 until size){
-            val WikiEntity = wikiModel[i]
-            //TODO: wikiDao.saveWiki(wikiEntity)
-        }
-    }
 
-    override suspend fun fetchArticles(context: Context, builder: Wiki.Builder): List<WikiModel> {
-        val wiki = wikiService.fetchArticles(context, builder)
-        return wiki
+    override fun saveWiki(wikiEntity: WikiModel) {
+        //TODO: Save to database
     }
-
 
 
     override suspend fun getWikiBuilder(): Wiki.Builder {
-
         return Wiki.Builder()
     }
+
 
 }

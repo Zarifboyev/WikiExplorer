@@ -1,28 +1,26 @@
 package com.example.newsapp.presentation.screen
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.newsapp.R
-import com.example.newsapp.data.model.WikiModel
-import com.example.newsapp.databinding.FragmentExploreBinding
+import com.example.newsapp.data.entity.WikiModel
+import com.example.newsapp.databinding.ScreenHomeBinding
 import com.example.newsapp.presentation.adapters.WikiArticlesAdapter
-import com.example.newsapp.utils.startFragment
+import com.example.newsapp.presentation.viewModels.HomeViewModel
+import com.example.newsapp.presentation.viewModels.impl.HomeViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import uz.mlsoft.noteappnative.presentaion.viewModels.HomeViewModel
-import uz.mlsoft.noteappnative.presentaion.viewModels.impl.HomeViewModelImpl
 
 @AndroidEntryPoint
-class HomeScreen : Fragment(R.layout.fragment_explore) {
-    private val binding by viewBinding(FragmentExploreBinding::bind)
-    private lateinit var viewModel: HomeViewModel
+class HomeScreen : Fragment(R.layout.screen_home) {
+    private val binding by viewBinding(ScreenHomeBinding::bind)
     private val adapter by lazy { WikiArticlesAdapter() }
+    private lateinit var viewModel: HomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,22 +29,31 @@ class HomeScreen : Fragment(R.layout.fragment_explore) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initAdapter()
+        setupRecyclerView()
         observeViewModel()
         viewModel.loadData()
     }
 
-    private fun initAdapter() {
-        binding.recyclerView.adapter = adapter
+    private fun setupRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = adapter
     }
 
     private fun observeViewModel() {
-        viewModel.fetchWikiNewsData.observe(viewLifecycleOwner, fetchWikiNewsDataObserver)
-        viewModel.moveToInfoScreen.observe(viewLifecycleOwner, moveToInfoScreenObserver)
+        with(viewModel) {
+            fetchWikiNewsData.observe(viewLifecycleOwner) { articles ->
+                handleWikiNewsData(articles)
+            }
+            moveToInfoScreen.observe(viewLifecycleOwner) { moveToInfo ->
+               // if (moveToInfo) startFragment(ReadArticleScreen())
+            }
+        }
+//       TODO: viewModel.searchResults.observe(viewLifecycleOwner, Observer { results ->
+//            handleSearchResults(results)
+//        })
     }
 
-    private val fetchWikiNewsDataObserver = Observer<List<WikiModel>> { articles ->
+    private fun handleWikiNewsData(articles: List<WikiModel>) {
         if (articles.isEmpty()) {
             binding.recyclerView.visibility = View.GONE
             binding.emptyView.visibility = View.VISIBLE
@@ -60,10 +67,36 @@ class HomeScreen : Fragment(R.layout.fragment_explore) {
         }
     }
 
-    private val moveToInfoScreenObserver = Observer<Boolean> { moveToInfo ->
-        if (moveToInfo) {
-            // Navigate to InfoScreen, adjust according to your navigation setup
-            startFragment(ReadArticleScreen())
-        }
+    private fun handleSearchResults(results: List<WikiModel>) {
+        binding.progressBar.visibility = View.GONE
+        val previousItemCount = adapter.itemCount
+        adapter.submitItems(results)
+
+        // Calculate the difference between the new and old item lists
+        val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+            override fun getOldListSize(): Int {
+                return previousItemCount
+            }
+
+            override fun getNewListSize(): Int {
+                return results.size
+            }
+
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                // Implement logic to check if items are the same
+                // return oldList[oldItemPosition].id == newList[newItemPosition].id
+                return TODO("Provide the return value")
+            }
+
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                // Implement logic to check if item contents are the same
+                // Example: return oldList[oldItemPosition] == newList[newItemPosition]
+                return TODO("Provide the return value")
+            }
+        })
+
+        // Dispatch the specific change events to the adapter
+        diffResult.dispatchUpdatesTo(adapter)
     }
+
 }

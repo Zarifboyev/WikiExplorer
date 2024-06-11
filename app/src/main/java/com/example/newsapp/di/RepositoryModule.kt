@@ -1,4 +1,4 @@
-package com.example.newsapp.data.di
+package com.example.newsapp.di
 
 import com.example.newsapp.domain.repository.ArticleRepository
 import com.example.newsapp.domain.repository.WikiRepository
@@ -20,7 +20,6 @@ interface RepositoryModule {
     @Module
     @InstallIn(SingletonComponent::class)
     abstract class RepositoryModule {
-
         @Binds
         @Singleton
         abstract fun bindWikiRepository(

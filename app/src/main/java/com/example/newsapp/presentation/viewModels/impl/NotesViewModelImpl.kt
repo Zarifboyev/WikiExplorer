@@ -1,9 +1,9 @@
-package uz.mlsoft.noteappnative.presentaion.viewModels.impl
+package com.example.newsapp.presentation.viewModels.impl
 
 import androidx.lifecycle.ViewModel
 import com.example.newsapp.domain.repository.WikiRepository
+import com.example.newsapp.presentation.viewModels.NotesViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import uz.mlsoft.noteappnative.presentaion.viewModels.NotesViewModel
 import javax.inject.Inject
 
 

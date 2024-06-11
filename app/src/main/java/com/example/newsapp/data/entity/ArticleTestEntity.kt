@@ -8,7 +8,7 @@ import java.io.Serializable
 @Entity(
     tableName = "articlesTable",
     foreignKeys = [ForeignKey(
-        entity = WikiEntity::class,
+        entity = WikiModel::class,
         childColumns = ["article_id"],
         parentColumns = ["id"],
         onDelete = ForeignKey.CASCADE,

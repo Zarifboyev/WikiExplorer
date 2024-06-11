@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottom_nav_item_home"
+        android:icon="@drawable/ic_home_page"
+        android:title="@string/home_page_title" />
+
+    <item
+        android:id="@+id/bottom_nav_item_youtube"
+        android:icon="@drawable/ic_school_light_dark"
+        android:title="@string/lessons_page_title"
+        />
+    <item
+        android:id="@+id/bottom_nav_item_notes"
+        android:icon="@drawable/ic_check_list_light"
+        android:title="@string/notes_page_title"
+        />
+
+</menu>

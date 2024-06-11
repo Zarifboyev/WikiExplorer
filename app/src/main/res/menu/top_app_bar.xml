@@ -2,21 +2,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/edit"
-        android:title="Edit"
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        android:title="Search"
         android:contentDescription=""
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/favorite"
-        android:icon="@drawable/star"
-        android:title="Favorite"
+        android:id="@+id/filter"
+        android:icon="@drawable/ic_filter_svg"
+        android:title="Filter Data"
         android:contentDescription=""
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/more"
-        android:title="More"
+        android:title="Rate the app"
         android:contentDescription=""
         app:showAsAction="never" />
 

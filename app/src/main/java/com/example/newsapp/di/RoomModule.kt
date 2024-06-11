@@ -5,9 +5,9 @@ import androidx.room.Room
 import com.example.newsapp.data.dao.WikiDao
 import com.example.newsapp.data.dao.ArticleDao
 import com.example.newsapp.data.database.WikiDatabase
-import com.example.newsapp.data.model.WikiModel
+import com.example.newsapp.data.entity.WikiModel
 import com.example.newsapp.domain.impl.WikiRepositoryImpl
-import com.example.newsapp.domain.impl.WikiService
+import com.example.newsapp.domain.service.WikiService
 import com.example.newsapp.domain.repository.WikiRepository
 import dagger.Binds
 import dagger.Module
@@ -22,9 +22,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class RoomModule {
-    @Provides
-    @Singleton
-    fun provideContext(@ApplicationContext context: Context): Context = context
+
     @[Provides Singleton]
     fun provideDatabase(@ApplicationContext context: Context): WikiDatabase {
         return Room.databaseBuilder(context, WikiDatabase::class.java, "wiki.db")
@@ -40,12 +38,15 @@ class RoomModule {
     fun provideWikiService(): WikiService {
         return WikiService()
     }
+
     @Provides
     @Singleton
     fun provideWikiModels(): List<WikiModel> {
         // Return an empty list or some default data
         return emptyList()
     }
+
+
     @[Singleton Provides]
     fun getArticleDao(database: WikiDatabase): ArticleDao = database.getArticleDao()
 
@@ -66,7 +67,5 @@ class RoomModule {
             wikiRepositoryImpl: WikiRepositoryImpl
         ): WikiRepository
     }
-
-
 
 }

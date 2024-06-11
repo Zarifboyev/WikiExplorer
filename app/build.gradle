@@ -8,13 +8,12 @@ plugins {
 android {
     namespace 'com.example.newsapp'
     compileSdk 34
-
     packagingOptions {
-        exclude 'META-INF/INDEX.LIST'
-        exclude 'META-INF/*.kotlin_module'
-        exclude 'META-INF/DEPENDENCIES' // Add this line
-        // Add any other files you want to exclude here
+        resources {
+            excludes += ['META-INF/INDEX.LIST', 'META-INF/*.kotlin_module', 'META-INF/DEPENDENCIES']
+        }
     }
+
 
     defaultConfig {
         applicationId "com.example.newsapp"
@@ -47,30 +46,31 @@ android {
 dependencies {
 
     // Kotlin and AndroidX
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
     implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
     implementation 'androidx.fragment:fragment-ktx:1.7.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.8.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.1'
 
     // Dagger and Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation 'androidx.test.ext:junit:1.1.5'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    androidTestImplementation 'org.testng:testng:7.10.2'
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     // Room Database
-    def room_version = "2.5.2"
+    def room_version = '2.6.1'
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
-    // Lottie Animation Library
-    implementation 'com.airbnb.android:lottie:4.2.0'
-
     // Navigation Component
-    def nav_version = "2.7.3"
+    def nav_version = '2.7.7'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
@@ -78,35 +78,35 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:5.0.1'
 
     // Kotlin Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
 
     // View Binding Property Delegate by Kirich
     implementation 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.9'
-
-    // Glide Image Loading Library
-    implementation 'com.github.bumptech.glide:glide:4.16.0'
 
     // Jwiki Library
     implementation 'io.github.fastily:jwiki:1.11.0'
 
     // Retrofit for Network Requests
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
 
     // Mockito for Unit Testing
     testImplementation "org.mockito.kotlin:mockito-kotlin:5.3.1"
 
-    // Mockk for Mocking in Unit Tests
-    testImplementation "io.mockk:mockk:1.13.11"
-
     // YouTube Data API v3 client library
     implementation 'com.google.apis:google-api-services-youtube:v3-rev20240514-2.0.0'
 
-    implementation("com.squareup.picasso:picasso:2.71828")
-    implementation("com.google.apis:google-api-services-youtube:v3-rev20231011-2.0.0")
-    implementation("com.google.http-client:google-http-client-android:1.43.3")
-    implementation("com.google.api-client:google-api-client-android:2.2.0")
-    implementation("com.google.api-client:google-api-client-gson:2.2.0")
+    implementation('com.google.apis:google-api-services-youtube:v3-rev20240514-2.0.0')
+    implementation('com.google.http-client:google-http-client-android:1.44.2')
+    implementation('com.google.api-client:google-api-client-android:2.6.0')
+    implementation('com.google.api-client:google-api-client-gson:2.6.0')
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+
 }
 

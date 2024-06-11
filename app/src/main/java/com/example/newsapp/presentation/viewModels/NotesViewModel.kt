@@ -1,4 +1,4 @@
-package uz.mlsoft.noteappnative.presentaion.viewModels
+package com.example.newsapp.presentation.viewModels
 
 import androidx.lifecycle.LiveData
 import com.example.newsapp.data.entity.ArticleTestEntity

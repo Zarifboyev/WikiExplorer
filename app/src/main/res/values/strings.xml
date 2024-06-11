@@ -1,11 +1,5 @@
 <resources>
-    <string name="app_name">News App</string>
-    <string name="news_title">Historic Uzbekistan theatre under threat from developers</string>
-    <string name="type">Type:</string>
-    <string name="news_type">article</string>
-    <string name="date">Date:</string>
-    <string name="news_date">2020–02–06T16:10:21Z</string>
-    <string name="news_section">World News</string>
+    <string name="app_name">Wikipedia (UnOfficial)</string>
     <string name="no_news">No wikiNews found</string>
     <string name="no_internet_connection">No internet connection\nPlease check your internet connection and try again</string>
     <string name="search_title">Search</string>
@@ -75,5 +69,9 @@
     <string name="thumbs_down">Thumbs Down</string>
     <string name="share">Share</string>
     <string name="loading_playlists">Loading Playlists...\n</string>
+    <string name="home_page_title">Wikipedia</string>
+    <string name="lessons_page_title">Lessons</string>
+    <string name="notes_page_title">Notes</string>
+    <string name="profile_page_title">Profile</string>
 
 </resources>
