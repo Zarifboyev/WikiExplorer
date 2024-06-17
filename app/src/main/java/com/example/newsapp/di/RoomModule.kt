@@ -7,15 +7,17 @@ import com.example.newsapp.data.dao.ArticleDao
 import com.example.newsapp.data.database.WikiDatabase
 import com.example.newsapp.data.entity.WikiModel
 import com.example.newsapp.domain.impl.WikiRepositoryImpl
-import com.example.newsapp.domain.service.WikiService
 import com.example.newsapp.domain.repository.WikiRepository
+import com.example.newsapp.domain.service.WikipediaApiService
+import com.google.gson.JsonObject
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import io.github.fastily.jwiki.core.Wiki
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 
@@ -34,9 +36,20 @@ class RoomModule {
         return database.getWikiDao()
     }
 
-    @[Singleton Provides]
-    fun provideWikiService(): WikiService {
-        return WikiService()
+
+    @Provides
+    fun provideWikipediaApiService(): WikipediaApiService {
+        return Retrofit.Builder()
+            .baseUrl("https://en.wikipedia.org/w/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(WikipediaApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideJsonObject(): JsonObject {
+        return JsonObject()
     }
 
     @Provides
@@ -51,11 +64,8 @@ class RoomModule {
     fun getArticleDao(database: WikiDatabase): ArticleDao = database.getArticleDao()
 
 
-    @Singleton
-    @Provides
-    fun provideWikiBuilder(): Wiki.Builder {
-        return Wiki.Builder()
-    }
+
+
 
     @Module
     @InstallIn(SingletonComponent::class)

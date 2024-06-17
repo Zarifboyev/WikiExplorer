@@ -50,7 +50,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-
     <string name="article_image_desc">Image related to the article</string>
     <string name="article_title_desc">Title of the article</string>
     <string name="article_content_desc">Web content of the article</string>
@@ -73,5 +72,14 @@
     <string name="lessons_page_title">Lessons</string>
     <string name="notes_page_title">Notes</string>
     <string name="profile_page_title">Profile</string>
-
+    <string name="profile_picture_desc">Profile picture</string>
+    <string name="hello_user">Hello, Zarifboyev! &#x1F600;</string>
+    <string name="edit_count">You have made 123 edits!</string>
+    <string name="best_edits">Best Edits:</string>
+    <string name="motivational_message">Keep up the great work! &#x1F60A;</string>
+    <string name="example_appwidget_description">Keep track of your Progress!</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
 </resources>

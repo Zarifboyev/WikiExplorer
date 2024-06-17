@@ -19,16 +19,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.shape.MaterialShapeDrawable
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.fastily.jwiki.core.Wiki
 
 @AndroidEntryPoint
-class ContainerMain : Fragment(R.layout.container_main) {
+class ContainerMain() : Fragment(R.layout.container_main) {
 
     private val containerMainBinding by viewBinding(ContainerMainBinding::bind)
-    private lateinit var viewModel: HomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[HomeViewModelImpl::class.java]
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

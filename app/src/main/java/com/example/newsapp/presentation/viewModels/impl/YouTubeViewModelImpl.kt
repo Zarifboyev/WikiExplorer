@@ -9,7 +9,6 @@ import javax.inject.Inject
 @HiltViewModel
 
 class YouTubeViewModelImpl @Inject constructor(
-    private val repository: WikiRepository
 ) : YouTubeViewModel, ViewModel() {
 
 }

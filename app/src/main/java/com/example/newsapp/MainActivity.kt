@@ -1,11 +1,18 @@
 package com.example.newsapp
 
 import android.os.Bundle
+import android.view.ViewGroup
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.newsapp.databinding.ActivityMainBinding
 import com.example.newsapp.presentation.screen.ContainerMain
 import com.example.newsapp.utils.createFragment
+import com.google.firebase.BuildConfig
+import com.google.firebase.FirebaseApp
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.gson.JsonObject
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.fastily.jwiki.core.Wiki
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

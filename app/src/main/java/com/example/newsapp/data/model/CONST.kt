@@ -1,6 +1,10 @@
 package com.example.newsapp.data.model
 
 object CONST {
+    const val DOMAIN = "uz.wikipedia.org"
+
+    const val TEST_IMAGE_URL = "https://cdn.pixabay.com/photo/2021/09/13/08/16/purple-flower-6620617_1280.jpg"
+
     const val YOUTUBE_API_KEY: String = "AIzaSyArU-2UAoQx3Fva42tLfhg0c7x950rdY4Y"
 
     const val TAG = "GetPlaylistAsyncTask"

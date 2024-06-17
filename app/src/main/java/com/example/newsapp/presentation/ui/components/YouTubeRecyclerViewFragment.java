@@ -1,5 +1,6 @@
 package com.example.newsapp.presentation.ui.components;
 
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -84,6 +85,7 @@ public class YouTubeRecyclerViewFragment extends Fragment {
 
         // start fetching the playlist titles
         new GetPlaylistTitlesAsyncTask(mYouTubeDataApi) {
+            @SuppressLint("StaticFieldLeak")
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -92,6 +94,7 @@ public class YouTubeRecyclerViewFragment extends Fragment {
                 }
             }
 
+            @SuppressLint("StaticFieldLeak")
             @Override
             protected void onPostExecute(PlaylistListResponse playlistListResponse) {
                 if (!isAdded()) {
@@ -191,6 +194,7 @@ public class YouTubeRecyclerViewFragment extends Fragment {
 
         if (fetchPlaylist) {
             new GetPlaylistAsyncTask(mYouTubeDataApi) {
+                @SuppressLint("StaticFieldLeak")
                 @Override
                 protected void onPreExecute() {
                     super.onPreExecute();
@@ -200,6 +204,7 @@ public class YouTubeRecyclerViewFragment extends Fragment {
                         }
                 }
 
+                @SuppressLint("StaticFieldLeak")
                 @Override
                 public void onPostExecute(Pair<String, List<Video>> result) {
                     if (isAdded()) {
@@ -220,6 +225,7 @@ public class YouTubeRecyclerViewFragment extends Fragment {
             @Override
             public void onLastItem(int position, String nextPageToken) {
                 new GetPlaylistAsyncTask(mYouTubeDataApi) {
+                    @SuppressLint("StaticFieldLeak")
                     @Override
                     public void onPostExecute(Pair<String, List<Video>> result) {
                         handleGetPlaylistResult(playlistVideos, result);

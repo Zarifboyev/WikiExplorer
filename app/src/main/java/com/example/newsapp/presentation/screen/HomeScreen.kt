@@ -1,16 +1,23 @@
 package com.example.newsapp.presentation.screen
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.newsapp.R
-import com.example.newsapp.data.entity.WikiModel
 import com.example.newsapp.databinding.ScreenHomeBinding
-import com.example.newsapp.presentation.adapters.WikiArticlesAdapter
+import com.example.newsapp.presentation.adapters.PlacesAdapter
 import com.example.newsapp.presentation.viewModels.HomeViewModel
 import com.example.newsapp.presentation.viewModels.impl.HomeViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,85 +25,70 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeScreen : Fragment(R.layout.screen_home) {
+
     private val binding by viewBinding(ScreenHomeBinding::bind)
-    private val adapter by lazy { WikiArticlesAdapter() }
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var placesAdapter: PlacesAdapter
+    private lateinit var placesViewModel: HomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[HomeViewModelImpl::class.java]
+        placesViewModel = ViewModelProvider(this)[HomeViewModelImpl::class.java]
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         observeViewModel()
-        viewModel.loadData()
     }
 
     private fun setupRecyclerView() {
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
+        placesAdapter = PlacesAdapter(emptyList())
+        binding.placesList.layoutManager = LinearLayoutManager(requireContext())
+        binding.placesList.adapter = placesAdapter
+
+        binding.btnSearch.setOnClickListener {
+            getLocation()
+        }
     }
 
     private fun observeViewModel() {
-        with(viewModel) {
-            fetchWikiNewsData.observe(viewLifecycleOwner) { articles ->
-                handleWikiNewsData(articles)
-            }
-            moveToInfoScreen.observe(viewLifecycleOwner) { moveToInfo ->
-               // if (moveToInfo) startFragment(ReadArticleScreen())
-            }
-        }
-//       TODO: viewModel.searchResults.observe(viewLifecycleOwner, Observer { results ->
-//            handleSearchResults(results)
-//        })
-    }
-
-    private fun handleWikiNewsData(articles: List<WikiModel>) {
-        if (articles.isEmpty()) {
-            binding.recyclerView.visibility = View.GONE
-            binding.emptyView.visibility = View.VISIBLE
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.recyclerView.visibility = View.VISIBLE
-            binding.emptyView.visibility = View.GONE
-            adapter.submitItems(articles)
-            binding.progressBar.visibility = View.GONE
-            Timber.tag("WikiArticles").d(articles.toString())
+        placesViewModel.places.observe(viewLifecycleOwner) { placesList ->
+            placesAdapter.submitList(placesList)
+            Timber.tag("Places").d(placesList.toString())
         }
     }
 
-    private fun handleSearchResults(results: List<WikiModel>) {
-        binding.progressBar.visibility = View.GONE
-        val previousItemCount = adapter.itemCount
-        adapter.submitItems(results)
-
-        // Calculate the difference between the new and old item lists
-        val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
-            override fun getOldListSize(): Int {
-                return previousItemCount
+    private fun getLocation() {
+        val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 1)
+            return
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, object : LocationListener {
+            override fun onLocationChanged(location: Location) {
+                placesViewModel.fetchPlaces(location.latitude, location.longitude)
             }
 
-            override fun getNewListSize(): Int {
-                return results.size
-            }
-
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                // Implement logic to check if items are the same
-                // return oldList[oldItemPosition].id == newList[newItemPosition].id
-                return TODO("Provide the return value")
-            }
-
-            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                // Implement logic to check if item contents are the same
-                // Example: return oldList[oldItemPosition] == newList[newItemPosition]
-                return TODO("Provide the return value")
-            }
+            @Deprecated("Deprecated in Java")
+            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+            override fun onProviderEnabled(provider: String) {}
+            override fun onProviderDisabled(provider: String) {}
         })
-
-        // Dispatch the specific change events to the adapter
-        diffResult.dispatchUpdatesTo(adapter)
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray,
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1) {
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                getLocation()
+            } else {
+                // Permission denied
+                Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }
