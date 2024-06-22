@@ -7,13 +7,13 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.newsapp.R
 import com.example.newsapp.databinding.ScreenHomeBinding
@@ -39,13 +39,24 @@ class HomeScreen : Fragment(R.layout.screen_home) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         observeViewModel()
+        getLocation()
     }
 
     private fun setupRecyclerView() {
-        placesAdapter = PlacesAdapter(emptyList())
+        placesAdapter = PlacesAdapter(context,emptyList())
         binding.placesList.layoutManager = LinearLayoutManager(requireContext())
         binding.placesList.adapter = placesAdapter
 
+        binding.placesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    binding.btnSearch.hide()
+                } else if (dy < 0) {
+                    binding.btnSearch.show()
+                }
+            }
+        })
         binding.btnSearch.setOnClickListener {
             getLocation()
         }

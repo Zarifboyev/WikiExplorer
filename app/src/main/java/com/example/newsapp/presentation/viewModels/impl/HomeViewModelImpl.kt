@@ -4,21 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.newsapp.data.entity.WikiModel
 import com.example.newsapp.data.model.Place
 import com.example.newsapp.di.RetrofitInstance
-import com.example.newsapp.domain.repository.WikiRepository
 import com.example.newsapp.presentation.viewModels.HomeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.fastily.jwiki.core.Wiki
 import io.github.fastily.jwiki.core.Wiki.Builder
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 import javax.inject.Inject
 import kotlin.math.atan2
 import kotlin.math.cos
-import kotlin.math.round
 import kotlin.math.sin
 import kotlin.math.sqrt
 

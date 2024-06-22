@@ -9,6 +9,7 @@ import com.example.newsapp.data.entity.WikiModel
 
 @Dao
 interface WikiDao {
+
     @Query("SELECT * FROM wiki_articles")
     fun getAllArticles():List<WikiModel>
 

@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 // RetrofitInstance.kt
 object RetrofitInstance {
-    private const val BASE_URL = "https://en.wikipedia.org/"
+    private const val BASE_URL = "https://uz.wikipedia.org/"
 
     val api: ApiService by lazy {
         Retrofit.Builder()

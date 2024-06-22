@@ -69,7 +69,8 @@ dependencies {
     def room_version = '2.6.1'
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-
+    // Add Room KTX for coroutine support
+    implementation "androidx.room:room-ktx:2.6.1"
     // Navigation Component
     def nav_version = '2.7.7'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -127,6 +128,11 @@ dependencies {
 
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    implementation 'com.google.api-client:google-api-client-jackson2:1.31.1'
+    implementation 'com.google.api-client:google-api-client-android:2.6.0'
+    implementation 'com.google.apis:google-api-services-youtube:v3-rev241-1.25.0'
+
 
 
 }

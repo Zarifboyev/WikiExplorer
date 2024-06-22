@@ -2,23 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/search"
-        android:icon="@drawable/ic_search"
-        android:title="Search"
-        android:contentDescription=""
-        app:showAsAction="ifRoom" />
+        android:id="@+id/action_rate_app"
+        android:icon="@drawable/ic_star_rate_24dp"
+        android:title="Rate the App"
+        android:iconTint="@color/md_theme_secondary"
+        android:iconTintMode="src_in"
+        app:showAsAction="always" />
 
-    <item
-        android:id="@+id/filter"
-        android:icon="@drawable/ic_filter_svg"
-        android:title="Filter Data"
-        android:contentDescription=""
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/more"
-        android:title="Rate the app"
-        android:contentDescription=""
-        app:showAsAction="never" />
 
 </menu>

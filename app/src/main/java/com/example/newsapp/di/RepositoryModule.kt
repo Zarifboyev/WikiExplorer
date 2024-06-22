@@ -1,9 +1,9 @@
 package com.example.newsapp.di
 
 import com.example.newsapp.domain.repository.ArticleRepository
-import com.example.newsapp.domain.repository.WikiRepository
+import com.example.newsapp.domain.repository.WikiStatsRepository
 import com.example.newsapp.domain.impl.ArticleRepositoryImpl
-import com.example.newsapp.domain.impl.WikiRepositoryImpl
+import com.example.newsapp.domain.impl.WikiStatsRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -23,8 +23,8 @@ interface RepositoryModule {
         @Binds
         @Singleton
         abstract fun bindWikiRepository(
-            wikiRepositoryImpl: WikiRepositoryImpl
-        ): WikiRepository
+            wikiRepositoryImpl: WikiStatsRepositoryImpl
+        ): WikiStatsRepository
     }
 
 }

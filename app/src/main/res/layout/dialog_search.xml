@@ -1,10 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    android:layout_margin="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +17,12 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Search">
+            android:hint="NOT YET IMPLEMENTED"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusBottomEnd="8dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/searchEditText"
@@ -29,39 +36,36 @@
             android:id="@+id/searchButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search" />
+            android:text="Search"
+            android:layout_marginTop="16dp"/>
 
-        <!-- Option Radio Buttons -->
-        <RadioGroup
-            android:id="@+id/optionRadioGroup"
-            android:textAlignment="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <!-- Option Dropdown -->
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Select Option"-->
+<!--            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginBottom="8dp"/>-->
 
-            <RadioButton
-                android:id="@+id/option10RadioButton"
-                android:layout_width="wrap_content"
-                android:paddingEnd="8dp"
-                android:layout_height="wrap_content"
-                android:text="10 ta" />
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Options"-->
+<!--            app:boxBackgroundMode="outline"-->
+<!--            app:boxCornerRadiusTopStart="8dp"-->
+<!--            app:boxCornerRadiusTopEnd="8dp"-->
+<!--            app:boxCornerRadiusBottomStart="8dp"-->
+<!--            app:boxCornerRadiusBottomEnd="8dp">-->
 
-            <RadioButton
-                android:id="@+id/option50RadioButton"
-                android:layout_width="wrap_content"
-                android:paddingEnd="8dp"
-                android:layout_height="wrap_content"
-                android:text="50 ta" />
+<!--            <Spinner-->
+<!--                android:id="@+id/optionsSpinner"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:padding="12dp"-->
+<!--                android:background="@android:color/transparent"/>-->
 
-            <RadioButton
-                android:id="@+id/option100RadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="8dp"
-                android:text="100 ta" />
-
-        </RadioGroup>
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
     </LinearLayout>
 

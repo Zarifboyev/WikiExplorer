@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Wikipedia (UnOfficial)</string>
+    <string name="app_name">Vikipediya (Test)</string>
     <string name="no_news">No wikiNews found</string>
     <string name="no_internet_connection">No internet connection\nPlease check your internet connection and try again</string>
     <string name="search_title">Search</string>
@@ -82,4 +82,17 @@
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
+    <string name="star">Star</string>
+    <string name="edit">Edit</string>
+    <string name="user_group_photo">User Group Photo</string>
+    <string name="delete_goal">Delete\n</string>
+    <string name="add_goal">Add goal\n</string>
+    <string name="goal_title">Goal Title Sample\n</string>
+    <string name="pick_time">Pick time\n</string>
+    <string name="add">Add\n</string>
+    <string name="cancel">Cancel\n</string>
+    <string name="set_reminder">Set Reminder\n</string>
+    <string name="drag_icon">Drag icon\n</string>
+    <string name="delete">Delete the your task\n</string>
+
 </resources>

@@ -21,13 +21,21 @@
         <item name="bottomSheetStyle">@style/ModalBottomSheetDialog</item>
     </style>
 
-    <style name="Widget.NewsApp.AppWidget.Container" parent="android:Widget">
-        <item name="android:id">@android:id/background</item>
-        <item name="android:background">?android:attr/colorBackground</item>
+
+    <style name="MyWidgetTheme" parent="Theme.Material3.DynamicColors.Light">
+        <!-- Override default colorBackground attribute with custom color. -->
+        <item name="android:colorBackground">@color/md_theme_background</item>
+
+        <!-- Add other colors/attributes. -->
+
+    </style>
+    <style name="CustomAlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:background">@drawable/circular_dialog_background</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="Widget.NewsApp.AppWidget.InnerView" parent="android:Widget">
-        <item name="android:background">?android:attr/colorBackground</item>
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    <style name="CustomMaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <!-- Add customizations here -->
     </style>
+
 </resources>

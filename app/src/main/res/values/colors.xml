@@ -7,13 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
+   
 
     <color name="semi_transparent_black">#90000000</color>
 
     <!-- Custom Material Design 3 Theme colors -->
     <color name="md_theme_primary">#6D5E0F</color>
-    <color name="md_theme_onPrimary">#FFFFFF</color>
+    <color name="md_theme_onPrimary">#ffffff</color>
     <color name="md_theme_primaryContainer">#F8E287</color>
     <color name="md_theme_onPrimaryContainer">#221B00</color>
     <color name="md_theme_secondary">#665E40</color>
@@ -209,5 +209,7 @@
     <color name="light_blue_200">#FF81D4FA</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
+
+
 
 </resources>

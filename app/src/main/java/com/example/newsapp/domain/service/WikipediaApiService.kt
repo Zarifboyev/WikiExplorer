@@ -1,5 +1,6 @@
 package com.example.newsapp.domain.service
 
+import com.example.newsapp.data.model.CONST.DOMAIN
 import com.google.gson.annotations.SerializedName
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -52,7 +53,7 @@ interface WikipediaApiService {
         return result.toString()
     }
     companion object {
-        private const val BASE_URL = "https://uz.wikipedia.org/"
+        private const val BASE_URL = DOMAIN
 
         fun create(): WikipediaApiService {
             val retrofit = Retrofit.Builder()

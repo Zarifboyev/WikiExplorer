@@ -2,14 +2,15 @@ package com.example.newsapp.data.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.newsapp.data.dao.VideoDao
 import com.example.newsapp.data.dao.WikiDao
-import com.example.newsapp.data.dao.ArticleDao
+import com.example.newsapp.data.dao.WikiTaskDao
 import com.example.newsapp.data.database.WikiDatabase
-import com.example.newsapp.data.entity.WikiModel
-import com.example.newsapp.domain.impl.WikiRepositoryImpl
-import com.example.newsapp.domain.repository.WikiRepository
+import com.example.newsapp.domain.impl.WikiStatsRepositoryImpl
+import com.example.newsapp.domain.repository.WikiStatsRepository
+import com.example.newsapp.domain.repository.YouTubeRepository
 import com.example.newsapp.domain.service.WikipediaApiService
-import com.google.gson.JsonObject
+import com.example.newsapp.domain.service.YouTubeServiceReady
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -20,52 +21,55 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
-class RoomModule {
 
-    @[Provides Singleton]
+object RoomModule {
+    private const val BASE_URL = "https://www.googleapis.com/"
+
+
+    @Provides
+    @Singleton
     fun provideDatabase(@ApplicationContext context: Context): WikiDatabase {
         return Room.databaseBuilder(context, WikiDatabase::class.java, "wiki.db")
-            .allowMainThreadQueries().build()
+            .build()
     }
 
-    @[Singleton Provides]
-    fun provideWikiDao(database: WikiDatabase): WikiDao {
-        return database.getWikiDao()
+    @Provides
+    fun provideVideoDao(database: WikiDatabase): VideoDao {
+        return database.videoDao()
     }
 
+    @Provides
+    @Singleton
+    fun provideYouTubeApiService(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+    }
+
+    @Provides
+    @Singleton
+    fun provideYouTubeRepository(apiService: YouTubeServiceReady): YouTubeRepository {
+        return YouTubeRepository(apiService)
+    }
+
+    @Singleton
+    @Provides
+    fun provideWikiStatsRepository(apiService: WikipediaApiService): WikiStatsRepositoryImpl {
+        return WikiStatsRepositoryImpl(apiService)
+    }
 
     @Provides
     fun provideWikipediaApiService(): WikipediaApiService {
         return Retrofit.Builder()
-            .baseUrl("https://en.wikipedia.org/w/")
+            .baseUrl("https://uz.wikipedia.org/w/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(WikipediaApiService::class.java)
     }
-
-    @Provides
-    @Singleton
-    fun provideJsonObject(): JsonObject {
-        return JsonObject()
-    }
-
-    @Provides
-    @Singleton
-    fun provideWikiModels(): List<WikiModel> {
-        // Return an empty list or some default data
-        return emptyList()
-    }
-
-
-    @[Singleton Provides]
-    fun getArticleDao(database: WikiDatabase): ArticleDao = database.getArticleDao()
-
-
-
-
 
     @Module
     @InstallIn(SingletonComponent::class)
@@ -74,8 +78,17 @@ class RoomModule {
         @Binds
         @Singleton
         abstract fun bindWikiRepository(
-            wikiRepositoryImpl: WikiRepositoryImpl
-        ): WikiRepository
+            wikiRepositoryImpl: WikiStatsRepositoryImpl
+        ): WikiStatsRepository
     }
 
+
+    @Provides
+    fun provideWikiTaskDao(database: WikiDatabase): WikiTaskDao {
+        return database.wikiTaskDao()
+    }
+    @[Singleton Provides]
+    fun provideWikiDao(database: WikiDatabase): WikiDao {
+        return database.getWikiDao()
+    }
 }
