@@ -26,7 +26,8 @@
                 android:layout_marginEnd="16dp"
                 android:adjustViewBounds="true"
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Left"
-                app:srcCompat="@drawable/ic_wikipedia" />
+                app:srcCompat="@drawable/ic_wikipedia"
+                android:scaleType="centerCrop" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -52,14 +53,20 @@
                     android:alpha="0.6" />
             </LinearLayout>
 
-            <ImageView
+            <FrameLayout
                 android:id="@+id/icon_view"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginStart="16dp"
-                android:layout_gravity="center_vertical"
-                app:tint="?attr/colorOnBackground"
-                android:src="@drawable/ic_auto_stories_24dp" />
+                android:layout_gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    app:tint="?attr/colorOnBackground"
+                    android:src="@drawable/ic_auto_stories_24dp" />
+            </FrameLayout>
         </LinearLayout>
 
         <View
@@ -82,13 +89,20 @@
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 android:textColor="?attr/colorOnBackground" />
 
-            <ImageView
+            <FrameLayout
                 android:id="@+id/location_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginStart="8dp"
-                android:src="@drawable/ic_pin_drop_24dp"
-                app:tint="?attr/colorOnBackground" />
+                android:layout_gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_pin_drop_24dp"
+                    app:tint="?attr/colorOnBackground" />
+            </FrameLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

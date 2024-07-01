@@ -8,18 +8,13 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.newsapp.data.entity.TasksEntity
+import com.example.newsapp.data.entity.WikiModel
 
 @Dao
 interface WikiTaskDao {
-    @Query("SELECT * FROM goals")
-    fun getAllGoals(): LiveData<List<TasksEntity>>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(goal: TasksEntity)
+    suspend fun insertAll(categoryMembers: List<WikiModel>)
 
-    @Delete
-    suspend fun delete(goal: TasksEntity)
-
-    @Update
-    suspend fun update(goal: TasksEntity)
+    @Query("SELECT * FROM wiki_articles WHERE ns = :ns")
+    suspend fun getCategoryMembersByNamespace(ns: Int): List<WikiModel>
 }

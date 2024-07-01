@@ -7,7 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.newsapp.R
 import timber.log.Timber
-
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.widget.Toast
+import com.example.newsapp.data.entity.WikiModel
+import com.example.newsapp.domain.service.CategoryMember
 
 fun TextView.setHtml(value: String) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -37,6 +42,44 @@ fun Fragment.createFragment(fragment: Fragment) {
         .replace(R.id.container, fragment)
         .commit()
 }
+
+
+
+// Extension function to check network connectivity
+fun Context.isNetworkAvailable(): Boolean {
+    val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val network = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+    } else {
+        @Suppress("DEPRECATION")
+        val networkInfo = connectivityManager.activeNetworkInfo ?: return false
+        @Suppress("DEPRECATION")
+        return networkInfo.isConnected
+    }
+}
+
+// Extension function to show a toast message for network issues
+fun Context.showNetworkUnavailableToast() {
+    if (!isNetworkAvailable()) {
+        Toast.makeText(this, "Internet aloqasi yo'q. Tarmoq sozlamalaringizni tekshiring.", Toast.LENGTH_LONG).show()
+    }
+}
+fun CategoryMember.toEntity() = WikiModel(
+    pageid = pageid,
+    ns = ns,
+    title = title
+)
+
+fun WikiModel.toDomain() = CategoryMember(
+    pageid = pageid,
+    ns = ns,
+    title = title
+)
+
 
 fun Fragment.startFragment(fragment: Fragment) {
     parentFragmentManager.beginTransaction()

@@ -12,15 +12,17 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.R
 import com.example.newsapp.data.entity.TasksEntity
-import com.example.newsapp.utils.ColorPicker
 
 class TasksAdapter : ListAdapter<TasksEntity, TasksAdapter.TaskViewHolder>(TasksDiffCallback()) {
 
-    private val colorPicker = ColorPicker()
+    // Define the array of colors
+    private val colors = arrayOf(
+        0xFF665E40.toInt()
+    )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_wiki_task, parent, false)
-        return TaskViewHolder(view, colorPicker)
+        return TaskViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
@@ -28,7 +30,11 @@ class TasksAdapter : ListAdapter<TasksEntity, TasksAdapter.TaskViewHolder>(Tasks
         holder.bind(task, position)
     }
 
-    class TaskViewHolder(itemView: View, private val colorPicker: ColorPicker) : RecyclerView.ViewHolder(itemView) {
+    private fun getSequentialColor(position: Int): Int {
+        return colors[position % colors.size]
+    }
+
+    inner class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val itemText: TextView = itemView.findViewById(R.id.goalTitle)
         private val taskDone: CheckBox = itemView.findViewById(R.id.task_done)
         private val dragIcon: ImageView = itemView.findViewById(R.id.drag_icon)
@@ -39,8 +45,8 @@ class TasksAdapter : ListAdapter<TasksEntity, TasksAdapter.TaskViewHolder>(Tasks
             itemText.text = task.title
             taskDone.isChecked = task.isDone
 
-            // Use colorPicker to set the background color
-            background.setBackgroundColor(colorPicker.getColorAt(position))
+            // Use the getSequentialColor method to set the background color
+            background.setBackgroundColor(getSequentialColor(position))
 
             taskDone.setOnCheckedChangeListener { _, isChecked ->
                 task.isDone = isChecked

@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.text.DecimalFormat
 
 class WikiAppWidget : AppWidgetProvider() {
 
@@ -62,7 +63,7 @@ class WikiAppWidget : AppWidgetProvider() {
 
             // Update the UI immediately to show loading state
             views.setTextViewText(R.id.widget_articles, "")
-            views.setTextViewText(R.id.widget_active_users, "Loading...")
+            views.setTextViewText(R.id.widget_active_users, "Yuklanmoqda...")
             views.setTextViewText(R.id.widget_edits, "")
             appWidgetManager.updateAppWidget(appWidgetId, views)
 
@@ -73,23 +74,33 @@ class WikiAppWidget : AppWidgetProvider() {
                     val stats = repo.getStats()
                     withContext(Dispatchers.Main) {
                         Timber.tag("WikiAppWidget").d("Stats fetched: %s", stats)
-                        views.setTextViewText(R.id.widget_articles, "Articles: 📄 ${stats.articles}")
-                        views.setTextViewText(R.id.widget_active_users, "Active Users: 👥 ${stats.activeUsers}")
-                        views.setTextViewText(R.id.widget_edits, "Edits: ✏️ ${stats.edits}")
+                        views.setTextViewText(R.id.widget_articles, "Maqolalar: 📄 ${formatIntegerNumber(stats.articles)}")
+                        views.setTextViewText(R.id.widget_active_users, "Faol foydalanuvchilar: 👥 ${formatIntegerNumber(stats.activeUsers)}")
+                        views.setTextViewText(R.id.widget_edits, "Tahrir: ✏️ ${formatIntegerNumber(stats.edits)}")
 
                         appWidgetManager.updateAppWidget(appWidgetId, views)
                     }
                 } catch (e: Exception) {
-                    Timber.tag("WikiAppWidget").e(e, "Error fetching stats")
+                    Timber.tag("WikiAppWidget").e(e, "Statistikani olishda xatolik yuz berdi")
                     withContext(Dispatchers.Main) {
-                        views.setTextViewText(R.id.widget_articles, "Error")
-                        views.setTextViewText(R.id.widget_active_users, "Error")
-                        views.setTextViewText(R.id.widget_edits, "Error")
+                        views.setTextViewText(R.id.widget_articles, "")
+                        views.setTextViewText(R.id.widget_active_users, "Nimadir notoʻgʻri ketdi")
+                        views.setTextViewText(R.id.widget_edits, "")
 
                         appWidgetManager.updateAppWidget(appWidgetId, views)
                     }
                 }
             }
         }
+
+
+        fun formatIntegerNumber(number: Int): String {
+            val decimalFormat = DecimalFormat("#,##0")
+            return decimalFormat.format(number)
+        }
+
     }
+
+
+
 }

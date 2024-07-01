@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.BuildConfig
 import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -16,24 +17,9 @@ import timber.log.Timber
 class App : Application() {
     // ...
     override fun onCreate() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        setupNotification()
-    }
-    private fun setupNotification() {
-        // MainActivity.kt or in Application class
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "Goal Channel"
-            val descriptionText = "Channel for goal reminders"
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel("goal_channel", name, importance).apply {
-                description = descriptionText
-            }
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-
     }
 
 }

@@ -9,6 +9,7 @@ import io.github.fastily.jwiki.core.Wiki.Builder
 interface HomeViewModel {
     val moveToInfoScreen: LiveData<Boolean>//state
     val places: LiveData<List<Place>>
+
     fun loadData(builder: Builder)//event
     fun moveToInfoScreen()
     fun fetchPlaces(lat: Double, lon: Double)

@@ -10,7 +10,7 @@ import java.io.Serializable
     foreignKeys = [ForeignKey(
         entity = WikiModel::class,
         childColumns = ["article_id"],
-        parentColumns = ["id"],
+        parentColumns = ["pageid"],
         onDelete = ForeignKey.CASCADE,
     )]
 )

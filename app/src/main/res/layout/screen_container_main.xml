@@ -53,8 +53,11 @@
                 app:layout_constraintStart_toEndOf="@id/topAppBar"
                 app:layout_constraintEnd_toEndOf="@id/topAppBar"
                 app:layout_constraintTop_toTopOf="@id/topAppBar"
-                app:layout_constraintBottom_toBottomOf="@id/topAppBar"/>
-
+                app:layout_constraintBottom_toBottomOf="@id/topAppBar"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeMaxTextSize="24sp"
+                app:autoSizeStepGranularity="2sp"/>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 

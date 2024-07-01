@@ -6,94 +6,91 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.R
 import com.example.newsapp.data.model.Place
+import com.example.newsapp.databinding.ItemPlaceBinding
+import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
-
+import okhttp3.Cache
+import okhttp3.OkHttpClient
+import java.io.File
 
 class PlacesAdapter(
-    private val context: Context?,
-    private var places: List<Place>) : RecyclerView.Adapter<PlacesAdapter.PlaceViewHolder>() {
+    private val context: Context
+) : ListAdapter<Place, PlacesAdapter.PlaceViewHolder>(PlaceDiffCallback()) {
 
-    inner class PlaceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView = view.findViewById(R.id.place_title)
-        val description: TextView = view.findViewById(R.id.place_description)
-        val distance: TextView = view.findViewById(R.id.place_distance)
-        val thumbnail: ImageView = view.findViewById(R.id.place_thumbnail)
-        val location_icon : ImageView = view.findViewById(R.id.location_icon)
-        val view_icon : ImageView = view.findViewById(R.id.icon_view)
-        init {
+    private val picasso: Picasso
 
-            view_icon.setOnClickListener {
-                if (position != RecyclerView.NO_POSITION) {
-                    val position = adapterPosition
-                    val place = places[position]
+    init {
+        // Set up disk cache for Picasso
+        val cacheDir = File(context.cacheDir, "picasso_cache")
+        val cacheSize = 50L * 1024 * 1024 // 50 MB
+        val cache = Cache(cacheDir, cacheSize)
+
+        val okHttpClient = OkHttpClient.Builder()
+            .cache(cache)
+            .build()
+
+        picasso = Picasso.Builder(context)
+            .downloader(OkHttp3Downloader(okHttpClient))
+            .build()
+    }
+
+    inner class PlaceViewHolder(private val binding: ItemPlaceBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(place: Place) {
+            binding.apply {
+                placeTitle.text = place.title
+                placeDescription.text = place.description
+                placeDescription.visibility = if (place.description.isNullOrBlank()) View.GONE else View.VISIBLE
+                placeDistance.text = "${place.distance} miles"
+                val imageUrl = place.thumbnail ?: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Gnome-image-missing.svg/200px-Gnome-image-missing.svg.png"
+                picasso.load(imageUrl).into(placeThumbnail)
+
+                iconView.setOnClickListener {
                     val url = place.articleUrl
                     if (url.isNotBlank()) {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                        itemView.context.startActivity(intent)
+                        context.startActivity(intent)
                     }
                 }
 
-            }
-            location_icon.setOnClickListener{
-                val place = places[position]
-                val title = place.title
-                if (title.isNotBlank()) {
-                    openLocationInMaps(title)
+                locationIcon.setOnClickListener {
+                    val title = place.title
+                    if (title.isNotBlank()) {
+                        openLocationInMaps(title)
+                    }
                 }
             }
+        }
+
+        private fun openLocationInMaps(placeName: String?) {
+            val gmmIntentUri = Uri.parse("geo:0,0?q=" + Uri.encode(placeName))
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
+                setPackage("com.google.android.apps.maps")
+            }
+            context.startActivity(mapIntent)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaceViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_place, parent, false)
-        return PlaceViewHolder(view)
+        val binding = ItemPlaceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PlaceViewHolder(binding)
     }
-
 
     override fun onBindViewHolder(holder: PlaceViewHolder, position: Int) {
-        val place = places[position]
-        holder.title.text = place.title
-
-        place.description?.let { description ->
-            holder.description.apply {
-                visibility = View.VISIBLE
-                text = description
-            }
-        } ?: run {
-            holder.description.visibility = View.GONE
-        }
-
-        place.distance.let { distance ->
-            holder.distance.apply {
-                visibility = View.VISIBLE
-                text = "$distance miles"
-            }
-        }
-
-        val imageUrl = place.thumbnail ?: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Gnome-image-missing.svg/200px-Gnome-image-missing.svg.png"
-        Picasso.get().load(imageUrl).into(holder.thumbnail)
+        holder.bind(getItem(position))
     }
 
-
-    override fun getItemCount() = places.size
-
-    fun submitList(placeItems: List<Place>) {
-        places = placeItems
-        notifyDataSetChanged()
-    }
-
-    private fun openLocationInMaps(placeName: String?) {
-        val gmmIntentUri = Uri.parse("geo:0,0?q=" + Uri.encode(placeName))
-        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
-            setPackage("com.google.android.apps.maps")
+    class PlaceDiffCallback : DiffUtil.ItemCallback<Place>() {
+        override fun areItemsTheSame(oldItem: Place, newItem: Place): Boolean {
+            return oldItem.title == newItem.title
         }
-        // You must check package existence to avoid crash
-        context!!.startActivity(mapIntent)
 
+        override fun areContentsTheSame(oldItem: Place, newItem: Place): Boolean {
+            return oldItem == newItem
+        }
     }
 }

@@ -4,20 +4,22 @@
     android:versionCode="1"
     android:versionName="1.0">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <uses-feature android:name="android.hardware.location" />
     <queries>
         <intent>
             <action android:name="android.intent.action.SEND" />
             <data android:mimeType="message/rfc822" />
         </intent>
     </queries>
+
     <application
         android:name=".app.App"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -27,8 +29,13 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsApp"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        tools:ignore="DiscouragedApi">
 
+
+
+
+    <!-- Always include this permission -->
 
 
         <receiver
@@ -48,7 +55,8 @@
             android:name=".MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustNothing"
-            android:screenOrientation="fullSensor">
+            android:screenOrientation="portrait">
+
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,13 +64,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <!-- Recommended for Android 9 (API level 28) and lower. -->
+            <!-- Required for Android 10 (API level 29) and higher. -->
 
         </activity>
+
 
 
         <receiver
             android:name=".presentation.ui.components.widgets.WikiAppWidget"
             android:exported="false">
+
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

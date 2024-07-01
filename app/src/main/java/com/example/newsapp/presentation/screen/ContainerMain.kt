@@ -2,6 +2,7 @@ package com.example.newsapp.presentation.screen
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -52,7 +53,30 @@ class ContainerMain : Fragment(R.layout.screen_container_main) {
             putExtra(Intent.EXTRA_TEXT, "Please write your feedback here...")
         }
 
-        if (intent.resolveActivity(requireActivity().packageManager) != null) {
+        // Ensure the user can choose between email apps like Gmail or Outlook
+        val packageManager = requireActivity().packageManager
+        val emailClients = arrayListOf<Intent>()
+
+        packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).forEach { resolveInfo ->
+            val packageName = resolveInfo.activityInfo.packageName
+            if (packageName.contains("com.google.android.gm") || packageName.contains("com.microsoft.office.outlook")) {
+                val emailIntent = Intent(Intent.ACTION_SEND).apply {
+                    setPackage(packageName)
+                    type = "message/rfc822"
+                    putExtra(Intent.EXTRA_EMAIL, arrayOf("zarifboyevjavohir27@gmail.com"))
+                    putExtra(Intent.EXTRA_SUBJECT, "Feedback on the News App")
+                    putExtra(Intent.EXTRA_TEXT, "Please write your feedback here...")
+                }
+                emailClients.add(emailIntent)
+            }
+        }
+
+        if (emailClients.isNotEmpty()) {
+            val chooserIntent = Intent.createChooser(emailClients.removeAt(0), "Send Email")
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, emailClients.toTypedArray())
+            startActivity(chooserIntent)
+        } else {
+            // Fallback to default email client selection
             startActivity(Intent.createChooser(intent, "Send Email"))
         }
     }

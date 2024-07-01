@@ -7,8 +7,7 @@
     @Entity(tableName = "wiki_articles")
     data class WikiModel(
         @PrimaryKey(autoGenerate = true)
-        val id: Int,
-        val title: String,
-        val description: String,
-        val image: String
+        val pageid: Int,
+        val ns: Int,
+        val title: String
     ):Serializable

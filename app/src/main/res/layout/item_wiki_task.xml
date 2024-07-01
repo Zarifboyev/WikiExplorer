@@ -47,10 +47,12 @@
                 android:layout_marginBottom="16dp"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
+                android:autoLink="web"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/drag_icon"
                 app:layout_constraintStart_toEndOf="@id/task_done"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
             <ImageView
                 android:id="@+id/drag_icon"

@@ -29,10 +29,6 @@
         <!-- Add other colors/attributes. -->
 
     </style>
-    <style name="CustomAlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="android:background">@drawable/circular_dialog_background</item>
-        <item name="android:windowFullscreen">true</item>
-    </style>
 
     <style name="CustomMaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <!-- Add customizations here -->

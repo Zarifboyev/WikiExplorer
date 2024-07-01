@@ -1,5 +1,4 @@
 package com.example.newsapp.presentation.screen
-
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
@@ -20,6 +19,7 @@ import com.example.newsapp.databinding.ScreenHomeBinding
 import com.example.newsapp.presentation.adapters.PlacesAdapter
 import com.example.newsapp.presentation.viewModels.HomeViewModel
 import com.example.newsapp.presentation.viewModels.impl.HomeViewModelImpl
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -29,6 +29,9 @@ class HomeScreen : Fragment(R.layout.screen_home) {
     private val binding by viewBinding(ScreenHomeBinding::bind)
     private lateinit var placesAdapter: PlacesAdapter
     private lateinit var placesViewModel: HomeViewModel
+    private var locationManager: LocationManager? = null
+    private var locationListener: LocationListener? = null
+    private lateinit var progressIndicator: LinearProgressIndicator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,13 +40,15 @@ class HomeScreen : Fragment(R.layout.screen_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progressIndicator = view.findViewById(R.id.linearProgressIndicator2)
+
         setupRecyclerView()
         observeViewModel()
         getLocation()
     }
 
     private fun setupRecyclerView() {
-        placesAdapter = PlacesAdapter(context,emptyList())
+        placesAdapter = PlacesAdapter(requireContext())
         binding.placesList.layoutManager = LinearLayoutManager(requireContext())
         binding.placesList.adapter = placesAdapter
 
@@ -66,25 +71,30 @@ class HomeScreen : Fragment(R.layout.screen_home) {
         placesViewModel.places.observe(viewLifecycleOwner) { placesList ->
             placesAdapter.submitList(placesList)
             Timber.tag("Places").d(placesList.toString())
+            progressIndicator.visibility = View.GONE // Hide the progress indicator when data is received
         }
     }
 
     private fun getLocation() {
-        val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        progressIndicator.visibility = View.VISIBLE // Show the progress indicator
+
+        locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 1)
             return
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, object : LocationListener {
+        locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
                 placesViewModel.fetchPlaces(location.latitude, location.longitude)
+                locationManager?.removeUpdates(this) // Stop location updates to save battery
             }
 
             @Deprecated("Deprecated in Java")
             override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
             override fun onProviderEnabled(provider: String) {}
             override fun onProviderDisabled(provider: String) {}
-        })
+        }
+        locationManager?.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener!!, null)
     }
 
     override fun onRequestPermissionsResult(
@@ -99,7 +109,13 @@ class HomeScreen : Fragment(R.layout.screen_home) {
             } else {
                 // Permission denied
                 Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
+                progressIndicator.visibility = View.GONE // Hide the progress indicator if permission is denied
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        locationManager?.removeUpdates(locationListener!!)
     }
 }

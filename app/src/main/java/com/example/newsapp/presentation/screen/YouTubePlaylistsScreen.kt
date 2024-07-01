@@ -1,5 +1,4 @@
 package com.example.newsapp.presentation.screen
-
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -13,6 +12,8 @@ import com.example.newsapp.data.model.CONST
 import com.example.newsapp.databinding.ScreenYoutubePlaceholderBinding
 import com.example.newsapp.presentation.adapters.VideoAdapter
 import com.example.newsapp.presentation.viewModels.YouTubeViewModel
+import com.example.newsapp.utils.isNetworkAvailable
+import com.example.newsapp.utils.showNetworkUnavailableToast
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -36,7 +37,15 @@ class YouTubePlaylistsScreen : Fragment(R.layout.screen_youtube_placeholder) {
         }
 
         setupObservers()
+        if (!requireContext().isNetworkAvailable())
+        {
+            requireContext().showNetworkUnavailableToast()
+        }
+        // Fetch playlists and playlist items
+        fetchYouTubeData()
+    }
 
+    private fun fetchYouTubeData() {
         lifecycleScope.launch {
             viewModel.fetchPlaylists(YOUTUBE_API_KEY, YOUTUBE_CHANNEL_ID)
         }
@@ -44,23 +53,25 @@ class YouTubePlaylistsScreen : Fragment(R.layout.screen_youtube_placeholder) {
 
     private fun setupObservers() {
         viewModel.playlists.observe(viewLifecycleOwner) { playlists ->
-            binding.chipGroup.removeAllViews()
-            playlists.forEachIndexed { index, playlist ->
-                val chip = Chip(context).apply {
-                    text = playlist.snippet.title
-                    isCheckable = true
-                    setOnClickListener {
-                        if (isChecked) {
-                            fetchPlaylistItems(playlist.id)
+            playlists.takeIf { it.isNotEmpty() }?.let {
+                binding.chipGroup.removeAllViews()
+                it.forEachIndexed { index, playlist ->
+                    val chip = Chip(context).apply {
+                        text = playlist.snippet.title
+                        isCheckable = true
+                        setOnClickListener {
+                            if (isChecked) {
+                                fetchPlaylistItems(playlist.id)
+                            }
                         }
                     }
-                }
-                binding.chipGroup.addView(chip)
+                    binding.chipGroup.addView(chip)
 
-                // Automatically select the first chip
-                if (index == 0) {
-                    chip.isChecked = true
-                    fetchPlaylistItems(playlist.id)
+                    // Automatically select the first chip
+                    if (index == 0) {
+                        chip.isChecked = true
+                        fetchPlaylistItems(playlist.id)
+                    }
                 }
             }
         }
@@ -77,6 +88,8 @@ class YouTubePlaylistsScreen : Fragment(R.layout.screen_youtube_placeholder) {
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
             Timber.tag("YouTubeViewModel").e(errorMessage)
             binding.linearProgressIndicator.visibility = View.GONE
+            // Display error message to the user
+            // You can use a Snackbar or Toast to show the error message
         }
     }
 
@@ -90,8 +103,11 @@ class YouTubePlaylistsScreen : Fragment(R.layout.screen_youtube_placeholder) {
     private fun openYouTubeVideo(videoId: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$videoId"))
         intent.putExtra("force_fullscreen", true)
-        startActivity(intent)
+        if (intent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(intent)
+        } else {
+            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=$videoId"))
+            startActivity(webIntent)
+        }
     }
-
-
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Vikipediya (Test)</string>
+    <string name="app_name">Vikipediya</string>
     <string name="no_news">No wikiNews found</string>
     <string name="no_internet_connection">No internet connection\nPlease check your internet connection and try again</string>
     <string name="search_title">Search</string>
@@ -68,9 +68,9 @@
     <string name="thumbs_down">Thumbs Down</string>
     <string name="share">Share</string>
     <string name="loading_playlists">Loading Playlists...\n</string>
-    <string name="home_page_title">Wikipedia</string>
-    <string name="lessons_page_title">Lessons</string>
-    <string name="notes_page_title">Notes</string>
+    <string name="home_page_title">Vikipediya</string>
+    <string name="lessons_page_title">WikiDars</string>
+    <string name="notes_page_title">Koʻrsatmalar</string>
     <string name="profile_page_title">Profile</string>
     <string name="profile_picture_desc">Profile picture</string>
     <string name="hello_user">Hello, Zarifboyev! &#x1F600;</string>

@@ -87,6 +87,7 @@ object RoomModule {
     fun provideWikiTaskDao(database: WikiDatabase): WikiTaskDao {
         return database.wikiTaskDao()
     }
+
     @[Singleton Provides]
     fun provideWikiDao(database: WikiDatabase): WikiDao {
         return database.getWikiDao()
