@@ -11,6 +11,7 @@ import com.example.newsapp.domain.repository.YouTubeRepository
 import com.example.newsapp.domain.service.WikipediaApiService
 import com.example.newsapp.domain.service.YouTubeServiceReady
 import com.example.newsapp.utils.LocationManager
+import com.example.newsapp.utils.NetworkManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -37,6 +38,11 @@ object RoomModule {
     @Provides
     fun provideLocationManager(@ApplicationContext context: Context): LocationManager {
         return LocationManager(context)
+    }
+
+    @Provides
+    fun provideNetworkManager(): NetworkManager {
+        return NetworkManager
     }
     @Provides
     fun provideVideoDao(database: WikiDatabase): VideoDao {

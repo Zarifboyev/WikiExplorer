@@ -15,7 +15,7 @@ interface ApiService {
         @Query("pithumbsize") pithumbsize: Int = 144,
         @Query("generator") generator: String = "geosearch",
         @Query("ggsradius") ggsradius: Int = 10000,
-        @Query("ggslimit") ggslimit: Int = 20,
+        @Query("ggslimit") ggslimit: Int = 100,
         @Query("format") format: String = "json"
     ): Response<ApiResponse>
 }

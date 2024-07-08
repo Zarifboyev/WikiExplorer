@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -22,9 +23,7 @@ class PlacesAdapter(
     private val listener: OnPlaceClickListener
 ) : ListAdapter<Place, PlacesAdapter.PlaceViewHolder>(PlaceDiffCallback()) {
 
-    private val picasso: Picasso
-
-    init {
+    private val picasso: Picasso by lazy {
         // Set up disk cache for Picasso
         val cacheDir = File(context.cacheDir, "picasso_cache")
         val cacheSize = 50L * 1024 * 1024 // 50 MB
@@ -34,9 +33,13 @@ class PlacesAdapter(
             .cache(cache)
             .build()
 
-        picasso = Picasso.Builder(context)
+        Picasso.Builder(context)
             .downloader(OkHttp3Downloader(okHttpClient))
             .build()
+    }
+
+    companion object {
+        private const val MISSING_IMAGE_URL = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Gnome-image-missing.svg/200px-Gnome-image-missing.svg.png"
     }
 
     inner class PlaceViewHolder(private val binding: ItemPlaceBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -49,14 +52,15 @@ class PlacesAdapter(
                 placeDescription.visibility = if (place.description.isNullOrBlank()) View.GONE else View.VISIBLE
                 placeDistance.text = "${place.distance} km"
 
-                val imageUrl = place.thumbnail ?: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Gnome-image-missing.svg/200px-Gnome-image-missing.svg.png"
+                val imageUrl = place.thumbnail ?: MISSING_IMAGE_URL
                 picasso.load(imageUrl).into(placeThumbnail)
 
                 val isFavorite = place.isFavorite
                 favoriteCheckBox.setImageResource(if (isFavorite) R.drawable.ic_star_filled else R.drawable.ic_star_outline)
 
                 val isExistedInUzWiki = place.isArticleExistedInUzWiki
-                backgroundItem.setBackgroundColor(context.resources.getColor(
+                backgroundItem.setBackgroundColor(ContextCompat.getColor(
+                    context,
                     if (isExistedInUzWiki) R.color.md_theme_background else R.color.background_is_not_existed))
 
                 placeCard.setOnClickListener { listener.onPlaceClick(place) }
@@ -71,7 +75,10 @@ class PlacesAdapter(
                         SharedPreferencesManager.removePlace(context, place.title)
                     }
                     listener.onFavoriteClick(adapterPosition)
-                    notifyItemChanged(adapterPosition)
+                    // Only notify item changed if the favorite status has changed
+                    if (isFavorite != newFavoriteStatus) {
+                        notifyItemChanged(adapterPosition)
+                    }
                 }
             }
         }

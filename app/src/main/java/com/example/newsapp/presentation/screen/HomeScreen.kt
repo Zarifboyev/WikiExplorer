@@ -24,8 +24,14 @@ import com.example.newsapp.utils.NetworkManager
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeScreen : Fragment(R.layout.screen_home), OnPlaceClickListener {
@@ -33,26 +39,24 @@ class HomeScreen : Fragment(R.layout.screen_home), OnPlaceClickListener {
     private val binding by viewBinding(ScreenHomeBinding::bind)
     private lateinit var placesAdapter: PlacesAdapter
 
-    private lateinit var linearProgressIndicator:LinearProgressIndicator
+    private lateinit var linearProgressIndicator: LinearProgressIndicator
 
     private val globalViewModel: GlobalViewModel by activityViewModels()
     private val homeViewModel: HomeViewModelImpl by activityViewModels()
 
+    @Inject
+    lateinit var locationManager: LocationManager
 
-    private lateinit var locationManager: LocationManager
-    private lateinit var networkManager: NetworkManager
+    @Inject
+    lateinit var networkManager: NetworkManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        linearProgressIndicator  = binding.linearProgressIndicator2
+        linearProgressIndicator = binding.linearProgressIndicator2
 
         setupRecyclerView()
         observeViewModel()
         observeStateFlows()
-
-        locationManager = LocationManager(requireContext())
-        networkManager = NetworkManager
-
 
         // Fetch data using the latest location if available
         globalViewModel.location.value?.let {
@@ -88,87 +92,97 @@ class HomeScreen : Fragment(R.layout.screen_home), OnPlaceClickListener {
     }
 
     private fun observeViewModel() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            homeViewModel.places.collect { places ->
+        homeViewModel.places
+            .onEach { places ->
                 Timber.d("Places list updated: $places")
                 if (places.isEmpty()) {
                     Snackbar.make(binding.root, getString(R.string.no_places_found), Snackbar.LENGTH_SHORT).show()
                 }
                 placesAdapter.submitList(places)
             }
-        }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            homeViewModel.isLoading.collect { isLoading ->
+        homeViewModel.isLoading
+            .onEach { isLoading ->
                 updateLoadingState(isLoading)
             }
-        }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
+
     private fun observeStateFlows() {
+        observeLocationUpdates()
+        observeNetworkAvailability()
+        observeGlobalViewModel()
+    }
 
-        lifecycleScope.launchWhenStarted {
-            locationManager.location.collect { location ->
-                if (location != null) {
-                    fetchPlaces(location)
-                }
-            }
-        }
-
-        // Observe network availability
-        // TODO: @LaunchWhenStarted is deprecated, use repeatOnLifecycle instead
-        lifecycleScope.launchWhenStarted {
-            networkManager.isNetworkAvailable.collect { isAvailable ->
-                if (!isAvailable)
-                {
-                    showNoNetworkUI()
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            globalViewModel.location.collect { location ->
+    private fun observeLocationUpdates() {
+        locationManager.location
+            .onEach { location ->
                 location?.let {
                     fetchPlaces(it)
                 }
             }
-        }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            globalViewModel.isLocationAvailable.collect { isLocationAvailable ->
-                if (isLocationAvailable) {
+    private fun observeNetworkAvailability() {
+        networkManager.isNetworkAvailable
+            .onEach { isAvailable ->
+                if (!isAvailable) {
+                    showNoNetworkUI()
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun observeGlobalViewModel() {
+        globalViewModel.location
+            .onEach { location ->
+                location?.let {
+                    fetchPlaces(it)
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        globalViewModel.isLocationAvailable
+            .onEach { isLocationAvailable ->
+                if (!isLocationAvailable) {
                     Toast.makeText(requireContext(), "Location is not available", Toast.LENGTH_SHORT).show()
                 }
             }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            homeViewModel.error.collect { isError ->
-                if(isError.isNullOrBlank())
-                {
-                    return@collect
-                }
-                Toast.makeText(requireContext(), "No data", Toast.LENGTH_SHORT).show()
-                showLocationSelectionPrompt()
-            }
-        }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            globalViewModel.languageCode.collect { languageCode ->
+        homeViewModel.isExisted
+            .onEach { isExisted ->
+                if (isExisted == false) {
+                    Toast.makeText(requireContext(), "No data", Toast.LENGTH_SHORT).show()
+                    showLocationSelectionPrompt()
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        globalViewModel.languageCode
+            .onEach { languageCode ->
                 globalViewModel.location.value?.let { location ->
                     globalViewModel.changeLanguage(languageCode)
                     fetchPlaces(location)
                 }
             }
-        }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun fetchPlaces(location: Location) {
-        if (globalViewModel.languageCode.value.isBlank())
-        {
+        if (globalViewModel.languageCode.value.isBlank()) {
             globalViewModel.changeLanguage("uz")
         }
-        homeViewModel.fetchPlaces(location.latitude, location.longitude, globalViewModel.languageCode.value ?: "uz")
-    }
 
+        // Fetch places on a background thread
+        viewLifecycleOwner.lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                homeViewModel.fetchPlaces(location.latitude, location.longitude, globalViewModel.languageCode.value)
+            }
+        }
+    }
 
     private fun showLocationSelectionPrompt() {
         binding.mapContainer.visibility = View.VISIBLE
@@ -178,7 +192,7 @@ class HomeScreen : Fragment(R.layout.screen_home), OnPlaceClickListener {
     }
 
     private fun updateLoadingState(isLoading: Boolean) {
-       linearProgressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
+        linearProgressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun showNoNetworkUI() {

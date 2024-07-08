@@ -59,5 +59,6 @@
     <string name="select_location_on_map">Select a location on the map</string>
     <string name="support_our_app">Support our app!</string>
     <string name="donate_message">We\'re glad you liked our app! Post the app on Google Play or App Store, support to improve the program!</string>
+    <string name="selected_location">Selected Location</string>
 
 </resources>

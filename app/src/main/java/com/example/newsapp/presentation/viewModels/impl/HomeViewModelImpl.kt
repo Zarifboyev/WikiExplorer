@@ -12,7 +12,6 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import timber.log.Timber
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -33,8 +32,8 @@ class HomeViewModelImpl @Inject constructor() : ViewModel(), HomeViewModel {
     override val places: StateFlow<List<Place>> = _places.asStateFlow()
     private val _isLoading = MutableStateFlow(false)
     override val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
-    private val _error = MutableStateFlow<String?>(null)
-    override val error: StateFlow<String?> = _error.asStateFlow()
+    private val _isExisted = MutableStateFlow<Boolean?>(true)
+    override val isExisted: StateFlow<Boolean?> = _isExisted.asStateFlow()
 
     private val cache = mutableMapOf<Pair<String, Pair<Double, Double>>, List<Place>>()
 
@@ -44,76 +43,91 @@ class HomeViewModelImpl @Inject constructor() : ViewModel(), HomeViewModel {
             val coordinates = Pair(lat, lon)
             val cacheKey = Pair(langCode, coordinates)
 
-            // Check if data is cached first
-            cache[cacheKey]?.let { cachedPlaces ->
+            // Check cache
+            val cachedPlaces = getCachedPlaces(cacheKey)
+            if (cachedPlaces != null) {
                 _places.value = cachedPlaces
                 _isLoading.value = false
                 return@launch
             }
 
-            // Fetch data from network with retries
+            // Fetch from network with retry
             val placesList = fetchPlacesWithRetry(lat, lon, langCode)
             if (placesList.isNotEmpty()) {
                 _places.value = placesList
-                cache[cacheKey] = placesList // Cache the result with langCode and coordinates
+                cachePlaces(cacheKey, placesList)
             } else {
-                _error.value = "Failed to fetch places after $MAX_ATTEMPTS attempts"
+                _isExisted.value = false
             }
             _isLoading.value = false
         }
     }
 
+    private fun getCachedPlaces(cacheKey: Pair<String, Pair<Double, Double>>): List<Place>? {
+        return cache[cacheKey]
+    }
+
+    private fun cachePlaces(cacheKey: Pair<String, Pair<Double, Double>>, placesList: List<Place>) {
+        cache[cacheKey] = placesList
+    }
+
     private suspend fun fetchPlacesWithRetry(lat: Double, lon: Double, langCode: String): List<Place> {
+        repeat(MAX_ATTEMPTS) { attempt ->
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    RetrofitInstance.getRetrofitInstance(langCode).fetchPlaces(
+                        ggscoord = "$lat|$lon"
+                    )
+                }
 
-        val response = withContext(Dispatchers.IO) {
-            RetrofitInstance.getRetrofitInstance(langCode).fetchPlaces(
-                action = "query",
-                prop = "coordinates|pageimages|description|info",
-                inprop = "url",
-                pithumbsize = 144,
-                generator = "geosearch",
-                ggsradius = 10000,
-                ggslimit = 20,
-                ggscoord = "$lat|$lon",
-                format = "json"
-            )
-        }
-
-        if (response.isSuccessful) {
-            val pages = response.body()?.query?.pages?.values ?: emptyList()
-            return pages.map { page ->
-                processPage(page, lat, lon, langCode)
+                if (response.isSuccessful) {
+                    val pages = response.body()?.query?.pages?.values ?: emptyList()
+                    return processPagesInParallel(pages, lat, lon, langCode)
+                } else {
+                    Timber.e("Response not successful: ${response.errorBody()}")
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Error fetching places, attempt $attempt")
             }
-        } else {
-            Timber.e("Response not successful: ${response.errorBody()}")
+
+            delay(RETRY_DELAY_MS)
         }
 
         return emptyList()
     }
 
-
-
-    private suspend fun processPage(page: Page, lat: Double, lon: Double, langCode: String): Place
-            = withContext(Dispatchers.Default) {
-        val isExisted = suspendCoroutine { continuation ->
-            WikiUtility.isArticleInBothWikis(langCode, page.title) { exists ->
-                continuation.resume(exists)
-            }
+    private suspend fun processPagesInParallel(pages: Collection<Page>, lat: Double, lon: Double, langCode: String): List<Place> =
+        coroutineScope {
+            pages.chunked(5).map { chunk ->
+                async(Dispatchers.Default) {
+                    chunk.map { page ->
+                        processPage(page, lat, lon, langCode)
+                    }
+                }
+            }.awaitAll().flatten()
         }
 
-        val distance = page.coordinates?.firstOrNull()?.let {
-            calculateDistance(lat, lon, it.lat, it.lon)
-        } ?: 0.0
+    private suspend fun processPage(page: Page, lat: Double, lon: Double, langCode: String): Place =
+        withContext(Dispatchers.Default) {
+            val isExisted = suspendCoroutine { continuation ->
+                WikiUtility.isArticleInBothWikis(langCode, page.title) { exists ->
+                    continuation.resume(exists)
+                }
+            }
 
-        Place(
-            title = page.title,
-            description = page.description,
-            distance = distance,
-            articleUrl = page.fullurl,
-            thumbnail = page.thumbnail?.source,
-            isArticleExistedInUzWiki = isExisted
-        )
-    }
+            val distance = page.coordinates?.firstOrNull()?.let {
+                calculateDistance(lat, lon, it.lat, it.lon)
+            } ?: 0.0
+
+            Place(
+                title = page.title,
+                description = page.description,
+                distance = distance,
+                articleUrl = page.fullurl,
+                thumbnail = page.thumbnail?.source,
+                isArticleExistedInUzWiki = isExisted
+            )
+        }
 
     private fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
         val dLat = Math.toRadians(lat2 - lat1)

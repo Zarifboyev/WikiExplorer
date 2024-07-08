@@ -153,10 +153,10 @@ class SavedPagesScreen : Fragment(), OnPlaceClickListener {
         val place = savedPlacesAdapter.currentList[position]
         place.isFavorite = !place.isFavorite
         savedPlacesAdapter.notifyItemChanged(position)
-        toggleFavoriteClick(position, place)
+        toggleFavoriteClick(place)
     }
 
-    private fun toggleFavoriteClick(position: Int, place: Place) {
+    private fun toggleFavoriteClick(place: Place) {
         if (place.isFavorite) {
             SharedPreferencesManager.addPlace(requireContext(), place)
         } else {

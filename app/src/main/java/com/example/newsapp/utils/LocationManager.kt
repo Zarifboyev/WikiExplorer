@@ -16,9 +16,6 @@ class LocationManager(private val context: Context) {
 
     private val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
 
-    private val _isLocationPermissionGranted = MutableStateFlow(isPermissionGranted())
-    val isLocationPermissionGranted: StateFlow<Boolean> get() = _isLocationPermissionGranted
-
     private val _isLocationEnabled = MutableStateFlow(isLocationEnabled())
     val isLocationEnabled: StateFlow<Boolean> get() = _isLocationEnabled
 
@@ -30,7 +27,7 @@ class LocationManager(private val context: Context) {
     }
 
     @SuppressLint("MissingPermission")
-    suspend fun updateLocation(context: Context) {
+    suspend fun updateLocation() {
         if (isPermissionGranted()) {
             try {
                 val location: Location? = fusedLocationClient.lastLocation.await()

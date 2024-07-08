@@ -16,6 +16,7 @@ import com.example.newsapp.utils.NetworkManager
 import com.example.newsapp.utils.createFragment
 import com.google.android.material.color.DynamicColors
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -36,19 +37,22 @@ class MainActivity : AppCompatActivity() {
         networkManager = NetworkManager
 
 
-        lifecycleScope.launchWhenStarted {
-            locationManager.location.collect { location ->
-                // Update UI with location
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                locationManager.location.collect { location ->
+                    // Update UI with location
+                }
             }
         }
 
-        // Observe network availability
-        // TODO: @LaunchWhenStarted is deprecated, use repeatOnLifecycle instead
-        lifecycleScope.launchWhenStarted {
-            networkManager.isNetworkAvailable.collect { isAvailable ->
-                // Update UI with network status
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                networkManager.isNetworkAvailable.collect { isAvailable ->
+                    // Update UI with network status
+                }
             }
         }
+
 
         // Register network callback
         networkManager.registerNetworkCallback(this)
@@ -60,13 +64,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    suspend fun lifecycles()
-    {
-        // Observe location updates
-        lifecycle.repeatOnLifecycle(STARTED){
 
-        }
-    }
     override fun onResume() {
         super.onResume()
         networkManager.registerNetworkCallback(this)

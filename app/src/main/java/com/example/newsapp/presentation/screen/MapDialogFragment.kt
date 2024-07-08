@@ -56,18 +56,17 @@ class MapDialogFragment : DialogFragment(), OnMapReadyCallback, LocationListener
                 // Delayed dismissal
                 view?.postDelayed({
                     dialog?.dismiss()
-                }, 300) // Adjust delay as needed (300 milliseconds here)
+                }, 300)
             }
         }
 
         binding.btnGo.setOnClickListener {
             selectedLocation?.let {
-                // Mana shu yeriga e'tibor berchi
-               locationViewModel.updateLocation(it)
+                locationViewModel.updateLocation(it)
                 // Delayed dismissal
                 view?.postDelayed({
                     dialog?.dismiss()
-                }, 300) // Adjust delay as needed (300 milliseconds here)
+                }, 300)
             } ?: run {
                 Snackbar.make(binding.root, getString(R.string.select_location_on_map), Snackbar.LENGTH_SHORT).show()
             }
@@ -79,14 +78,16 @@ class MapDialogFragment : DialogFragment(), OnMapReadyCallback, LocationListener
             childFragmentManager.beginTransaction().replace(R.id.map_container, it).commit()
         }
         mapFragment.getMapAsync(this)
-
     }
 
     override fun onMapReady(map: GoogleMap) {
         Timber.d("Map is ready")
         googleMap = map
+        configureMapUI()
+        checkAndRequestLocationPermissions()
+    }
 
-        // Enable all map controls and gestures
+    private fun configureMapUI() {
         googleMap.uiSettings.apply {
             isZoomControlsEnabled = true
             isCompassEnabled = true
@@ -97,27 +98,6 @@ class MapDialogFragment : DialogFragment(), OnMapReadyCallback, LocationListener
             isZoomGesturesEnabled = true
         }
 
-
-        // Bu yerga ham qara, tepasi
-
-        // Get user’s location and move the camera
-        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-            ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            googleMap.isMyLocationEnabled = true
-            locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, this)
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, this)
-        } else {
-            Timber.e("Location permission not granted")
-            Snackbar.make(binding.root, getString(R.string.location_not_granted), Snackbar.LENGTH_SHORT).show()
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
-            )
-        }
-
-        // Add map click listener to select location
         googleMap.setOnMapClickListener { latLng ->
             selectedLocation = Location("").apply {
                 latitude = latLng.latitude
@@ -125,14 +105,46 @@ class MapDialogFragment : DialogFragment(), OnMapReadyCallback, LocationListener
             }
             Timber.d("Map clicked, selected location: $latLng")
             googleMap.clear()
-            googleMap.addMarker(MarkerOptions().position(latLng))
+            googleMap.addMarker(MarkerOptions().position(latLng).title(getString(R.string.selected_location)))
         }
+    }
+
+    private fun checkAndRequestLocationPermissions() {
+        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            enableLocation()
+        } else {
+            requestLocationPermissions()
+        }
+    }
+
+    private fun enableLocation() {
+        try {
+            googleMap.isMyLocationEnabled = true
+            locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, this)
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, this)
+        } catch (e: SecurityException) {
+            Timber.e(e, "Security exception when enabling location")
+        }
+    }
+
+    private fun requestLocationPermissions() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION),
+            LOCATION_PERMISSION_REQUEST_CODE
+        )
     }
 
     override fun onLocationChanged(location: Location) {
         val userLatLng = LatLng(location.latitude, location.longitude)
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15f))
-        locationManager.removeUpdates(this) // Stop receiving location updates
+        stopLocationUpdates()
+    }
+
+    private fun stopLocationUpdates() {
+        locationManager.removeUpdates(this)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -143,6 +155,7 @@ class MapDialogFragment : DialogFragment(), OnMapReadyCallback, LocationListener
     override fun onDestroyView() {
         super.onDestroyView()
         Timber.d("MapDialogFragment onDestroyView")
+        stopLocationUpdates()
         _binding = null
     }
 

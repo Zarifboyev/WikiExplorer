@@ -46,9 +46,9 @@ class GlobalViewModel @Inject constructor(
 
     // Location Manager o'zi ishlamayapti, hatto mapda ham tugma bosilganda lokatsiya olib kelmagan
     // bo'lishi mumkin
-    fun fetchLocation(context: Context) {
+    fun fetchLocation() {
         viewModelScope.launch {
-            locationManager.updateLocation(context)
+            locationManager.updateLocation()
         }
     }
 

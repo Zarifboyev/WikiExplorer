@@ -43,6 +43,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/wiki_app_widget_info" />
         </receiver>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDlvU2lJ__exd9M5l6OKeN0Zs_O6LQ3Zik"/>
