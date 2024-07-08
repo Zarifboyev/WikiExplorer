@@ -1,16 +1,16 @@
-package com.example.newsapp.data.di
+package com.example.newsapp.di
 
 import android.content.Context
 import androidx.room.Room
 import com.example.newsapp.data.dao.VideoDao
 import com.example.newsapp.data.dao.WikiDao
-import com.example.newsapp.data.dao.WikiTaskDao
 import com.example.newsapp.data.database.WikiDatabase
 import com.example.newsapp.domain.impl.WikiStatsRepositoryImpl
 import com.example.newsapp.domain.repository.WikiStatsRepository
 import com.example.newsapp.domain.repository.YouTubeRepository
 import com.example.newsapp.domain.service.WikipediaApiService
 import com.example.newsapp.domain.service.YouTubeServiceReady
+import com.example.newsapp.utils.LocationManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -34,7 +34,10 @@ object RoomModule {
         return Room.databaseBuilder(context, WikiDatabase::class.java, "wiki.db")
             .build()
     }
-
+    @Provides
+    fun provideLocationManager(@ApplicationContext context: Context): LocationManager {
+        return LocationManager(context)
+    }
     @Provides
     fun provideVideoDao(database: WikiDatabase): VideoDao {
         return database.videoDao()
@@ -62,6 +65,8 @@ object RoomModule {
         return WikiStatsRepositoryImpl(apiService)
     }
 
+
+
     @Provides
     fun provideWikipediaApiService(): WikipediaApiService {
         return Retrofit.Builder()
@@ -83,13 +88,10 @@ object RoomModule {
     }
 
 
-    @Provides
-    fun provideWikiTaskDao(database: WikiDatabase): WikiTaskDao {
-        return database.wikiTaskDao()
-    }
-
     @[Singleton Provides]
     fun provideWikiDao(database: WikiDatabase): WikiDao {
         return database.getWikiDao()
     }
+
+
 }

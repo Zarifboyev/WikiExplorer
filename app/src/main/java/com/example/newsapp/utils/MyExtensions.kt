@@ -8,12 +8,26 @@ import androidx.fragment.app.Fragment
 import com.example.newsapp.R
 import timber.log.Timber
 import android.content.Context
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.widget.Toast
+import androidx.browser.customtabs.CustomTabsIntent
 import com.example.newsapp.data.entity.WikiModel
+import com.example.newsapp.data.model.Place
 import com.example.newsapp.domain.service.CategoryMember
 
+fun Place.toDomain(): Place {
+    return Place(
+        title = this.title,
+        description = this.description,
+        thumbnail = this.thumbnail,
+        distance = this.distance,
+        isFavorite = this.isFavorite,
+        articleUrl = this.articleUrl
+    )
+}
 fun TextView.setHtml(value: String) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         if (Html.fromHtml(value, Html.FROM_HTML_MODE_COMPACT).length > 36) {
@@ -45,7 +59,6 @@ fun Fragment.createFragment(fragment: Fragment) {
 
 
 
-// Extension function to check network connectivity
 fun Context.isNetworkAvailable(): Boolean {
     val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

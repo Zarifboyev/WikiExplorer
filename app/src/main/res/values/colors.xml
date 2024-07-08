@@ -11,6 +11,7 @@
 
     <color name="semi_transparent_black">#90000000</color>
 
+    <color name="background_is_not_existed">#ffdad6</color>
     <!-- Custom Material Design 3 Theme colors -->
     <color name="md_theme_primary">#6D5E0F</color>
     <color name="md_theme_onPrimary">#ffffff</color>

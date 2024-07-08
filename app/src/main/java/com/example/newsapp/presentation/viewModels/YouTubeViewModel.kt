@@ -1,12 +1,11 @@
 package com.example.newsapp.presentation.viewModels
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.newsapp.domain.repository.RetrofitClient
+import com.example.newsapp.domain.RetrofitClient
 import com.example.newsapp.domain.service.*
 import kotlinx.coroutines.launch
 
@@ -24,7 +23,7 @@ class YouTubeViewModel : ViewModel() {
     val videoStatistics: LiveData<Map<String, VideoDetails>> = _videoStatistics
 
     private val _error = MutableLiveData<String>()
-    val error: LiveData<String> = _error
+    var error: LiveData<String> = _error
 
     fun fetchPlaylists(apiKey: String, channelId: String) {
         viewModelScope.launch {

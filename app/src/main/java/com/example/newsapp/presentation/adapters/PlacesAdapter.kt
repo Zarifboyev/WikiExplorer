@@ -1,8 +1,6 @@
 package com.example.newsapp.presentation.adapters
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.R
+import com.example.newsapp.data.SharedPreferencesManager
 import com.example.newsapp.data.model.Place
 import com.example.newsapp.databinding.ItemPlaceBinding
 import com.squareup.picasso.OkHttp3Downloader
@@ -19,7 +18,8 @@ import okhttp3.OkHttpClient
 import java.io.File
 
 class PlacesAdapter(
-    private val context: Context
+    private val context: Context,
+    private val listener: OnPlaceClickListener
 ) : ListAdapter<Place, PlacesAdapter.PlaceViewHolder>(PlaceDiffCallback()) {
 
     private val picasso: Picasso
@@ -40,38 +40,40 @@ class PlacesAdapter(
     }
 
     inner class PlaceViewHolder(private val binding: ItemPlaceBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(place: Place) {
+        fun bind(place: Place?) {
+            if (place == null) return
+
             binding.apply {
                 placeTitle.text = place.title
                 placeDescription.text = place.description
                 placeDescription.visibility = if (place.description.isNullOrBlank()) View.GONE else View.VISIBLE
-                placeDistance.text = "${place.distance} miles"
+                placeDistance.text = "${place.distance} km"
+
                 val imageUrl = place.thumbnail ?: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Gnome-image-missing.svg/200px-Gnome-image-missing.svg.png"
                 picasso.load(imageUrl).into(placeThumbnail)
 
-                iconView.setOnClickListener {
-                    val url = place.articleUrl
-                    if (url.isNotBlank()) {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                        context.startActivity(intent)
-                    }
-                }
+                val isFavorite = place.isFavorite
+                favoriteCheckBox.setImageResource(if (isFavorite) R.drawable.ic_star_filled else R.drawable.ic_star_outline)
 
-                locationIcon.setOnClickListener {
-                    val title = place.title
-                    if (title.isNotBlank()) {
-                        openLocationInMaps(title)
+                val isExistedInUzWiki = place.isArticleExistedInUzWiki
+                backgroundItem.setBackgroundColor(context.resources.getColor(
+                    if (isExistedInUzWiki) R.color.md_theme_background else R.color.background_is_not_existed))
+
+                placeCard.setOnClickListener { listener.onPlaceClick(place) }
+                placeDistance.setOnClickListener { listener.onDistanceClick(place) }
+                locationIcon.setOnClickListener { listener.onLocationIconClick(place) }
+                iconFavourites.setOnClickListener {
+                    val newFavoriteStatus = !place.isFavorite
+                    val updatedPlace = place.copy(isFavorite = newFavoriteStatus)
+                    if (newFavoriteStatus) {
+                        SharedPreferencesManager.addPlace(context, updatedPlace)
+                    } else {
+                        SharedPreferencesManager.removePlace(context, place.title)
                     }
+                    listener.onFavoriteClick(adapterPosition)
+                    notifyItemChanged(adapterPosition)
                 }
             }
-        }
-
-        private fun openLocationInMaps(placeName: String?) {
-            val gmmIntentUri = Uri.parse("geo:0,0?q=" + Uri.encode(placeName))
-            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
-                setPackage("com.google.android.apps.maps")
-            }
-            context.startActivity(mapIntent)
         }
     }
 

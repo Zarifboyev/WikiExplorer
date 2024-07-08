@@ -1,121 +1,213 @@
 package com.example.newsapp.presentation.screen
-import android.Manifest
+
 import android.content.Context
-import android.content.pm.PackageManager
 import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.newsapp.R
+import com.example.newsapp.data.model.Place
 import com.example.newsapp.databinding.ScreenHomeBinding
+import com.example.newsapp.presentation.adapters.OnPlaceClickListener
 import com.example.newsapp.presentation.adapters.PlacesAdapter
-import com.example.newsapp.presentation.viewModels.HomeViewModel
+import com.example.newsapp.presentation.viewModels.GlobalViewModel
 import com.example.newsapp.presentation.viewModels.impl.HomeViewModelImpl
+import com.example.newsapp.utils.LocationManager
+import com.example.newsapp.utils.NetworkManager
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
-class HomeScreen : Fragment(R.layout.screen_home) {
+class HomeScreen : Fragment(R.layout.screen_home), OnPlaceClickListener {
 
     private val binding by viewBinding(ScreenHomeBinding::bind)
     private lateinit var placesAdapter: PlacesAdapter
-    private lateinit var placesViewModel: HomeViewModel
-    private var locationManager: LocationManager? = null
-    private var locationListener: LocationListener? = null
-    private lateinit var progressIndicator: LinearProgressIndicator
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        placesViewModel = ViewModelProvider(this)[HomeViewModelImpl::class.java]
-    }
+    private lateinit var linearProgressIndicator:LinearProgressIndicator
+
+    private val globalViewModel: GlobalViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModelImpl by activityViewModels()
+
+
+    private lateinit var locationManager: LocationManager
+    private lateinit var networkManager: NetworkManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        progressIndicator = view.findViewById(R.id.linearProgressIndicator2)
+        linearProgressIndicator  = binding.linearProgressIndicator2
 
         setupRecyclerView()
         observeViewModel()
-        getLocation()
+        observeStateFlows()
+
+        locationManager = LocationManager(requireContext())
+        networkManager = NetworkManager
+
+
+        // Fetch data using the latest location if available
+        globalViewModel.location.value?.let {
+            fetchPlaces(it)
+        } ?: showLocationSelectionPrompt()
+
+        binding.btnSearch.setOnClickListener {
+            Timber.d("Search button clicked")
+            val mapDialogFragment = MapDialogFragment()
+            if (childFragmentManager.findFragmentByTag("mapDialog") == null) {
+                mapDialogFragment.show(childFragmentManager, "mapDialog")
+            } else {
+                Timber.d("MapDialogFragment is already shown")
+            }
+            binding.animationView.visibility = View.INVISIBLE
+        }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            globalViewModel.location.value?.let { location ->
+                fetchPlaces(location)
+            }
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
     }
 
     private fun setupRecyclerView() {
-        placesAdapter = PlacesAdapter(requireContext())
-        binding.placesList.layoutManager = LinearLayoutManager(requireContext())
-        binding.placesList.adapter = placesAdapter
-
-        binding.placesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) {
-                    binding.btnSearch.hide()
-                } else if (dy < 0) {
-                    binding.btnSearch.show()
-                }
-            }
-        })
-        binding.btnSearch.setOnClickListener {
-            getLocation()
+        placesAdapter = PlacesAdapter(requireContext(), this)
+        binding.placesList.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = placesAdapter
+            setHasFixedSize(true)
         }
     }
 
     private fun observeViewModel() {
-        placesViewModel.places.observe(viewLifecycleOwner) { placesList ->
-            placesAdapter.submitList(placesList)
-            Timber.tag("Places").d(placesList.toString())
-            progressIndicator.visibility = View.GONE // Hide the progress indicator when data is received
-        }
-    }
-
-    private fun getLocation() {
-        progressIndicator.visibility = View.VISIBLE // Show the progress indicator
-
-        locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 1)
-            return
-        }
-        locationListener = object : LocationListener {
-            override fun onLocationChanged(location: Location) {
-                placesViewModel.fetchPlaces(location.latitude, location.longitude)
-                locationManager?.removeUpdates(this) // Stop location updates to save battery
+        viewLifecycleOwner.lifecycleScope.launch {
+            homeViewModel.places.collect { places ->
+                Timber.d("Places list updated: $places")
+                if (places.isEmpty()) {
+                    Snackbar.make(binding.root, getString(R.string.no_places_found), Snackbar.LENGTH_SHORT).show()
+                }
+                placesAdapter.submitList(places)
             }
-
-            @Deprecated("Deprecated in Java")
-            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-            override fun onProviderEnabled(provider: String) {}
-            override fun onProviderDisabled(provider: String) {}
         }
-        locationManager?.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener!!, null)
-    }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray,
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 1) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                getLocation()
-            } else {
-                // Permission denied
-                Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
-                progressIndicator.visibility = View.GONE // Hide the progress indicator if permission is denied
+        viewLifecycleOwner.lifecycleScope.launch {
+            homeViewModel.isLoading.collect { isLoading ->
+                updateLoadingState(isLoading)
             }
         }
     }
+    private fun observeStateFlows() {
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        locationManager?.removeUpdates(locationListener!!)
+        lifecycleScope.launchWhenStarted {
+            locationManager.location.collect { location ->
+                if (location != null) {
+                    fetchPlaces(location)
+                }
+            }
+        }
+
+        // Observe network availability
+        // TODO: @LaunchWhenStarted is deprecated, use repeatOnLifecycle instead
+        lifecycleScope.launchWhenStarted {
+            networkManager.isNetworkAvailable.collect { isAvailable ->
+                if (!isAvailable)
+                {
+                    showNoNetworkUI()
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            globalViewModel.location.collect { location ->
+                location?.let {
+                    fetchPlaces(it)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            globalViewModel.isLocationAvailable.collect { isLocationAvailable ->
+                if (isLocationAvailable) {
+                    Toast.makeText(requireContext(), "Location is not available", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            homeViewModel.error.collect { isError ->
+                if(isError.isNullOrBlank())
+                {
+                    return@collect
+                }
+                Toast.makeText(requireContext(), "No data", Toast.LENGTH_SHORT).show()
+                showLocationSelectionPrompt()
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            globalViewModel.languageCode.collect { languageCode ->
+                globalViewModel.location.value?.let { location ->
+                    globalViewModel.changeLanguage(languageCode)
+                    fetchPlaces(location)
+                }
+            }
+        }
+    }
+
+    private fun fetchPlaces(location: Location) {
+        if (globalViewModel.languageCode.value.isBlank())
+        {
+            globalViewModel.changeLanguage("uz")
+        }
+        homeViewModel.fetchPlaces(location.latitude, location.longitude, globalViewModel.languageCode.value ?: "uz")
+    }
+
+
+    private fun showLocationSelectionPrompt() {
+        binding.mapContainer.visibility = View.VISIBLE
+        Snackbar.make(binding.root, getString(R.string.select_location), Snackbar.LENGTH_LONG).show()
+        binding.animationView.playAnimation()
+        binding.animationView.visibility = View.VISIBLE
+    }
+
+    private fun updateLoadingState(isLoading: Boolean) {
+       linearProgressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showNoNetworkUI() {
+        Timber.d("No network connection")
+        Snackbar.make(binding.root, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onPlaceClick(place: Place?) {
+        place?.let {
+            Timber.d("Place clicked: ${it.title}")
+            openUrlInCustomTab(requireContext(), it.articleUrl)
+        }
+    }
+
+    override fun onDistanceClick(place: Place) {
+        // Implement distance click functionality
+    }
+
+    override fun onLocationIconClick(place: Place) {
+        // Implement location icon click functionality
+    }
+
+    override fun onFavoriteClick(position: Int) {
+        // Implement favorite click functionality
+    }
+
+    private fun openUrlInCustomTab(context: Context, url: String) {
+        val builder = CustomTabsIntent.Builder()
+        val customTabsIntent = builder.build()
+        customTabsIntent.launchUrl(context, Uri.parse(url))
     }
 }

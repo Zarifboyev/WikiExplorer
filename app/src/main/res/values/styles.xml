@@ -10,6 +10,24 @@
         <item name="cornerSize">24dp</item>
     </style>
 
+
+    <style name="MapDialogTheme" parent="Theme.Material3.DynamicColors.Light.NoActionBar">
+        <item name="colorPrimary">@color/md_theme_primary</item>
+        <item name="colorPrimaryDark">@color/md_theme_onPrimary</item>
+        <item name="colorAccent">@color/md_theme_secondary</item>
+        <item name="android:windowBackground">@color/md_theme_background</item>
+        <item name="android:windowMinWidthMajor">80%</item>
+        <item name="android:windowMinWidthMinor">80%</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.SmallComponent</item>
+    </style>
+
+
+    <!-- Custom shape appearance for dialog components -->
+    <style name="ShapeAppearance.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
     <!-- Style for the bottom sheet dialog -->
     <style name="ModalBottomSheetDialog" parent="Widget.Material3.BottomSheet.Modal">
         <item name="backgroundTint">@color/md_theme_onPrimary</item>

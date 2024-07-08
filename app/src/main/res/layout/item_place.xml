@@ -5,9 +5,11 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardElevation="4dp"
+    android:id="@+id/place_card"
     app:cardCornerRadius="16dp">
 
     <LinearLayout
+        android:id="@+id/background_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -54,18 +56,19 @@
             </LinearLayout>
 
             <FrameLayout
-                android:id="@+id/icon_view"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:id="@+id/icon_favourites"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
                 android:layout_marginStart="16dp"
                 android:layout_gravity="center_vertical">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    app:tint="?attr/colorOnBackground"
-                    android:src="@drawable/ic_auto_stories_24dp" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/favoriteCheckBox"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_star_outline"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"/>
             </FrameLayout>
         </LinearLayout>
 
@@ -91,8 +94,8 @@
 
             <FrameLayout
                 android:id="@+id/location_icon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginStart="8dp"
                 android:layout_gravity="center_vertical">
 

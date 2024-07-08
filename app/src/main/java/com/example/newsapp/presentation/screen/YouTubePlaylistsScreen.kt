@@ -3,6 +3,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -12,8 +13,7 @@ import com.example.newsapp.data.model.CONST
 import com.example.newsapp.databinding.ScreenYoutubePlaceholderBinding
 import com.example.newsapp.presentation.adapters.VideoAdapter
 import com.example.newsapp.presentation.viewModels.YouTubeViewModel
-import com.example.newsapp.utils.isNetworkAvailable
-import com.example.newsapp.utils.showNetworkUnavailableToast
+import com.example.newsapp.utils.NetworkManager
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -35,23 +35,48 @@ class YouTubePlaylistsScreen : Fragment(R.layout.screen_youtube_placeholder) {
             layoutManager = LinearLayoutManager(context)
             adapter = videoAdapter
         }
-
-        setupObservers()
-        if (!requireContext().isNetworkAvailable())
-        {
-            requireContext().showNetworkUnavailableToast()
-        }
-        // Fetch playlists and playlist items
-        fetchYouTubeData()
+        checkNetworkAndHandleUI()
     }
 
     private fun fetchYouTubeData() {
+        Timber.d("Fetching YouTube data...")
         lifecycleScope.launch {
-            viewModel.fetchPlaylists(YOUTUBE_API_KEY, YOUTUBE_CHANNEL_ID)
+            try {
+                viewModel.fetchPlaylists(YOUTUBE_API_KEY, YOUTUBE_CHANNEL_ID)
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to fetch YouTube data {${e.toString()}}")
+            }
         }
     }
 
+    private fun checkNetworkAndHandleUI() {
+
+    }
+
+    private fun onFastNetwork() {
+        Timber.d("Fast network detected. Setting up observers and fetching data.")
+        setupObservers()
+        fetchYouTubeData()
+    }
+
+    private fun showNoNetworkUI() {
+        Timber.d("No network available. Showing no network UI.")
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.no_internet_connection),
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    private fun showSlowOrInsufficientNetworkConnection(s: String) {
+        Timber.d("Slow or insufficient network detected: $s")
+        Toast.makeText(requireContext(), getString(R.string
+            .slow_or_insufficient_network), Toast.LENGTH_LONG)
+            .show()
+    }
+
     private fun setupObservers() {
+        Timber.d("Setting up observers for YouTube playlists.")
         viewModel.playlists.observe(viewLifecycleOwner) { playlists ->
             playlists.takeIf { it.isNotEmpty() }?.let {
                 binding.chipGroup.removeAllViews()
@@ -77,23 +102,25 @@ class YouTubePlaylistsScreen : Fragment(R.layout.screen_youtube_placeholder) {
         }
 
         viewModel.playlistItems.observe(viewLifecycleOwner) { playlistItems ->
+            Timber.d("Playlist items updated: ${playlistItems.size} items")
             videoAdapter.submitList(playlistItems)
             binding.linearProgressIndicator.visibility = View.GONE
         }
 
         viewModel.videoStatistics.observe(viewLifecycleOwner) { videoStatistics ->
+            Timber.d("Video statistics updated.")
             videoAdapter.updateVideoStatistics(videoStatistics)
         }
 
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
-            Timber.tag("YouTubeViewModel").e(errorMessage)
+            Timber.e(errorMessage)
             binding.linearProgressIndicator.visibility = View.GONE
-            // Display error message to the user
-            // You can use a Snackbar or Toast to show the error message
+            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
         }
     }
 
     private fun fetchPlaylistItems(playlistId: String) {
+        Timber.d("Fetching playlist items for playlist ID: $playlistId")
         binding.linearProgressIndicator.visibility = View.VISIBLE
         lifecycleScope.launch {
             viewModel.fetchPlaylistItems(YOUTUBE_API_KEY, playlistId)
@@ -101,13 +128,10 @@ class YouTubePlaylistsScreen : Fragment(R.layout.screen_youtube_placeholder) {
     }
 
     private fun openYouTubeVideo(videoId: String) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$videoId"))
-        intent.putExtra("force_fullscreen", true)
-        if (intent.resolveActivity(requireActivity().packageManager) != null) {
-            startActivity(intent)
-        } else {
-            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=$videoId"))
-            startActivity(webIntent)
+        Timber.d("Opening YouTube video with ID: $videoId")
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$videoId")).apply {
+            putExtra("force_fullscreen", true)
         }
+        startActivity(intent)
     }
 }

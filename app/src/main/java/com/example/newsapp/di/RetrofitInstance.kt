@@ -2,23 +2,31 @@ package com.example.newsapp.di
 
 import com.example.newsapp.domain.service.ApiService
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.security.cert.CertificateException
 import java.util.concurrent.TimeUnit
-import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLContext
-import javax.net.ssl.SSLSession
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
 object RetrofitInstance {
-    private const val BASE_URL = "https://uz.wikipedia.org/"
+    private const val BASE_URL_TEMPLATE = "https://%s.wikipedia.org/"
+
+    private var retrofit: Retrofit? = null
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
+    }
+    fun getRetrofitInstance(langCode: String): ApiService {
+        if (retrofit == null || (retrofit as Retrofit).baseUrl().toString() != langCode) {
+            retrofit = Retrofit.Builder()
+                .baseUrl(BASE_URL_TEMPLATE.format(langCode))
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        }
+        return retrofit!!.create(ApiService::class.java)
     }
 
     private val retryInterceptor = { chain: okhttp3.Interceptor.Chain ->
@@ -39,18 +47,10 @@ object RetrofitInstance {
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)
-        .sslSocketFactory(getUnsafeOkHttpClient().socketFactory, getTrustManager())
-        .hostnameVerifier(HostnameVerifier { _: String?, _: SSLSession? -> true })
+        .hostnameVerifier { _, _ -> true }
         .build()
 
-    val api: ApiService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ApiService::class.java)
-    }
+
 
     private fun getUnsafeOkHttpClient(): SSLContext {
         val trustAllCerts = arrayOf<TrustManager>(
@@ -70,15 +70,5 @@ object RetrofitInstance {
         return sslContext
     }
 
-    private fun getTrustManager(): X509TrustManager {
-        return object : X509TrustManager {
-            override fun checkClientTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {}
 
-            override fun checkServerTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {}
-
-            override fun getAcceptedIssuers(): Array<java.security.cert.X509Certificate> {
-                return arrayOf()
-            }
-        }
-    }
 }

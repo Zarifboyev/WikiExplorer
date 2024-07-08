@@ -3,11 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/linearProgressIndicator2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:hideAnimationBehavior="none"
+        app:indicatorColor="@color/md_theme_primary"
+        app:indicatorTrackGapSize="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:minHideDelay="0"
+        app:showAnimationBehavior="none"
+        app:showDelay="0"
+        android:visibility="gone"
+        app:trackColor="@color/md_theme_primaryContainer"
+        app:trackCornerRadius="2dp"
+        app:trackThickness="4dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_article"/>
+        tools:listitem="@layout/item_place"/>
 </LinearLayout>

@@ -1,60 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.screen.HomeScreen">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+        <!-- Data binding variables -->
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/linearProgressIndicator2"
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            app:hideAnimationBehavior="none"
-            app:indicatorColor="@color/md_theme_primary"
-            app:indicatorTrackGapSize="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:minHideDelay="0"
-            app:showAnimationBehavior="none"
-            app:showDelay="0"
-            android:visibility="visible"
-            app:trackColor="@color/md_theme_primaryContainer"
-            app:trackCornerRadius="2dp"
-            app:trackThickness="4dp" />
+            android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/places_list"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            tools:listitem="@layout/item_place"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:scrollbars="vertical" />
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/btn_search"
-            style="@style/Widget.Material3.FloatingActionButton.Primary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Vikigid"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            app:icon="@drawable/ic_near_me_places"
-            app:layout_anchor="@id/places_list"
-            app:layout_anchorGravity="bottom|end"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_behavior=".ScrollAwareFABBehavior" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/animationView"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:lottie_autoPlay="true"
+                        app:lottie_renderMode="software"
+                        app:lottie_loop="true"
+                        app:lottie_repeatCount="0"
+                        android:visibility="invisible"
+                        app:lottie_rawRes="@raw/animation" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+                    <!-- Map -->
+                    <FrameLayout
+                        android:id="@+id/map_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"/>
+
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/linearProgressIndicator2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true"
+                        app:hideAnimationBehavior="none"
+                        app:indicatorColor="@color/md_theme_primary"
+                        app:indicatorTrackGapSize="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:minHideDelay="0"
+                        app:showAnimationBehavior="none"
+                        app:showDelay="0"
+                        android:visibility="gone"
+                        app:trackColor="@color/md_theme_primaryContainer"
+                        app:trackCornerRadius="2dp"
+                        app:trackThickness="4dp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/places_list"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:visibility="visible"
+                        tools:listitem="@layout/item_place"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:scrollbars="vertical" />
+
+                    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                        android:id="@+id/btn_search"
+                        style="@style/Widget.Material3.FloatingActionButton.Primary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/vikigid"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:icon="@drawable/ic_near_me_places"
+                        android:transitionName="search_button"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_behavior=".ScrollAwareFABBehavior" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>
