@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_title">"Uzbek Wikipedia "</string>
-    <string name="app_name">Wikipedia</string>
-    <string name="no_internet_connection">No internet connection Please check your internet connection and try again</string>
+    <string name="app_title">Uzbek Wikipedia</string>
+    <string name="app_name">WikiExplorer</string>
+    <string name="no_internet_connection">No internet connection.\n Please check your internet connection and try again</string>
     <string name="search_title">Search</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
@@ -18,8 +18,8 @@
     <string name="video_thumbnail">Video Thumbnail</string>
     <string name="share">Share</string>
     <string name="loading_playlists">Loading Playlists...</string>
-    <string name="home_page_title">Wikipedia</string>
-    <string name="lessons_page_title">WikiEdu</string>
+    <string name="home_page_title">Explore</string>
+    <string name="lessons_page_title">WikiTutorial</string>
     <string name="notes_page_title">Favorites</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
@@ -31,11 +31,11 @@
     <string name="cancel">Cancel</string>
     <string name="set_reminder">Set Reminder</string>
     <string name="drag_icon">Drag icon</string>
-    <string name="vikigid">"Wikivoyage "</string>
+    <string name="vikigid">Maps</string>
     <string name="choose_language">Select a language</string>
-    <string name="english_wikipedia">English Wikipedia</string>
-    <string name="russian_wikipedia">Русская Википедия</string>
-    <string name="uzbek_wikipedia">Oʻzbekcha Vikipediya</string>
+    <string name="english_wikipedia">"English Wikipedia "</string>
+    <string name="russian_wikipedia">"Русская Википедия "</string>
+    <string name="uzbek_wikipedia">"Oʻzbekcha Vikipediya "</string>
     <string name="OK">OK</string>
     <string name="language_changed">Language selected</string>
     <string name="content_description_logo">Wikipedia Logo</string>
@@ -46,10 +46,15 @@
     <string name="card_number">Card number</string>
     <string name="slow_or_insufficient_network">Slow %1$s network connection detected</string>
     <string name="error_loading_data">Slow %1$s network connection detected</string>
-    <string name="select_location">Choose location using maps to get started</string>
+    <string name="select_location">Choose location using \nmaps to get started 📍</string>
     <string name="no_places_found">No places found</string>
     <string name="location_not_granted">Location permission not granted</string>
     <string name="failed_to_get_location">Failed to get your location</string>
     <string name="select_location_on_map">Select a location on the map</string>
     <string name="selected_location">Selected Location</string>
+    <string name="try_again">No articles found, please try again</string>
+    <string name="enable_gps">Enable GPS</string>
+    <string name="enable_gps_message">GPS is required for this app. Please enable GPS in the settings.</string>
+    <string name="ok">OK</string>
+    <string name="language_selection_title">Select a language</string>
 </resources>

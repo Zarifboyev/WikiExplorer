@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "NewsApp"
+rootProject.name = "Vikipediya"
 include ':app'

@@ -1,111 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardElevation="4dp"
     android:id="@+id/place_card"
-    app:cardCornerRadius="16dp">
+    android:padding="16dp"
 
-    <LinearLayout
-        android:id="@+id/background_item"
+    android:background="@drawable/place_card_background"
+    android:clickable="true"
+    android:elevation="4dp"
+    android:focusable="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/place_thumbnail"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundedRectangle"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/place_title"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/place_distance"
+            app:layout_constraintStart_toEndOf="@id/place_thumbnail"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Place Name" />
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/place_thumbnail"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:layout_marginEnd="16dp"
-                android:adjustViewBounds="true"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Left"
-                app:srcCompat="@drawable/ic_wikipedia"
-                android:scaleType="centerCrop" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/place_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Title"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-                    android:textColor="?attr/colorOnBackground" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/place_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Subtitle"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    android:textColor="?attr/colorOnBackground"
-                    android:alpha="0.6" />
-            </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/icon_favourites"
-                android:layout_width="52dp"
-                android:layout_height="52dp"
-                android:layout_marginStart="16dp"
-                android:layout_gravity="center_vertical">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/favoriteCheckBox"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/ic_star_outline"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"/>
-            </FrameLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?attr/colorOutline"
-            android:layout_marginVertical="8dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/place_distance"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:background="@drawable/distance_background"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            app:layout_constraintBottom_toBottomOf="@id/place_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/place_title"
+            tools:text="0.5 mi" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/place_distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Location: 0.43 miles"
-                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                android:textColor="?attr/colorOnBackground" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/place_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/place_title"
+            app:layout_constraintTop_toBottomOf="@id/place_title"
+            app:layout_goneMarginBottom="8dp"
+            tools:text="A brief description of the place goes here. It can span two lines if needed."
+            tools:visibility="visible" />
 
-            <FrameLayout
-                android:id="@+id/location_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="8dp"
-                android:layout_gravity="center_vertical">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/article_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            app:layout_constraintEnd_toStartOf="@id/favorite_icon"
+            app:layout_constraintStart_toStartOf="@id/place_title"
+            app:layout_constraintTop_toBottomOf="@id/place_description"
+            tools:text="This article is existed in uzwiki" />
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_pin_drop_24dp"
-                    app:tint="?attr/colorOnBackground" />
-            </FrameLayout>
-        </LinearLayout>
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/favorite_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_favorite_border"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/article_status" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

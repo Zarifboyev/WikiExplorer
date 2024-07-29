@@ -9,9 +9,11 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
 
     <application
-        android:name=".app.App"
+        android:name=".vikipediya.app.App"
         android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -26,14 +28,10 @@
         tools:targetApi="tiramisu"
         tools:ignore="DiscouragedApi">
 
-
-
-
     <!-- Always include this permission -->
 
-
         <receiver
-            android:name=".presentation.ui.components.widgets.WikiAppWidget"
+            android:name=".vikipediya.presentation.ui.components.widgets.WikiAppWidget"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -49,10 +47,13 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDlvU2lJ__exd9M5l6OKeN0Zs_O6LQ3Zik"/>
+            android:value="@string/google_maps_key"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".vikipediya.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait">
@@ -72,7 +73,7 @@
 
 
         <receiver
-            android:name=".presentation.ui.components.widgets.WikiAppWidget"
+            android:name=".vikipediya.presentation.ui.components.widgets.WikiAppWidget"
             android:exported="false">
 
             <intent-filter>

@@ -1,21 +1,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
-        android:id="@+id/bottom_nav_item_home"
+        android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_page"
-        android:iconTint="@color/md_theme_primary"
+        android:enabled="true"
         android:title="@string/home_page_title" />
 
     <item
-        android:id="@+id/bottom_nav_item_youtube"
+        android:id="@+id/navigation_youtube"
         android:icon="@drawable/ic_school_light_dark"
-        android:iconTint="@color/md_theme_primary"
+        android:enabled="true"
         android:title="@string/lessons_page_title" />
 
     <item
-        android:id="@+id/bottom_nav_item_notes"
+        android:id="@+id/navigation_saved_pages"
         android:icon="@drawable/ic_star_outline"
-        android:iconTint="@color/md_theme_primary"
+        android:enabled="true"
         android:title="@string/notes_page_title" />
+
 
 </menu>

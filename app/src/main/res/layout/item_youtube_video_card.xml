@@ -1,128 +1,94 @@
-<LinearLayout
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:background="@drawable/rounded_card_background"
-    android:elevation="4dp"
-    android:padding="16dp"
-    android:orientation="vertical">
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp">
 
-    <!-- Thumbnail Image -->
-    <ImageView
-        android:id="@+id/video_thumbnail"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/semi_transparent_box_with_border" />
+        android:layout_height="wrap_content">
 
-    <!-- Video Duration -->
-    <TextView
-        android:id="@+id/video_duration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_duration_background"
-        android:fontFamily="@font/nunito"
-        android:text="--:--"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:textColor="@android:color/white"
-        android:textSize="12sp" />
+        <ImageView
+            android:id="@+id/video_thumbnail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:src="@tools:sample/backgrounds/scenic"/>
+<!--        android:background="@drawable/duration_background"-->
 
-    <!-- Video Title -->
-    <TextView
-        android:id="@+id/video_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:text="Sample Video Title"
-        android:fontFamily="@font/nunito_regular"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/video_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="2dp"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/video_thumbnail"
+            app:layout_constraintEnd_toEndOf="@id/video_thumbnail"
+            tools:text="10:30"/>
 
-    <!-- Channel Info -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-
-        <!-- Channel Photo -->
         <ImageView
             android:id="@+id/channel_photo"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:tint="@color/md_theme_primary"
-            android:src="@drawable/ic_wikipedia_ios_v2" />
+            app:tint="@color/md_theme_secondary"
+            android:layout_margin="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/video_thumbnail"
+            tools:src="@tools:sample/avatars"/>
 
-        <!-- Channel Name -->
+        <TextView
+            android:id="@+id/video_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/channel_photo"
+            app:layout_constraintTop_toBottomOf="@id/video_thumbnail"
+            tools:text="Engaging Video Title That Captures Attention"/>
+
         <TextView
             android:id="@+id/channel_name"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:gravity="center_vertical"
-            android:fontFamily="@font/hoefler_text"
-            android:text="O'zbekcha Vikipediya"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-    <!-- Video Info (Views Count and Date) -->
-    <LinearLayout
-        android:id="@+id/video_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-
-        <!-- Video Date -->
-        <TextView
-            android:id="@+id/video_date"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_calendar"
-            android:drawablePadding="4dp"
-            android:gravity="start|center_vertical"
-            android:fontFamily="@font/newyork"
-            android:text="2 weeks ago"
-            android:textColor="@android:color/black"
-            android:textSize="12sp" />
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="@id/video_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/video_title"
+            tools:text="Channel Name"/>
 
-        <!-- Divider -->
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/darker_gray" />
-
-        <!-- Views Count -->
         <TextView
-            android:id="@+id/video_view_count"
-            android:layout_width="wrap_content"
+            android:id="@+id/video_info"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_views"
-            android:drawablePadding="4dp"
-            android:gravity="start|center_vertical"
-            android:fontFamily="@font/newyork"
-            android:text="1.2M views"
-            android:textColor="@android:color/black"
-            android:textSize="12sp" />
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="@id/channel_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/channel_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="1.2M views • 2 weeks ago"/>
 
-    </LinearLayout>
-
-    <!-- Divider -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/darker_gray" />
-
-</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

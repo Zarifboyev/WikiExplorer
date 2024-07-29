@@ -1,0 +1,67 @@
+This project was developed as a final project for CS50x by Javohir Zarifboyev.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+This project includes third-party libraries and components:
+
+- **AndroidX Libraries**:
+  - `androidx.core:core-ktx`
+  - `androidx.appcompat:appcompat`
+  - `androidx.constraintlayout:constraintlayout`
+  - `androidx.coordinatorlayout:coordinatorlayout`
+  - `androidx.fragment:fragment-ktx`
+  - `androidx.lifecycle:lifecycle-viewmodel-ktx`
+  - `androidx.lifecycle:lifecycle-livedata-ktx`
+  - `androidx.lifecycle:lifecycle-runtime-ktx`
+  - `androidx.swiperefreshlayout:swiperefreshlayout`
+  - `androidx.navigation:navigation-fragment-ktx`
+  - `androidx.navigation:navigation-ui-ktx`
+  - `androidx.transition:transition`
+  - `androidx.browser:browser`
+  - `androidx.hilt:hilt-work`
+  - `androidx.work:work-runtime-ktx`
+
+- **Google Libraries**:
+  - `com.google.dagger:hilt-android`
+  - `com.google.firebase:firebase-crashlytics`
+  - `com.google.firebase:firebase-analytics`
+  - `com.google.android.material:material`
+  - `com.google.android.gms:play-services-location`
+  - `com.google.android.gms:play-services-maps`
+  - `com.google.android.libraries.places:places`
+
+- **Other Libraries**:
+  - `com.jakewharton.timber:timber`
+  - `org.jetbrains.kotlinx:kotlinx-coroutines-core`
+  - `org.jetbrains.kotlinx:kotlinx-coroutines-android`
+  - `com.github.kirich1409:viewbindingpropertydelegate-noreflection`
+  - `io.github.fastily:jwiki`
+  - `com.squareup.retrofit2:retrofit`
+  - `com.squareup.retrofit2:converter-gson`
+  - `com.squareup.picasso:picasso`
+  - `com.squareup.okhttp3:okhttp`
+  - `com.jakewharton.picasso:picasso2-okhttp3-downloader`
+  - `org.mockito.kotlin:mockito-kotlin`
+  - `com.google.apis:google-api-services-youtube`
+  - `com.google.http-client:google-http-client-android`
+  - `com.google.api-client:google-api-client-android`
+  - `com.google.api-client:google-api-client-gson`
+  - `com.google.code.gson:gson`
+  - `com.afollestad.material-dialogs:core`
+  - `com.airbnb.android:lottie`
+  - `com.squareup.moshi:moshi`
+  - `com.squareup.moshi:moshi-kotlin`
+  - `com.squareup.retrofit2:converter-moshi`
+  - `com.squareup.okhttp3:logging-interceptor`
+
+These libraries are used in accordance with their respective licenses, which may be found in the libraries' respective repositories or documentation.

@@ -47,8 +47,6 @@
         <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer</item>
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
-
-
         <!-- Dynamic colors -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/md_theme_primary</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -78,8 +76,17 @@
         <item name="colorSurface">@color/md_theme_primary</item>
         <item name="colorOnSurface">@color/md_theme_onPrimary</item>
     </style>
-
-
+    <!-- Custom bottom navigation style -->
+    <style name="BottomNavigationStyle" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="itemIconTint">@drawable/bottom_navigation_color_selector</item>
+        <item name="itemTextColor">@drawable/bottom_navigation_color_selector</item>
+        <item name="background">@drawable/bottom_navigation_background</item>
+        <item name="itemRippleColor">@color/md_theme_onSecondary</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.App.circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
     <style name="Theme.NewsApp.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
         <!-- Radius of the outer bound of widgets to make the rounded corners -->
         <item name="appWidgetRadius">16dp</item>
@@ -94,5 +101,9 @@
     <style name="Theme.NewsApp.AppWidgetContainer" parent="Theme.NewsApp.AppWidgetContainerParent">
         <!-- Apply padding to avoid the content of the widget colliding with the rounded corners -->
         <item name="appWidgetPadding">16dp</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.App.RoundedRectangle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
     </style>
 </resources>

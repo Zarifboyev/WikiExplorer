@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <item
+        android:id="@+id/action_share_the_app"
+        android:title="Share the app"
+        android:icon="@drawable/ic_share_24dp"
+        android:iconTint="@color/md_theme_secondary"
+        app:showAsAction="always" />
+</menu>

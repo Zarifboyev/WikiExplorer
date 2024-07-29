@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_title">Oʻzbekcha Vikipediya</string>
-    <string name="app_name">Vikipediya</string>
-    <string name="no_internet_connection">Internetga ulanmagansiz. Internet aloqasini tekshiring va qayta urining</string>
+    <string name="app_name">VikiSayohatchi</string>
+    <string name="no_internet_connection">Internetga ulanmagansiz. \nInternet aloqasini tekshiring va qayta urining</string>
     <string name="search_title">Qidiruv</string>
     <string name="next">Keyingi</string>
     <string name="previous">Oldingi</string>
@@ -19,7 +19,7 @@
     <string name="share">Ulashish</string>
     <string name="loading_playlists">Pleylistlar yuklanmoqda...</string>
     <string name="home_page_title">Vikipediya</string>
-    <string name="lessons_page_title">WikiTa’lim</string>
+    <string name="lessons_page_title">WikiDars</string>
     <string name="notes_page_title">Sevimlilar</string>
     <string name="add_widget">Vidjet qo‘shish</string>
     <string name="app_widget_description">Bu ilova vidjeti tavsifi</string>
@@ -31,7 +31,7 @@
     <string name="cancel">Bekor qilish</string>
     <string name="set_reminder">Eslatmani sozlash</string>
     <string name="drag_icon">Tortish belgisi</string>
-    <string name="vikigid">Vikigid</string>
+    <string name="vikigid">Xaritalar</string>
     <string name="choose_language">Tilni tanlang</string>
     <string name="english_wikipedia">English Wikipedia</string>
     <string name="russian_wikipedia">Русская Википедия</string>
@@ -46,9 +46,16 @@
     <string name="card_number">Karta raqami</string>
     <string name="slow_or_insufficient_network">Sekin %1$s tarmoq aloqasi aniqlandi</string>
     <string name="error_loading_data">Sekin %1$s tarmoq aloqasi aniqlandiSekin %1$s tarmoq aloqasi aniqlandi</string>
-    <string name="select_location">Boshlash uchun xaritalardan foydalanib joylashuvni tanlang</string>
+    <string name="select_location">Boshlash uchun xaritalardan \nfoydalanib joylashuvni tanlang 📍</string>
     <string name="no_places_found">Hech qanday joy topilmadi</string>
     <string name="location_not_granted">Joylashuv axboroti ruxsati berilmagan</string>
     <string name="failed_to_get_location">Joylashuv axboroti olinmadi</string>
     <string name="select_location_on_map">Xaritada joylashuvni tanlang</string>
+    <string name="selected_location">Tanlangan joy</string>
+    <string name="try_again">Hech qanday maqola topilmadi, qayta urining</string>
+    <string name="enable_gps">Enable GPS</string>
+    <string name="enable_gps_message">GPS is required for this app. Please enable GPS in the settings.</string>
+    <string name="ok">OK</string>
+    <string name="language_selection_title">Tilni tanlang</string>
+
 </resources>

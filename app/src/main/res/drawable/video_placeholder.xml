@@ -1,0 +1,10 @@
+<!-- res/drawable/video_placeholder.xml -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0">
+    <path
+        android:fillColor="#CCCCCC"
+        android:pathData="M10 16.5l6-4.5-6-4.5v9zm-9-9.5c0-1.11.89-2 2-2h14l4-4h-18c-2.21 0-4 1.79-4 4v16c0 2.21 1.79 4 4 4h18l-4-4h-14c-1.11 0-2-.89-2-2v-12zm20-4v14h2v-14h-2z"/>
+</vector>

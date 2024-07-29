@@ -1,48 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/map_dialog_container"
-    android:background="?attr/colorOnBackground"
-    android:fitsSystemWindows="true">
+    tools:context=".presentation.screen.MapDialogFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+
+    <!-- Search Bar -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:liftOnScroll="true">
+        android:background="@drawable/ripple_effect_search_bar"
+        app:cardCornerRadius="8dp"
+        android:layout_margin="16dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
-            android:transitionName="app_bar"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/autocomplete_fragment"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:minHeight="?attr/actionBarSize"
-            app:title="Joylashuvni tanlang"
-            android:theme="@style/ThemeOverlay.Material3.Toolbar.Primary"
-            app:menu="@menu/top_app_bar"
-            app:navigationIcon="@drawable/baseline_arrow_back_24" />
+            android:layout_height="wrap_content" />
+    </androidx.cardview.widget.CardView>
 
-    </com.google.android.material.appbar.AppBarLayout>
-
+    <!-- Map Fragment Container -->
     <FrameLayout
         android:id="@+id/map_container"
         android:layout_width="match_parent"
-        android:transitionName="map_container"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/btnGo"
-        style="?attr/floatingActionButtonPrimaryStyle"
+        android:id="@+id/fab_my_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:transitionName="go_button"
-        android:text="Ketdik!"
-        app:icon="@drawable/ic_near_me_places" />
+        android:layout_margin="16dp"
+        android:contentDescription="@string/my_location_button_description"
+        app:icon="@drawable/ic_my_location_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

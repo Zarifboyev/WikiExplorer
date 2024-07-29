@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.z99a.zarifboyevjavohir.vikipediya.presentation.screen.HomeScreen"
+        android:label="@string/title_home"
+        tools:layout="@layout/screen_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_mapDialogFragment"
+            app:destination="@id/mapDialogFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_noInternetScreenFragment2"
+            app:destination="@id/noInternetScreenFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_youtube"
+        android:name="com.z99a.zarifboyevjavohir.vikipediya.presentation.screen.YouTubePlaylistsScreen"
+        android:label="@string/title_youtube_playlists"
+        tools:layout="@layout/screen_youtube" >
+        <action
+            android:id="@+id/action_navigation_youtube_to_noInternetScreenFragment2"
+            app:destination="@id/noInternetScreenFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_saved_pages"
+        android:name="com.z99a.zarifboyevjavohir.vikipediya.presentation.screen.SavedPagesScreen"
+        android:label="@string/title_saved_pages"
+        tools:layout="@layout/screen_wiki_tasks" >
+        <action
+            android:id="@+id/action_navigation_saved_pages_to_noInternetScreenFragment2"
+            app:destination="@id/noInternetScreenFragment" />
+    </fragment>
+    <!-- MapDialogFragment -->
+    <dialog
+        android:id="@+id/mapDialogFragment"
+        android:name="com.z99a.zarifboyevjavohir.vikipediya.presentation.screen.MapDialogFragment"
+        android:label="fragment_map_dialog"
+        tools:layout="@layout/fragment_map_dialog" >
+        <action
+            android:id="@+id/action_mapDialogFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </dialog>
+    <fragment
+        android:id="@+id/noInternetScreenFragment"
+        android:name="com.z99a.zarifboyevjavohir.vikipediya.presentation.screen.ScreenNoConnection"
+        android:label="NoInternetScreenFragment"
+        tools:layout="@layout/screen_no_internet">
+        <action
+            android:id="@+id/action_noInternetScreenFragment_to_navigation_saved_pages"
+            app:destination="@id/navigation_saved_pages" />
+        <action
+            android:id="@+id/action_noInternetScreenFragment_to_navigation_youtube"
+            app:destination="@id/navigation_youtube" />
+        <action
+            android:id="@+id/action_noInternetScreenFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+</navigation>

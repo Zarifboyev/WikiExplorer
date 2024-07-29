@@ -5,11 +5,27 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 
 }
+secrets {
+    // Optionally specify a different file name containing your secrets.
+    // The plugin defaults to "local.properties"
+    propertiesFileName = "secrets.properties"
+
+    // A properties file containing default secret values. This file can be
+    // checked in version control.
+    defaultPropertiesFileName = "local.defaults.properties"
+
+    // Configure which keys should be ignored by the plugin by providing regular expressions.
+    // "sdk.dir" is ignored by default.
+    ignoreList.add("keyToIgnore") // Ignore the key "keyToIgnore"
+    ignoreList.add("sdk.*")       // Ignore all keys matching the regexp "sdk.*"
+}
+
 
 android {
-    namespace 'com.example.newsapp'
+    namespace 'com.z99a.zarifboyevjavohir'
     compileSdk 34
 
     packagingOptions {
@@ -19,7 +35,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.newsapp"
+        applicationId "com.z99a.zarifboyevjavohir"
         minSdk 24
         targetSdk 34
         versionCode 1
@@ -47,10 +63,14 @@ android {
     buildFeatures {
         dataBinding true
         viewBinding true
+        buildConfig true
+
     }
     viewBinding {
         enabled = true
+
     }
+
 }
 
 dependencies {
@@ -140,8 +160,6 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
 
-    implementation 'com.google.android.gms:play-services-maps:19.0.0'
-    implementation 'com.google.android.gms:play-services-location:21.3.0'
 
     implementation 'androidx.transition:transition:1.5.0'
     implementation 'androidx.browser:browser:1.8.0'
@@ -150,6 +168,17 @@ dependencies {
 
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+    implementation "com.squareup.moshi:moshi:1.15.1"
+    implementation "com.squareup.moshi:moshi-kotlin:1.15.1"
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+
+
+
+    implementation 'com.google.android.gms:play-services-maps:19.0.0'
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
+    implementation 'com.google.android.libraries.places:places:3.5.0'
+    implementation "androidx.hilt:hilt-work:1.2.0"
+    implementation "androidx.work:work-runtime-ktx:2.9.0"
 
 }
 

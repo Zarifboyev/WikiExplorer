@@ -1,64 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Wikipedia</string>
-    <string name="no_internet_connection">No internet connection\nPlease check your internet connection and try again</string>
-    <string name="search_title">Search</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
+    <string-array name="language_array">
+        <item>🇷🇺</item>
+        <item>🇬🇧</item>
+        <item>🇺🇿</item>
+    </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
-    <string name="article_image_desc">Image related to the article</string>
-    <string name="article_title_desc">Title of the article</string>
-    <string name="article_content_desc">Web content of the article</string>
-    <string name="save_button_desc">Save this article</string>
-    <string name="share_button_desc">Share this article</string>
-    <string name="action">Action Read\n</string>
-    <string name="supporting_text">Supporting Text\n</string>
-
+    <string name="flag_icon" translatable="false">Flag Icon</string>
+    <string name="no_places_found_title">No places found</string>
+    <string name="no_places_found_subtitle">We couldn\'t find any places matching your search.</string>
+    <string name="use_maps_suggestion">Search other locations using the \'Maps\' button</string>
+    <string name="no_places_found_animation">Animation showing no places found</string>
+    <string name="app_title">Oʻzbekcha Vikipediya</string>
+    <string name="app_name">VikiSayohatchi</string>
+    <string name="no_internet_connection">Internetga ulanmagansiz. \n Internet aloqasini tekshiring va qayta urining</string>
+    <string name="search_title">Qidiruv</string>
+    <string name="next">Keyingi</string>
+    <string name="previous">Oldingi</string>
+    <string name="hello_blank_fragment">Salom, bo‘sh parcha</string>
+    <string name="article_image_desc">Maqolaga aloqador rasm</string>
+    <string name="article_title_desc">Maqola nomi</string>
+    <string name="article_content_desc">Maqoladagi veb-kontent</string>
+    <string name="save_button_desc">Bu maqolani saqlash</string>
+    <string name="share_button_desc">Bu maqolani ulashish</string>
+    <string name="action">O‘qish amali</string>
+    <string name="supporting_text">Mos matn</string>
     <string name="action_recycler_view">RecyclerView</string>
+    <string name="video_thumbnail">Video eskizi</string>
+    <string name="share">Ulashish</string>
+    <string name="loading_playlists">Pleylistlar yuklanmoqda...</string>
+    <string name="home_page_title">VikiSayohat</string>
+    <string name="lessons_page_title">VikiDars</string>
+    <string name="notes_page_title">Sevimlilar</string>
+    <string name="add_widget">Vidjet qo‘shish</string>
+    <string name="app_widget_description">Bu ilova vidjeti tavsifi</string>
+    <string name="star">Yulduzcha</string>
+    <string name="edit">Tahrir</string>
+    <string name="user_group_photo">Foydalanuvchi guruhi rasmi</string>
+    <string name="delete_goal">O‘chirish</string>
+    <string name="add">Qo‘shish</string>
+    <string name="cancel">Bekor qilish</string>
+    <string name="set_reminder">Eslatmani sozlash</string>
+    <string name="drag_icon">Tortish belgisi</string>
+    <string name="vikigid">Xaritalar</string>
+    <string name="choose_language">Tilni tanlang</string>
+    <string name="english_wikipedia">"English Wikipedia "</string>
+    <string name="russian_wikipedia">"Русская Википедия "</string>
+    <string name="uzbek_wikipedia">"Oʻzbekcha Vikipediya "</string>
+    <string name="OK">OK</string>
+    <string name="language_changed">Til tanlandi</string>
+    <string name="content_description_logo">Vikipediya logotipi</string>
+    <string name="language">Tillar</string>
+    <string name="support_our_app">Ilovamizni qo\'llab-quvvatlang!</string>
+    <string name="donate_message">Ilovamiz sizga yoqqanidan xursandmiz! Ilovani Google Play yoki App Store-da joylashtirish, dasturni takomillashtirish uchun qo\'llab-quvvatlang!</string>
+    <string name="donate">Homiylik qilish</string>
+    <string name="card_number">Karta raqami</string>
+    <string name="slow_or_insufficient_network">Sekin %1$s tarmoq aloqasi aniqlandi</string>
+    <string name="error_loading_data">Sekin %1$s tarmoq aloqasi aniqlandiSekin %1$s tarmoq aloqasi aniqlandi</string>
+    <string name="select_location">Boshlash uchun xaritalardan \nfoydalanib joylashuvni tanlang 📍</string>
+    <string name="no_places_found">Hech qanday joy topilmadi</string>
+    <string name="location_not_granted">Joylashuv axboroti ruxsati berilmagan</string>
+    <string name="failed_to_get_location">Joylashuv axboroti olinmadi</string>
+    <string name="select_location_on_map">Xaritada joylashuvni tanlang</string>
+    <string name="selected_location">Tanlangan joy</string>
+    <string name="try_again">Hech qanday maqola topilmadi, qayta urining</string>
+    <string name="google_maps_key" translatable="false">AIzaSyAfU7IuWN4ilAV78kTWghjmg3xafJUlfuA</string>
+    <string name="enable_gps">Enable GPS</string>
+    <string name="enable_gps_message">GPS is required for this app. Please enable GPS in the settings.</string>
+    <string name="ok">OK</string>
+    <string name="failed_to_open_video" translatable="false">Failed to open video</string>
+    <string name="title_home" translatable="false">Home Screen</string>
+    <string name="title_youtube_playlists" translatable="false">YouTube Playlists</string>
+    <string name="title_saved_pages" translatable="false">Saved Pages</string>
+    <string name="language_selection_title">Tilni tanlang</string>
 
 
-    <string name="video_thumbnail">Video Thumbnail</string>
-    <string name="share">Share</string>
-    <string name="loading_playlists">Loading Playlists...\n</string>
-    <string name="home_page_title">Wikipedia</string>
-    <string name="notes_page_title">Favorites</string>
-    <string name="add_widget">Add widget</string>
-    <string name="app_widget_description">This is an app widget description</string>
-    <string name="star">Star</string>
-    <string name="edit">Edit</string>
-    <string name="user_group_photo">User Group Photo</string>
-    <string name="delete_goal">Delete\n</string>
-    <string name="add">Add\n</string>
-    <string name="cancel">Cancel\n</string>
-    <string name="set_reminder">Set Reminder\n</string>
-    <string name="drag_icon">Drag icon\n</string>
-    <string name="vikigid">"Wikivoyage "</string>
-    <string name="choose_language">Select a language</string>
-    <string name="english_wikipedia">English Wikipedia</string>
-    <string name="russian_wikipedia">Русская Википедия</string>
-    <string name="uzbek_wikipedia">Oʻzbekcha Vikipediya</string>
-    <string name="OK">OK\n</string>
-    <string name="language_changed">Language selected</string>
-    <string name="app_title">"Uzbek Wikipedia "</string>
-    <string name="content_description_logo">Wikipedia Logo</string>
-    <string name="lessons_page_title">WikiEdu</string>
-    <string name="donate">Donate\n</string>
-    <string name="card_number">Card Number\n</string>
-    <string name="slow_or_insufficient_network">Slow %1$s network connection detected</string>
-    <string name="language">Languages</string>
-    <string name="error_loading_data">Slow %1$s network connection detectedSlow %1$s network connection detected</string>
-    <string name="select_location">Choose location using maps to get started</string>
-    <string name="no_places_found">No places found</string>
-    <string name="location_not_granted">Location permission not granted</string>
-    <string name="failed_to_get_location">Failed to get your location</string>
-    <string name="select_location_on_map">Select a location on the map</string>
-    <string name="support_our_app">Support our app!</string>
-    <string name="donate_message">We\'re glad you liked our app! Post the app on Google Play or App Store, support to improve the program!</string>
-    <string name="selected_location">Selected Location</string>
+    <string name="search_hint" translatable="false">Search location...</string>
+    <string name="my_location" translatable="false">My Location</string>
+    <string name="gps_icon_description" translatable="false">GPS Location Icon</string>
+    <string name="my_location_button_description" translatable="false">Find My Current Location</string>
+    <string name="location_not_found" translatable="false">Location not found</string>
+    <string name="location_search_failed" translatable="false">Location search failed\n</string>
+
+    <string name="video_info_format" translatable="false">%1$s views • %2$s</string>
+    <string name="failed_to_open_channel">Failed to open YouTube channel\n</string>
+    <string name="retry">Retry\n</string>
+    <string name="swipe_to_refresh">Swipe to refresh</string>
+    <string name="marker_clicked">Double tap to select\n</string>
+    <string name="saved_location">Saved Location</string>
+    <string name="tap_marker_to_select">Double click to select</string>
+    <string name="error_occured">Unkown error occured\n</string>
+    <string name="default_location">Default location</string>
+    <string name="location_retrieval_failed">Location retrieval failed</string>
+    <string name="current_location">current location</string>
 
 </resources>
