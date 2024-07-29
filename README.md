@@ -1,4 +1,8 @@
 # WikiExplorer
+#### Video Demo:  <URL HERE>
+#### Description:
+TODO
+# WikiExplorer
 
 ![WikiExplorer Logo](path/to/logo.png)
 
