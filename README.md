@@ -2,7 +2,8 @@
 
 #### Video Demo:  [<URL HERE>](https://www.youtube.com/watch?v=Xtnar9Ir9Mo)
 
-<img src="device_3.png" alt="description" width="200" height="200">
+![WikiExplorer Logo](app/src/main/ic_launcher-playstore.png)
+
 
 ## Table of Contents
 - [Description](#description)
