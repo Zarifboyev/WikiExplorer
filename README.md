@@ -1,6 +1,6 @@
 # WikiExplorer
 
-#### Video Demo:  [<URL HERE>](https://www.youtube.com/watch?v=Xtnar9Ir9Mo)
+#### Video Demo: [Watch here](https://www.youtube.com/watch?v=Xtnar9Ir9Mo)
 
 ![WikiExplorer Logo](app/src/main/ic_launcher-playstore.png)
 
