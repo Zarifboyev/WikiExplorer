@@ -15,6 +15,9 @@
     <color name="chip_text">#333333</color>
     <color name="favorite_icon_tint">#757575</color>
 
+    <color name="gray_cc">#CCCCCC</color>
+    <color name="blue_66cc">#0066CC</color>
+    <color name="gray_66">#666666</color>
 
     <color name="background_color">#F0F4F8</color>
     <color name="toolbar_color">#1E3A5F</color>

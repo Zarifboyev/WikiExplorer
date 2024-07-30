@@ -65,13 +65,14 @@ class PlacesAdapter(
         private fun ItemPlaceBinding.setupDescription(place: Place) {
             val description = place.terms?.description?.firstOrNull()
 
-            articleStatus.visibility = if (place.isExisted == false) {
-                articleStatus.text = "O'zbekchada mavjud emas"
-                articleStatus.setTextColor(ContextCompat.getColor(context, R.color.md_theme_error))
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
+//            articleStatus.visibility = if (place.isExisted == false) {
+//                articleStatus.text = "O'zbekchada mavjud emas"
+//                articleStatus.setTextColor(ContextCompat.getColor(context, R.color.md_theme_error))
+//                View.VISIBLE
+//            } else {
+//                View.GONE
+//            }
+
             placeDescription.visibility = View.VISIBLE
             placeDescription.text = when {
                 description.isNullOrBlank() -> "Description is not available"
@@ -87,7 +88,7 @@ class PlacesAdapter(
         }
 
         private fun ItemPlaceBinding.setupImage(place: Place) {
-            val imageUrl = place.thumbnail?.source?.replace("50px", "252px") ?: MISSING_IMAGE_URL
+            val imageUrl = place.thumbnail?.source?.replace("50px", "452px") ?: MISSING_IMAGE_URL
             picasso.load(imageUrl)
                 .memoryPolicy(MemoryPolicy.NO_STORE)
                 .networkPolicy(NetworkPolicy.OFFLINE)

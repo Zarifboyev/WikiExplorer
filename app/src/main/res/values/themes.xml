@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.NewsApp" parent="Theme.Material3.DynamicColors.Light.NoActionBar">
+    <style name="Base.Theme.NewsApp" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Color attributes -->
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_primaryContainer</item>
@@ -28,6 +29,8 @@
         <item name="colorSurfaceInverse">@color/md_theme_inverseSurface</item>
         <item name="colorOnSurfaceInverse">@color/md_theme_inverseOnSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_inversePrimary</item>
+
+        <!-- New Material 3 color attributes -->
         <item name="colorPrimaryFixed">@color/md_theme_primaryFixed</item>
         <item name="colorOnPrimaryFixed">@color/md_theme_onPrimaryFixed</item>
         <item name="colorPrimaryFixedDim">@color/md_theme_primaryFixedDim</item>
@@ -40,6 +43,7 @@
         <item name="colorOnTertiaryFixed">@color/md_theme_onTertiaryFixed</item>
         <item name="colorTertiaryFixedDim">@color/md_theme_tertiaryFixedDim</item>
         <item name="colorOnTertiaryFixedVariant">@color/md_theme_onTertiaryFixedVariant</item>
+
         <item name="colorSurfaceDim">@color/md_theme_surfaceDim</item>
         <item name="colorSurfaceBright">@color/md_theme_surfaceBright</item>
         <item name="colorSurfaceContainerLowest">@color/md_theme_surfaceContainerLowest</item>
@@ -47,62 +51,71 @@
         <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer</item>
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
-        <!-- Dynamic colors -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/md_theme_primary</item>
+
+        <!-- Status bar color -->
+        <item name="android:statusBarColor">@color/md_theme_primary</item>
         <item name="android:windowLightStatusBar">true</item>
+
+        <!-- Customize other theme attributes -->
+        <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
+        <item name="chipStyle">@style/Widget.App.Chip</item>
+        <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
     </style>
 
-    <!-- Base application theme. -->
-    <style name="Base.Theme.NewsApp" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <item name="android:spinnerStyle">@style/Widget.AppCompat.Spinner.Underlined</item>
-        <item name="android:spinnerDropDownItemStyle">@style/Widget.AppCompat.TextView.SpinnerItem
-        </item>
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <!-- Custom styles -->
+    <style name="Widget.App.CardView" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardElevation">4dp</item>
+        <item name="cardCornerRadius">12dp</item>
     </style>
-
-    <style name="TextAppearance.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:fontFamily">@font/newyork</item>
-        <item name="android:textSize">22sp</item>
-
-    </style>
-
-    <style name="MyToolbarStyle" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:colorBackground">@color/white</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-
     <style name="ThemeOverlay.Material3.Toolbar.Primary" parent="ThemeOverlay.Material3.Toolbar.Surface">
+        <!-- Toolbar background color -->
         <item name="colorSurface">@color/md_theme_primary</item>
+
+        <!-- Text and icon color on the toolbar -->
         <item name="colorOnSurface">@color/md_theme_onPrimary</item>
+
+        <!-- Navigation icon color (e.g., back arrow) -->
+        <item name="colorControlNormal">@color/md_theme_onPrimary</item>
+
+        <!-- Overflow menu icon color -->
+        <item name="actionMenuTextColor">@color/md_theme_onPrimary</item>
+
+        <!-- Ripple color for toolbar items -->
+        <item name="colorControlHighlight">@color/md_theme_primaryContainer</item>
+
+        <!-- Title text color -->
+        <item name="android:textColorPrimary">@color/md_theme_onPrimary</item>
+
+        <!-- Subtitle text color -->
+        <item name="android:textColorSecondary">@color/md_theme_onPrimary</item>
     </style>
-    <!-- Custom bottom navigation style -->
-    <style name="BottomNavigationStyle" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
-        <item name="itemIconTint">@drawable/bottom_navigation_color_selector</item>
-        <item name="itemTextColor">@drawable/bottom_navigation_color_selector</item>
-        <item name="background">@drawable/bottom_navigation_background</item>
-        <item name="itemRippleColor">@color/md_theme_onSecondary</item>
+    <style name="Widget.App.Chip" parent="Widget.Material3.Chip.Assist">
+        <item name="chipBackgroundColor">@color/md_theme_surfaceVariant</item>
+        <item name="android:textColor">@color/md_theme_onSurfaceVariant</item>
     </style>
-    <style name="ShapeAppearanceOverlay.App.circleImageView" parent="">
+
+    <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemIconTint">@drawable/bottom_nav_item_color</item>
+        <item name="itemTextColor">@drawable/bottom_nav_item_color</item>
+        <item name="itemRippleColor">@color/md_theme_onSecondaryContainer</item>
+    </style>
+
+    <style name="TextAppearance.App.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="fontFamily">@font/newyork</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Toolbar.Surface" parent="ThemeOverlay.Material3.Toolbar.Surface">
+        <item name="colorSurface">@color/md_theme_surface</item>
+        <item name="colorOnSurface">@color/md_theme_onSurface</item>
+    </style>
+
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
-    </style>
-    <style name="Theme.NewsApp.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
-        <!-- Radius of the outer bound of widgets to make the rounded corners -->
-        <item name="appWidgetRadius">16dp</item>
-
-        <!--
-        Radius of the inner view's bound of widgets to make the rounded corners.
-        It needs to be 8dp or less than the value of appWidgetRadius
-        -->
-        <item name="appWidgetInnerRadius">8dp</item>
+        <item name="cornerSize">8dp</item>
     </style>
 
-    <style name="Theme.NewsApp.AppWidgetContainer" parent="Theme.NewsApp.AppWidgetContainerParent">
-        <!-- Apply padding to avoid the content of the widget colliding with the rounded corners -->
-        <item name="appWidgetPadding">16dp</item>
-    </style>
-    <style name="ShapeAppearanceOverlay.App.RoundedRectangle" parent="">
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">12dp</item>
     </style>

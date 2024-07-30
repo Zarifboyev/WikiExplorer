@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_layout"
     android:background="@drawable/rounded_background"
     android:orientation="vertical"
@@ -16,17 +16,18 @@
 
         <ImageView
             android:layout_width="40dp"
-            app:tint="@color/md_theme_secondary"
             android:layout_height="40dp"
-            android:src="@drawable/ic_wikipedia" />
+            app:tint="@color/md_theme_secondary"
+            android:src="@drawable/ic_wikipedia"
+            android:contentDescription="@string/wikipedia_icon_desc" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="16dp"
-            android:text="Vikipediya"
-            android:textColor="#000000"
+            android:text="@string/vikipediya"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -35,16 +36,15 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:tint="@color/md_theme_secondary"
-
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_refresh_white"
-            />
+            android:contentDescription="@string/refresh_button_desc" />
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#CCCCCC"
+        android:background="@color/gray_cc"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp" />
 
@@ -65,15 +65,15 @@
                 android:layout_height="wrap_content"
                 android:text="1,000,000"
                 android:textSize="18sp"
-                android:textColor="#0066CC"
+                android:textColor="@color/blue_66cc"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Maqolalar"
+                android:text="@string/articles"
                 android:textSize="14sp"
-                android:textColor="#666666" />
+                android:textColor="@color/gray_66" />
         </LinearLayout>
 
         <LinearLayout
@@ -88,15 +88,15 @@
                 android:layout_height="wrap_content"
                 android:text="8,023"
                 android:textSize="18sp"
-                android:textColor="#0066CC"
+                android:textColor="@color/blue_66cc"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Faol foydalanuvchilar"
+                android:text="@string/active_users"
                 android:textSize="14sp"
-                android:textColor="#666666" />
+                android:textColor="@color/gray_66" />
         </LinearLayout>
 
         <LinearLayout
@@ -111,15 +111,15 @@
                 android:layout_height="wrap_content"
                 android:text="9,023,283"
                 android:textSize="18sp"
-                android:textColor="#0066CC"
+                android:textColor="@color/blue_66cc"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tahrirlar"
+                android:text="@string/edits"
                 android:textSize="14sp"
-                android:textColor="#666666" />
+                android:textColor="@color/gray_66" />
         </LinearLayout>
     </LinearLayout>
 
@@ -128,7 +128,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:textColor="#666666"
+        android:textColor="@color/gray_66"
         android:layout_marginTop="8dp"
-        android:text="Manba: uz.wikipedia.org" />
+        android:text="@string/source" />
 </LinearLayout>
