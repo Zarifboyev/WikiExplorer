@@ -86,7 +86,21 @@ Future plans for WikiExplorer include:
 
 ## Screenshots
 
-[wiki_explorer_1.png]
+### Wiki Explorer 1
+![Wiki Explorer 1](wiki_explorer_1.png)
+
+### Wiki Explorer 2
+![Wiki Explorer 2](wiki_explorer_2.png)
+
+### Wiki Explorer 3
+![Wiki Explorer 3](wiki_explorer_3.png)
+
+### Wiki Explorer Maps Screen
+![Wiki Explorer Maps Screen](wiki_explorer_maps_screen.png)
+
+### Widget 2
+![App Widget](widget_2.png)
+
 
 ## Contributing
 
