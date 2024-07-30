@@ -86,8 +86,7 @@ Future plans for WikiExplorer include:
 
 ## Screenshots
 
-[![wiki_explorer_1](https://github.com/user-attachments/assets/06a99de2-5bb5-4e8a-ba92-de6d49ebe65c)
-]
+[wiki_explorer_1.png]
 
 ## Contributing
 
