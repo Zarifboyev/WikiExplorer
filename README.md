@@ -1,7 +1,7 @@
 # WikiExplorer
 #### Video Demo:  <URL HERE>
 
-![WikiExplorer Logo](device_3.png|100px)
+![WikiExplorer Logo](<img src="device_3.png" alt="description" width="200" height="200">)
 
 ## Table of Contents
 - [Description](#description)
