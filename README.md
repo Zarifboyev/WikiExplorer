@@ -1,6 +1,6 @@
 # WikiExplorer
-
-#### Video Demo: [Watch here](https://www.youtube.com/watch?v=Xtnar9Ir9Mo)
+#### Video Demo:  <[URL HERE](https://youtu.be/Xtnar9Ir9Mo)>
+#### Description:
 
 ![WikiExplorer Logo](app/src/main/ic_launcher-playstore.png)
 
@@ -86,7 +86,8 @@ Future plans for WikiExplorer include:
 
 ## Screenshots
 
-[Add screenshots of your app here]
+[![wiki_explorer_1](https://github.com/user-attachments/assets/06a99de2-5bb5-4e8a-ba92-de6d49ebe65c)
+]
 
 ## Contributing
 
