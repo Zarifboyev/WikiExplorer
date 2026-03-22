@@ -1,0 +1,102 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.NewsApp" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
+        <!-- Primary colors -->
+        <item name="colorPrimary">@color/md_theme_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_onPrimaryContainer</item>
+
+        <!-- Secondary colors -->
+        <item name="colorSecondary">@color/md_theme_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_onSecondaryContainer</item>
+
+        <!-- Tertiary colors -->
+        <item name="colorTertiary">@color/md_theme_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_onTertiaryContainer</item>
+
+        <!-- Error colors -->
+        <item name="colorError">@color/md_theme_error</item>
+        <item name="colorOnError">@color/md_theme_onError</item>
+        <item name="colorErrorContainer">@color/md_theme_errorContainer</item>
+        <item name="colorOnErrorContainer">@color/md_theme_onErrorContainer</item>
+
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/md_theme_background</item>
+        <item name="colorOnBackground">@color/md_theme_onBackground</item>
+
+        <!-- Surface colors -->
+        <item name="colorSurface">@color/md_theme_surface</item>
+        <item name="colorOnSurface">@color/md_theme_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_onSurfaceVariant</item>
+
+        <!-- Outline colors -->
+        <item name="colorOutline">@color/md_theme_outline</item>
+        <item name="colorOutlineVariant">@color/md_theme_outlineVariant</item>
+
+        <!-- Inverse colors -->
+        <item name="colorSurfaceInverse">@color/md_theme_inverseSurface</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_inverseOnSurface</item>
+        <item name="colorPrimaryInverse">@color/md_theme_inversePrimary</item>
+
+        <!-- Additional surface colors -->
+        <item name="colorSurfaceDim">@color/md_theme_surfaceDim</item>
+        <item name="colorSurfaceBright">@color/md_theme_surfaceBright</item>
+        <item name="colorSurfaceContainerLowest">@color/md_theme_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/md_theme_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
+
+        <!-- Status bar color -->
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="TextAppearance.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:fontFamily">@font/newyork</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/md_theme_onSurface</item>
+    </style>
+    <style name="ThemeOverlay.Material3.Toolbar.Primary" parent="ThemeOverlay.Material3.Toolbar.Surface">
+        <!-- Toolbar background color -->
+        <item name="colorSurface">@color/md_theme_primary</item>
+
+        <!-- Text and icon color on the toolbar -->
+        <item name="colorOnSurface">@color/md_theme_onPrimary</item>
+
+        <!-- Navigation icon color (e.g., back arrow) -->
+        <item name="colorControlNormal">@color/md_theme_onPrimary</item>
+
+        <!-- Overflow menu icon color -->
+        <item name="actionMenuTextColor">@color/md_theme_onPrimary</item>
+
+        <!-- Ripple color for toolbar items -->
+        <item name="colorControlHighlight">@color/md_theme_primaryContainer</item>
+
+        <!-- Title text color -->
+        <item name="android:textColorPrimary">@color/md_theme_onPrimary</item>
+
+        <!-- Subtitle text color -->
+        <item name="android:textColorSecondary">@color/md_theme_onPrimary</item>
+    </style>
+    <style name="MyToolbarStyle" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:colorBackground">@color/md_theme_surface</item>
+        <item name="android:textColor">@color/md_theme_onSurface</item>
+    </style>
+
+    <style name="BottomNavigationStyle" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="itemIconTint">@drawable/bottom_navigation_color_selector</item>
+        <item name="itemTextColor">@drawable/bottom_navigation_color_selector</item>
+        <item name="background">@color/md_theme_surface</item>
+        <item name="itemRippleColor">@color/md_theme_onSurfaceVariant</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.App.RoundedRectangle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+</resources>

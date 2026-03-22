@@ -1,0 +1,8 @@
+<resources>
+
+
+    <style name="MyWidgetTheme" parent="Theme.Material3.DynamicColors.Light" >
+
+    </style>
+
+</resources>

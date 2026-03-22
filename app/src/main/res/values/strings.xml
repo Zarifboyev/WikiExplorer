@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="language_array">
+        <item>🇷🇺</item>
+        <item>🇬🇧</item>
+        <item>🇺🇿</item>
+    </string-array>
+
+    <string name="flag_icon" translatable="false">Flag Icon</string>
+    <string name="no_places_found_title">No places found</string>
+    <string name="no_places_found_subtitle">We couldn\'t find any places matching your search.</string>
+    <string name="use_maps_suggestion">Search other locations using the \'Maps\' button</string>
+    <string name="no_places_found_animation">Animation showing no places found</string>
+    <string name="app_title">Oʻzbekcha Vikipediya</string>
+    <string name="app_name">VikiSayohatchi</string>
+    <string name="no_internet_connection">Internetga ulanmagansiz. \n Internet aloqasini tekshiring va qayta urining</string>
+    <string name="search_title">Qidiruv</string>
+    <string name="next">Keyingi</string>
+    <string name="previous">Oldingi</string>
+    <string name="hello_blank_fragment">Salom, bo‘sh parcha</string>
+    <string name="article_image_desc">Maqolaga aloqador rasm</string>
+    <string name="article_title_desc">Maqola nomi</string>
+    <string name="article_content_desc">Maqoladagi veb-kontent</string>
+    <string name="save_button_desc">Bu maqolani saqlash</string>
+    <string name="share_button_desc">Bu maqolani ulashish</string>
+    <string name="action">O‘qish amali</string>
+    <string name="supporting_text">Mos matn</string>
+    <string name="action_recycler_view">RecyclerView</string>
+    <string name="video_thumbnail">Video eskizi</string>
+    <string name="share">Ulashish</string>
+    <string name="loading_playlists">Pleylistlar yuklanmoqda...</string>
+    <string name="home_page_title">VikiSayohat</string>
+    <string name="lessons_page_title">VikiDars</string>
+    <string name="notes_page_title">Sevimlilar</string>
+    <string name="add_widget">Vidjet qo‘shish</string>
+    <string name="app_widget_description">Bu ilova vidjeti tavsifi</string>
+    <string name="star">Yulduzcha</string>
+    <string name="edit">Tahrir</string>
+    <string name="user_group_photo">Foydalanuvchi guruhi rasmi</string>
+    <string name="delete_goal">O‘chirish</string>
+    <string name="add">Qo‘shish</string>
+    <string name="cancel">Bekor qilish</string>
+    <string name="set_reminder">Eslatmani sozlash</string>
+    <string name="drag_icon">Tortish belgisi</string>
+    <string name="vikigid">Xaritalar</string>
+    <string name="choose_language">Tilni tanlang</string>
+    <string name="english_wikipedia">"English Wikipedia "</string>
+    <string name="russian_wikipedia">"Русская Википедия "</string>
+    <string name="uzbek_wikipedia">"Oʻzbekcha Vikipediya "</string>
+    <string name="OK">OK</string>
+    <string name="language_changed">Til tanlandi</string>
+    <string name="content_description_logo">Vikipediya logotipi</string>
+    <string name="language">Tillar</string>
+    <string name="support_our_app">Ilovamizni qo\'llab-quvvatlang!</string>
+    <string name="donate_message">Ilovamiz sizga yoqqanidan xursandmiz! Ilovani Google Play yoki App Store-da joylashtirish, dasturni takomillashtirish uchun qo\'llab-quvvatlang!</string>
+    <string name="donate">Homiylik qilish</string>
+    <string name="card_number">Karta raqami</string>
+    <string name="slow_or_insufficient_network">Sekin %1$s tarmoq aloqasi aniqlandi</string>
+    <string name="error_loading_data">Sekin %1$s tarmoq aloqasi aniqlandiSekin %1$s tarmoq aloqasi aniqlandi</string>
+    <string name="select_location">Boshlash uchun xaritalardan \nfoydalanib joylashuvni tanlang 📍</string>
+    <string name="no_places_found">Hech qanday joy topilmadi</string>
+    <string name="location_not_granted">Joylashuv axboroti ruxsati berilmagan</string>
+    <string name="failed_to_get_location">Joylashuv axboroti olinmadi</string>
+    <string name="select_location_on_map">Xaritada joylashuvni tanlang</string>
+    <string name="selected_location">Tanlangan joy</string>
+    <string name="try_again">Hech qanday maqola topilmadi, qayta urining</string>
+    <string name="google_maps_key" translatable="false">REPLACE_WITH_YOUR_API_KEY</string>
+    <string name="enable_gps">Enable GPS</string>
+    <string name="enable_gps_message">GPS is required for this app. Please enable GPS in the settings.</string>
+    <string name="ok">OK</string>
+    <string name="failed_to_open_video" translatable="false">Failed to open video</string>
+    <string name="title_home" translatable="false">Home Screen</string>
+    <string name="title_youtube_playlists" translatable="false">YouTube Playlists</string>
+    <string name="title_saved_pages" translatable="false">Saved Pages</string>
+    <string name="language_selection_title">Tilni tanlang</string>
+
+
+    <string name="search_hint" translatable="false">Search location...</string>
+    <string name="my_location" translatable="false">My Location</string>
+    <string name="gps_icon_description" translatable="false">GPS Location Icon</string>
+    <string name="my_location_button_description" translatable="false">Find My Current Location</string>
+    <string name="location_not_found" translatable="false">Location not found</string>
+    <string name="location_search_failed" translatable="false">Location search failed\n</string>
+
+    <string name="video_info_format" translatable="false">%1$s views • %2$s</string>
+    <string name="failed_to_open_channel">Failed to open YouTube channel\n</string>
+    <string name="retry">Retry\n</string>
+    <string name="swipe_to_refresh">Swipe to refresh</string>
+    <string name="marker_clicked">Double tap to select\n</string>
+    <string name="saved_location">Saved Location</string>
+    <string name="tap_marker_to_select">Double click to select</string>
+    <string name="error_occured">Unkown error occured\n</string>
+    <string name="default_location">Default location</string>
+    <string name="location_retrieval_failed">Location retrieval failed</string>
+    <string name="current_location">current location</string>
+    <string name="wikipedia_icon_desc">Wikipedia Icon</string>
+    <string name="vikipediya">Wikipedia</string>
+    <string name="refresh_button_desc">Refresh Button</string>
+    <string name="articles">Articles</string>
+    <string name="active_users">Active Users</string>
+    <string name="edits">Edits</string>
+    <string name="source">Source: uz.wikipedia.org</string>
+    <string name="loading">Loading...</string>
+    <string name="something_went_wrong">Something went wrong</string>
+</resources>
